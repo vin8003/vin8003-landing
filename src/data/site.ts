@@ -21,9 +21,7 @@ export const socials = [
   { label: 'GitHub', handle: 'vin8003', href: 'https://github.com/vin8003' },
 ] as const;
 
-// Stable target (vin8003 account): https://oe-product-demos.vin8003.workers.dev — not live yet (404).
-// Interim densified hub: product-demos-hub on eager-turkey (verified 200, subpaths OK).
-const DEMO_HUB = 'https://product-demos-hub.eager-turkey.workers.dev';
+const DEMO_HUB = 'https://oe-product-demos.vin8003.workers.dev';
 
 export const demoHub = DEMO_HUB;
 

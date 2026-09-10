@@ -16,8 +16,8 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dest = resolve(root, 'public/fonts');
 
 const files = {
-  'instrument-serif-400.woff2':
-    'node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2',
+  'fraunces-soft.woff2':
+    'node_modules/@fontsource-variable/fraunces/files/fraunces-latin-soft-normal.woff2',
   'instrument-sans-var.woff2':
     'node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2',
   'jetbrains-mono-var.woff2':

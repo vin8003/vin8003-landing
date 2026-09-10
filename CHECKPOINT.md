@@ -9,7 +9,7 @@ which needs Cloudflare credentials that only Vineet has.
 **Project**
 
 - Astro 7 static site, Tailwind CSS v4 via `@tailwindcss/vite`, no client-side UI framework.
-- Self-hosted Instrument Serif / Instrument Sans / JetBrains Mono through Fontsource.
+- Self-hosted Fraunces (soft optical size) / Instrument Sans / JetBrains Mono through Fontsource.
 - `npm run build` succeeds; `npx astro check` reports 0 errors, 0 warnings, 0 hints.
 
 **Content**

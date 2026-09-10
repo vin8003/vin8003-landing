@@ -15,7 +15,7 @@ individual steps of the real guided demo, and a button that loads the actual dem
 | ---------- | ------------------------------------------------------------ |
 | Framework  | [Astro](https://astro.build) 7, static output, zero UI framework |
 | Styling    | Tailwind CSS v4 via `@tailwindcss/vite`, tokens in `src/styles/global.css` |
-| Fonts      | Instrument Serif / Instrument Sans / JetBrains Mono, self-hosted from `public/fonts` |
+| Fonts      | Fraunces (soft) / Instrument Sans / JetBrains Mono, self-hosted from `public/fonts` |
 | Motion     | `IntersectionObserver` + CSS keyframes, fully gated on `prefers-reduced-motion` |
 | Hosting    | Cloudflare Workers static assets (Cloudflare Pages also works) |
 
@@ -68,7 +68,7 @@ python3 - <<'PY'
 from fontTools.ttLib import TTFont
 import os
 srcs = {
-  'node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2': 'InstrumentSerif-Regular.ttf',
+  'node_modules/@fontsource-variable/fraunces/files/fraunces-latin-soft-normal.woff2': 'Fraunces-Soft.ttf',
   'node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2': 'InstrumentSans-Variable.ttf',
   'node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2': 'JetBrainsMono-Variable.ttf',
 }

@@ -52,10 +52,10 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
     <text x="24" y="1" font-family="JetBrains Mono" font-size="17" letter-spacing="2.8" fill="#B9B3A8">BUILDER &amp; FOUNDER — DELHI NCR, INDIA</text>
   </g>
 
-  <text x="80" y="234" font-family="Instrument Serif" font-size="104" fill="#EFEAE1">Vineet Sharma</text>
+  <text x="80" y="234" font-family="Fraunces" font-size="104" fill="#EFEAE1">Vineet Sharma</text>
 
-  <text x="80" y="312" font-family="Instrument Serif" font-size="46" fill="#B9B3A8">I ship products for the shop counter,</text>
-  <text x="80" y="366" font-family="Instrument Serif" font-size="46" fill="#B9B3A8">the law chamber, and the GST file.</text>
+  <text x="80" y="312" font-family="Fraunces" font-size="46" fill="#B9B3A8">I ship products for the shop counter,</text>
+  <text x="80" y="366" font-family="Fraunces" font-size="46" fill="#B9B3A8">the law chamber, and the GST file.</text>
 
   ${chips}
 

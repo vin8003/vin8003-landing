@@ -100,10 +100,10 @@ Adding a product means adding an entry to `products`, writing a preview componen
 
 | Surface                    | URL                                                             |
 | -------------------------- | --------------------------------------------------------------- |
-| Demo hub                   | `https://oe-product-demos.gleaming-detective.workers.dev/`        |
-| OrderEasy — retailer demo  | `https://oe-product-demos.gleaming-detective.workers.dev/retailer/` |
-| OrderEasy — customer demo  | `https://oe-product-demos.gleaming-detective.workers.dev/customer/` |
-| CiteBench — guided demo    | `https://oe-product-demos.gleaming-detective.workers.dev/citebench/` |
+| Demo hub                   | `https://product-demos-hub.eager-turkey.workers.dev/` *(interim; target `oe-product-demos.vin8003.workers.dev`)* |
+| OrderEasy — retailer demo  | `https://product-demos-hub.eager-turkey.workers.dev/retailer/` |
+| OrderEasy — customer demo  | `https://product-demos-hub.eager-turkey.workers.dev/customer/` |
+| CiteBench — guided demo    | `https://product-demos-hub.eager-turkey.workers.dev/citebench/` |
 | CiteBench — live app       | `https://citebench.ordereasy.win`                                 |
 | GSTSlip — live app         | `https://gstslip.grok.me`                                         |
 

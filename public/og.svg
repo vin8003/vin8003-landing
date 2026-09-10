@@ -18,10 +18,9 @@
     <text x="24" y="1" font-family="JetBrains Mono" font-size="17" letter-spacing="2.8" fill="#B9B3A8">BUILDER &amp; FOUNDER — DELHI NCR, INDIA</text>
   </g>
 
-  <text x="80" y="234" font-family="Fraunces" font-size="104" fill="#EFEAE1">Vineet Sharma</text>
-
-  <text x="80" y="312" font-family="Fraunces" font-size="46" fill="#B9B3A8">I build products end to end —</text>
-  <text x="80" y="366" font-family="Fraunces" font-size="46" fill="#B9B3A8">sensors, fintech, AI, and what is live now.</text>
+  <text x="80" y="210" font-family="Fraunces" font-size="80" fill="#EFEAE1">I build products</text>
+  <text x="80" y="292" font-family="Fraunces" font-size="80" fill="#EFEAE1">end to end —</text>
+  <text x="80" y="362" font-family="Fraunces" font-size="44" fill="#B9B3A8">sensors, fintech, AI, and what is live now.</text>
 
   
       <g transform="translate(80, 452)">

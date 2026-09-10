@@ -147,8 +147,22 @@ export const products: Product[] = [
     guardrail:
       'GSTSlip does not connect to Tally or the live NIC IRP. Tally XML is a file you import. IRN lookup uses a GSP sandbox.',
     facts: ['Fields, line items, addresses, IRN', 'Your defaults fill the gaps', 'CSV + Tally purchase XML export', 'Fields stay on device until you export'],
+    embed: `${DEMO_HUB}/gstslip/`,
     links: [
-      { label: 'Open GSTSlip', href: 'https://gstslip.grok.me', primary: true },
+      { label: 'Open guided demo', href: `${DEMO_HUB}/gstslip/`, primary: true },
+      { label: 'Open GSTSlip live', href: 'https://gstslip.grok.me' },
+    ],
+    steps: [
+      { n: '01', name: 'Drop zone', note: 'Photograph a tax invoice or drop JPEG, PNG or PDF pages.' },
+      { n: '02', name: 'Capture', note: 'GSTSlip reads the pages of the same invoice.' },
+      { n: '03', name: 'Header fields', note: 'Seller, buyer, invoice number, date, place of supply, totals.' },
+      { n: '04', name: 'Line items', note: 'Description, HSN, quantity and amount per line.' },
+      { n: '05', name: 'Defaults', note: 'Missing header fields fall back to your defaults.' },
+      { n: '06', name: 'Register', note: 'One clean register row from the capture.' },
+      { n: '07', name: 'CSV', note: 'Export the register as CSV.' },
+      { n: '08', name: 'Tally XML', note: 'Export Tally purchase XML — a file you import, not a live link.' },
+      { n: '09', name: 'IRN sandbox', note: 'Look up IRN through a GSP sandbox — not the live NIC IRP.' },
+      { n: '10', name: 'Pricing', note: 'See how GSTSlip is priced.' },
     ],
   },
 ];

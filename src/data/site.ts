@@ -11,7 +11,7 @@ export const person = {
   location: 'Delhi NCR, India',
   email: 'vin8003@gmail.com',
   tagline: 'Builder and founder — shipping AI-shaped SaaS from embedded sensors to live products.',
-  bio: 'Builder and founder. Ten years of Python and Django on backends across embedded sensors, fintech, banking, medical imaging, casino gaming, and AI data pipelines — now shipping my own SaaS end to end. Dad of two, based in Delhi NCR, India.',
+  bio: 'Builder and founder. Ten years of Python and Django on backends across embedded sensors, fintech, banking, medical imaging, casino gaming, and AI data pipelines — now shipping my own SaaS end to end. Also Lead Software Engineer at a publicly listed Indian NBFC, on flagship product development. Dad of two, based in Delhi NCR, India.',
 } as const;
 
 export const socials = [

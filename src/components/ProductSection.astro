@@ -1,0 +1,236 @@
+---
+import Frame from './Frame.astro';
+import type { Product } from '../data/site';
+
+interface Props {
+  product: Product;
+  /** 'phone' narrows the media column for the 9:16 device mock. */
+  media?: 'browser' | 'phone';
+  frameUrl?: string;
+  frameCaption?: string;
+}
+
+const { product, media = 'browser', frameUrl, frameCaption } = Astro.props;
+
+const accentVar: Record<Product['accent'], string> = {
+  mint: 'var(--color-mint)',
+  violet: 'var(--color-violet)',
+  amber: 'var(--color-amber)',
+};
+
+// Dense dashboard mocks need real width, so the browser layout gives the media
+// two thirds and lifts the headline out into its own full-width row.
+const isPhone = media === 'phone';
+const mediaCols = isPhone ? 'lg:col-span-6' : 'lg:col-span-8';
+const textCols = isPhone ? 'lg:col-span-6' : 'lg:col-span-4';
+---
+
+<section
+  id={product.id}
+  class="relative scroll-mt-20 border-t border-ink-600/70 py-16 sm:py-24 lg:py-28"
+  style={`--accent: ${accentVar[product.accent]}`}
+>
+  <div
+    class="pointer-events-none absolute inset-x-0 top-0 h-64 opacity-[0.13]"
+    style="background: radial-gradient(38rem 16rem at 20% 0%, var(--accent), transparent 70%);"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="container-page relative">
+    {/* Header */}
+    <div class="flex flex-col gap-4" data-reveal>
+      <div class="flex items-center gap-4">
+        <span class="label-mono shrink-0" style="color: var(--accent)">{product.index}</span>
+        <span class="label-mono shrink-0">{product.kind}</span>
+        <span class="rule-draw h-px flex-1 bg-ink-500" style="--reveal-delay:150ms"></span>
+      </div>
+      <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+        <h2 class="font-display text-sub" style="color: var(--accent)">
+          {product.name}
+          <span class="sr-only">— {product.kind}</span>
+        </h2>
+        {product.seed && <span class="label-mono text-[0.6rem]">Seed data · {product.seed}</span>}
+      </div>
+    </div>
+
+    {!isPhone && (
+      <p class="mt-6 max-w-4xl font-display text-title sm:mt-8" data-reveal>
+        <span class="reveal-line">
+          <span>{product.headline}</span>
+        </span>
+      </p>
+    )}
+
+    {/* Body */}
+    <div class={`mt-8 grid gap-10 sm:mt-10 lg:grid-cols-12 lg:gap-12 ${isPhone ? 'lg:items-center' : 'lg:items-start'}`}>
+      <div class={`flex min-w-0 flex-col ${textCols} ${isPhone ? 'lg:order-2' : ''}`}>
+        {isPhone && (
+          <p class="font-display text-title" data-reveal>
+            <span class="reveal-line">
+              <span>{product.headline}</span>
+            </span>
+          </p>
+        )}
+
+        <p class={`max-w-xl text-body text-paper-dim ${isPhone ? 'mt-5 sm:mt-6' : ''}`} data-reveal style="--reveal-delay:80ms">
+          {product.blurb}
+        </p>
+
+        <ul
+          class:list={[
+            'mt-6 grid gap-x-6 gap-y-2.5 sm:mt-7',
+            isPhone ? 'sm:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-1',
+          ]}
+          data-reveal
+          style="--reveal-delay:140ms"
+        >
+          {
+            product.facts.map((fact) => (
+              <li class="flex items-start gap-2.5 text-fine text-paper">
+                <span class="mt-[0.45rem] size-1 shrink-0 rotate-45" style="background: var(--accent)" />
+                <span>{fact}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <blockquote
+          class="mt-7 border-l-2 pl-4 text-fine leading-relaxed text-paper-dim sm:mt-8"
+          style="border-color: var(--accent); --reveal-delay:200ms"
+          data-reveal
+        >
+          {product.guardrail}
+        </blockquote>
+
+        <div class="mt-7 flex flex-wrap gap-2.5 sm:mt-8 sm:gap-3" data-reveal style="--reveal-delay:240ms">
+          {
+            product.links.map((link) => (
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class:list={[
+                  'group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-fine font-medium transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0',
+                  link.primary ? 'text-ink-900' : 'border border-ink-500 text-paper hover:bg-ink-800',
+                ]}
+                style={link.primary ? 'background: var(--accent)' : undefined}
+              >
+                {link.label}
+                <svg viewBox="0 0 16 16" class="size-3 opacity-70 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <path d="M5 11 11 5M6 5h5v5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      {/* Media */}
+      <div
+        class={`min-w-0 ${mediaCols} ${isPhone ? 'lg:order-1' : ''}`}
+        data-reveal
+        data-embed-host
+        style="--reveal-delay:120ms"
+      >
+        <div data-mock>
+          <div data-embed-mock>
+            <Frame variant={media} url={frameUrl} caption={frameCaption}>
+              <slot />
+            </Frame>
+          </div>
+          <div data-embed-live hidden></div>
+        </div>
+
+        {product.embed && (
+          <div class="mt-3 flex flex-wrap items-center justify-between gap-3">
+            <button
+              type="button"
+              class="inline-flex items-center gap-2 rounded-full border border-ink-500 px-4 py-2 text-fine text-paper-dim transition-colors duration-200 hover:border-paper-faint hover:text-paper"
+              data-embed-toggle
+              data-src={product.embed}
+              data-title={`${product.name} — ${product.kind} demo`}
+            >
+              <span class="size-1.5 rounded-full" style="background: var(--accent)"></span>
+              <span data-embed-label>Run the real demo here</span>
+            </button>
+            <a
+              href={product.embed}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="label-mono transition-colors duration-200 hover:text-paper"
+            >
+              Open in a new tab ↗
+            </a>
+          </div>
+        )}
+
+        {/* Deep links into each step of the real guided demo. */}
+        {product.steps && product.embed && (
+          <div class="mt-6">
+            <p class="label-mono text-[0.55rem]">Jump into a step</p>
+            <div class="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2 [scrollbar-width:none] sm:flex-wrap sm:overflow-visible [&::-webkit-scrollbar]:hidden">
+              {product.steps.map((step, i) => (
+                <a
+                  href={`${product.embed}#step-${i + 1}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={step.note}
+                  class="group flex shrink-0 snap-start items-center gap-2 rounded-full border border-ink-600 bg-ink-850/60 py-1.5 pl-2 pr-3 text-fine text-paper-dim transition-colors duration-200 hover:border-paper-faint hover:text-paper"
+                >
+                  <span class="grid size-5 shrink-0 place-items-center rounded-full bg-ink-700 font-mono text-[0.55rem] transition-colors duration-200 group-hover:bg-[var(--accent)] group-hover:text-ink-900">
+                    {step.n}
+                  </span>
+                  <span class="whitespace-nowrap">{step.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // The real demo is only fetched when someone asks for it, so it never
+  // touches page load. Toggling back tears the iframe down again.
+  for (const toggle of document.querySelectorAll<HTMLButtonElement>('[data-embed-toggle]')) {
+    const host = toggle.closest<HTMLElement>('[data-embed-host]');
+    const mock = host?.querySelector<HTMLElement>('[data-embed-mock]');
+    const live = host?.querySelector<HTMLElement>('[data-embed-live]');
+    const label = toggle.querySelector<HTMLElement>('[data-embed-label]');
+    if (!host || !mock || !live || !label) continue;
+
+    toggle.addEventListener('click', () => {
+      const showingLive = !live.hidden;
+
+      if (showingLive) {
+        live.hidden = true;
+        live.replaceChildren();
+        mock.hidden = false;
+        label.textContent = 'Run the real demo here';
+        toggle.setAttribute('aria-pressed', 'false');
+        return;
+      }
+
+      const iframe = document.createElement('iframe');
+      iframe.src = toggle.dataset.src ?? '';
+      iframe.title = toggle.dataset.title ?? 'Product demo';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer';
+      iframe.className = 'h-[30rem] w-full border-0 bg-ink-900 sm:h-[34rem]';
+
+      const shell = document.createElement('div');
+      shell.className =
+        'overflow-hidden rounded-xl border border-ink-500/90 bg-ink-850 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.9)] sm:rounded-2xl';
+      shell.append(iframe);
+
+      live.replaceChildren(shell);
+      live.hidden = false;
+      mock.hidden = true;
+      label.textContent = 'Back to the preview';
+      toggle.setAttribute('aria-pressed', 'true');
+    });
+  }
+</script>

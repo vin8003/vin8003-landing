@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "vin8003-com",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  // Custom domains — attach on Vineet's real CF account only (not temporary deploys):
+  // "routes": [
+  //   { "pattern": "vin8003.com", "custom_domain": true },
+  //   { "pattern": "www.vin8003.com", "custom_domain": true }
+  // ],
+  "observability": {
+    "enabled": true
+  }
+}

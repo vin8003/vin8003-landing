@@ -1,0 +1,154 @@
+---
+const bill = [
+  { name: 'Toor Dal 1 kg', qty: 2, rate: 168, amount: 336 },
+  { name: 'Full Cream Milk 500 ml', qty: 4, rate: 34, amount: 136 },
+  { name: 'Atta 5 kg', qty: 1, rate: 245, amount: 245 },
+  { name: 'Refined Oil 1 L', qty: 1, rate: 152, amount: 152 },
+  { name: 'Iodised Salt 1 kg', qty: 2, rate: 28, amount: 56 },
+  { name: 'Tea Leaves 250 g', qty: 1, rate: 145, amount: 145 },
+  { name: 'Sugar 1 kg', qty: 2, rate: 46, amount: 92 },
+];
+
+const billTotal = bill.reduce((sum, row) => sum + row.amount, 0);
+
+const lowStock = [
+  { name: 'Basmati Rice 5 kg', on: 2, min: 6 },
+  { name: 'Glucose Biscuits 100 g', on: 5, min: 24 },
+  { name: 'Detergent Bar 250 g', on: 0, min: 12 },
+];
+
+const rail = ['Overview', 'Products', 'Fix stock', 'Purchases', 'Supplier khata', 'POS bill'];
+const inr = (n: number) => `₹${n.toLocaleString('en-IN')}`;
+---
+
+<div class="flex min-h-[24rem] text-[0.7rem] @[34rem]:min-h-[28rem]">
+  {/* Left rail — folds away when the frame gets narrow. */}
+  <aside class="hidden w-40 shrink-0 flex-col gap-0.5 border-r border-ink-600/70 bg-ink-850/60 p-2.5 @[40rem]:flex">
+    <div class="mb-2 flex items-center gap-2 px-1.5 py-1">
+      <span class="grid size-5 place-items-center rounded-md bg-[var(--accent)] font-mono text-[0.55rem] font-bold text-ink-900">G</span>
+      <span class="truncate text-[0.72rem] font-semibold">GreenCart Mini Mart</span>
+    </div>
+    {
+      rail.map((item) => (
+        <span
+          class:list={[
+            'truncate rounded-md px-2 py-1.5 text-[0.68rem]',
+            item === 'POS bill' ? 'bg-ink-700 font-medium text-paper' : 'text-paper-faint',
+          ]}
+        >
+          {item}
+        </span>
+      ))
+    }
+    <span class="mt-auto flex items-center gap-1.5 rounded-md bg-ink-800 px-2 py-1.5">
+      <span class="size-1.5 rounded-full bg-[var(--accent)]"></span>
+      <span class="label-mono text-[0.52rem]">Open till 9:30 pm</span>
+    </span>
+  </aside>
+
+  {/* Counter */}
+  <div class="flex min-w-0 flex-1 flex-col">
+    <div class="flex items-center justify-between gap-3 border-b border-ink-600/70 px-3 py-2.5 @[34rem]:px-4">
+      <div class="min-w-0">
+        <p class="label-mono text-[0.52rem]">POS bill · counter 1</p>
+        <p class="mt-1 truncate text-[0.8rem] font-medium">Walk-in customer</p>
+      </div>
+      <span class="shrink-0 rounded-full border border-[var(--accent)]/40 bg-[color-mix(in_oklab,var(--accent)_12%,transparent)] px-2.5 py-1 font-mono text-[0.58rem] text-[var(--accent)]">
+        #B-1042
+      </span>
+    </div>
+
+    <div class="min-w-0 flex-1 p-2.5 @[34rem]:p-3.5">
+      <div class="label-mono grid grid-cols-[1fr_2rem_3rem_3.4rem] gap-2 border-b border-ink-600/50 px-1.5 pb-1.5 text-[0.5rem] @[34rem]:grid-cols-[1fr_2.5rem_3.5rem_4rem]">
+        <span>Item</span><span class="text-right">Qty</span><span class="text-right">Rate</span><span class="text-right">Amount</span>
+      </div>
+      {
+        bill.map((row, i) => (
+          <div
+            class="grid grid-cols-[1fr_2rem_3rem_3.4rem] items-center gap-2 border-b border-ink-600/30 px-1.5 py-2 @[34rem]:grid-cols-[1fr_2.5rem_3.5rem_4rem]"
+            data-anim
+            style={`animation: row-arrive 0.6s var(--ease-out-expo) both; animation-delay:${180 + i * 130}ms`}
+          >
+            <span class="truncate text-[0.72rem]">{row.name}</span>
+            <span class="text-right font-mono text-[0.68rem] tabular-nums text-paper-dim">{row.qty}</span>
+            <span class="text-right font-mono text-[0.68rem] tabular-nums text-paper-dim">{row.rate}</span>
+            <span class="text-right font-mono text-[0.7rem] font-medium tabular-nums">{inr(row.amount)}</span>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="border-t border-ink-600/70 bg-ink-850/60 px-2.5 py-3 @[34rem]:px-4">
+      <div class="flex items-end justify-between gap-3">
+        <div class="min-w-0">
+          <p class="label-mono text-[0.52rem]">Total payable</p>
+          <p class="mt-0.5 font-mono text-[1.15rem] font-semibold tabular-nums text-[var(--accent)] @[34rem]:text-[1.35rem]">
+            {inr(billTotal)}
+          </p>
+        </div>
+        <div class="flex shrink-0 flex-wrap justify-end gap-1.5">
+          {
+            ['Cash', 'UPI', 'Credit', 'Split'].map((mode) => (
+              <span
+                class:list={[
+                  'rounded-full px-2.5 py-1 text-[0.6rem]',
+                  mode === 'UPI'
+                    ? 'bg-[var(--accent)] font-medium text-ink-900'
+                    : 'border border-ink-500 text-paper-faint',
+                ]}
+              >
+                {mode}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Right column — the two things that pull a shopkeeper away from the counter. */}
+  <aside class="hidden w-52 shrink-0 flex-col border-l border-ink-600/70 bg-ink-850/40 @[52rem]:flex">
+    <div class="border-b border-ink-600/70 p-3">
+      <div class="flex items-center gap-2">
+        <span class="relative flex size-1.5">
+          <span class="absolute inset-0 rounded-full bg-ember" data-anim style="animation: soft-pulse 2s ease-in-out infinite;"></span>
+          <span class="relative size-1.5 rounded-full bg-ember"></span>
+        </span>
+        <span class="label-mono text-[0.52rem] text-ember">Incoming order</span>
+      </div>
+      <p class="mt-2 text-[0.74rem] font-medium">Meera · Ward 4</p>
+      <p class="mt-0.5 text-[0.65rem] text-paper-faint">6 items · pickup at 7 pm</p>
+      <div class="mt-2.5 flex gap-1.5">
+        <span class="flex-1 rounded-md bg-[var(--accent)] px-2 py-1.5 text-center text-[0.62rem] font-medium text-ink-900">Accept</span>
+        <span class="rounded-md border border-ink-500 px-2 py-1.5 text-[0.62rem] text-paper-faint">Later</span>
+      </div>
+    </div>
+
+    <div class="p-3">
+      <p class="label-mono text-[0.52rem]">Fix stock</p>
+      <div class="mt-2.5 flex flex-col gap-2.5">
+        {
+          lowStock.map((item, i) => (
+            <div data-anim style={`animation: row-arrive 0.6s var(--ease-out-expo) both; animation-delay:${500 + i * 160}ms`}>
+              <div class="flex items-baseline justify-between gap-2">
+                <span class="truncate text-[0.68rem]">{item.name}</span>
+                <span class="shrink-0 font-mono text-[0.62rem] tabular-nums text-paper-faint">
+                  {item.on}/{item.min}
+                </span>
+              </div>
+              <div class="mt-1.5 h-1 overflow-hidden rounded-full bg-ink-600">
+                <div
+                  class:list={['h-full rounded-full', item.on === 0 ? 'bg-ember' : 'bg-amber']}
+                  style={`width:${Math.max((item.on / item.min) * 100, 4)}%`}
+                />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-3.5 border-t border-ink-600/50 pt-2.5 text-[0.6rem] leading-relaxed text-paper-faint">
+        Shelf and book disagree? Fix it here, not in a spreadsheet.
+      </p>
+    </div>
+  </aside>
+</div>

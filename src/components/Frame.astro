@@ -1,0 +1,47 @@
+---
+interface Props {
+  variant?: 'browser' | 'phone';
+  url?: string;
+  caption?: string;
+  class?: string;
+}
+
+const { variant = 'browser', url, caption, class: className = '' } = Astro.props;
+---
+
+{
+  variant === 'browser' ? (
+    <figure class={`@container overflow-hidden rounded-xl border border-ink-500/90 bg-ink-850 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.9)] sm:rounded-2xl ${className}`}>
+      <div class="flex items-center gap-3 border-b border-ink-600/80 bg-ink-800 px-3 py-2.5 sm:px-4">
+        <div class="flex shrink-0 gap-1.5" aria-hidden="true">
+          <span class="size-2 rounded-full bg-ink-500" />
+          <span class="size-2 rounded-full bg-ink-500" />
+          <span class="size-2 rounded-full bg-ink-500" />
+        </div>
+        {url && (
+          <span class="min-w-0 flex-1 truncate rounded-md bg-ink-900/70 px-2.5 py-1 text-center font-mono text-[0.62rem] text-paper-faint sm:text-[0.68rem]">
+            {url}
+          </span>
+        )}
+      </div>
+      <div class="relative bg-ink-900">
+        <slot />
+      </div>
+      {caption && (
+        <figcaption class="label-mono border-t border-ink-600/80 bg-ink-850 px-3 py-2.5 text-[0.6rem] sm:px-4">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  ) : (
+    <figure class={`mx-auto w-full max-w-[19rem] ${className}`}>
+      <div class="@container relative overflow-hidden rounded-[2rem] border border-ink-500/90 bg-ink-850 p-1.5 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.9)] sm:rounded-[2.25rem] sm:p-2">
+        <div class="relative overflow-hidden rounded-[1.6rem] bg-ink-900 sm:rounded-[1.8rem]">
+          <div class="absolute left-1/2 top-2 z-20 h-5 w-20 -translate-x-1/2 rounded-full bg-ink-850" aria-hidden="true" />
+          <slot />
+        </div>
+      </div>
+      {caption && <figcaption class="label-mono mt-3 text-center text-[0.6rem]">{caption}</figcaption>}
+    </figure>
+  )
+}

@@ -1,0 +1,64 @@
+---
+import SectionHead from './SectionHead.astro';
+import { method, stack } from '../data/site';
+---
+
+<section id="method" class="scroll-mt-20 border-t border-ink-600/70 py-16 sm:py-24 lg:py-28">
+  <div class="container-page">
+    <SectionHead
+      index="05"
+      label="Method"
+      title="How the work actually gets made."
+      note="One person, four surfaces, a review queue. The interesting part is not the stack — it is what gets refused."
+    />
+
+    <div class="mt-12 grid gap-10 sm:mt-16 lg:grid-cols-12 lg:gap-14">
+      <ol class="flex flex-col lg:col-span-7">
+        {
+          method.map((item, i) => (
+            <li
+              class="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-ink-600/60 py-6 first:pt-0 last:border-b-0 sm:grid-cols-[4rem_1fr] sm:gap-x-6 sm:py-7"
+              data-reveal
+              style={`--reveal-delay:${i * 70}ms`}
+            >
+              <span class="label-mono pt-1.5 text-ember">{item.n}</span>
+              <div>
+                <h3 class="font-display text-sub">{item.title}</h3>
+                <p class="mt-2.5 max-w-xl text-body text-paper-dim">{item.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="lg:col-span-5">
+        <div
+          class="rounded-2xl border border-ink-600/80 bg-ink-850/60 p-5 sm:p-7 lg:sticky lg:top-28"
+          data-reveal
+          style="--reveal-delay:120ms"
+        >
+          <p class="label-mono">What it is built with</p>
+          <dl class="mt-5 flex flex-col gap-5">
+            {
+              stack.map((group) => (
+                <div class="border-t border-ink-600/60 pt-4 first:border-t-0 first:pt-0">
+                  <dt class="text-fine text-paper-faint">{group.group}</dt>
+                  <dd class="mt-2 flex flex-wrap gap-1.5">
+                    {group.items.map((item) => (
+                      <span class="rounded-full border border-ink-500/80 bg-ink-800 px-3 py-1 font-mono text-[0.68rem] text-paper">
+                        {item}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+          <p class="mt-6 border-t border-ink-600/60 pt-4 text-fine leading-relaxed text-paper-faint">
+            Ten years of Python and Django behind the API; the product surfaces and demo hub run on Cloudflare.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

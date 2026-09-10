@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import { person, demoHub } from '../data/site';
+---
+
+<Base title="Not here — vin8003.com" description="That page does not exist on vin8003.com.">
+  <main class="relative grid min-h-[100svh] place-items-center overflow-hidden px-5 py-20">
+    <div class="grid-substrate pointer-events-none absolute inset-0 -z-10"></div>
+    <div
+      class="pointer-events-none absolute inset-0 -z-10 opacity-50"
+      style="background: radial-gradient(38rem 26rem at 50% 30%, color-mix(in oklab, var(--color-ember) 16%, transparent), transparent 70%);"
+    >
+    </div>
+
+    <div class="w-full max-w-xl text-center">
+      <p class="label-mono text-ember">404</p>
+      <h1 class="mt-5 font-display text-title">This one was never shipped.</h1>
+      <p class="mx-auto mt-5 max-w-md text-lead text-paper-dim">
+        The page you asked for is not here. The things that do exist are on the front page.
+      </p>
+
+      <div class="mt-9 flex flex-wrap justify-center gap-3">
+        <a
+          href="/"
+          class="rounded-full bg-paper px-6 py-3 text-body font-medium text-ink-900 transition-transform duration-200 hover:-translate-y-0.5"
+        >
+          Back to the work
+        </a>
+        <a
+          href={`${demoHub}/`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-full border border-ink-500 px-6 py-3 text-body transition-colors duration-200 hover:border-paper-faint hover:bg-ink-800"
+        >
+          Demo hub ↗
+        </a>
+      </div>
+
+      <p class="label-mono mt-10">{person.name} · {person.location}</p>
+    </div>
+  </main>
+</Base>

@@ -1,0 +1,37 @@
+---
+const items = [
+  'POS bill',
+  'Supplier khata',
+  'Fix stock',
+  'Incoming order',
+  'Chamber diary',
+  'Matters',
+  'Authorities',
+  'Court directions',
+  'Invoice capture',
+  'Line items',
+  'IRN lookup',
+  'Tally purchase XML',
+  'Django',
+  'Cloudflare Workers',
+];
+---
+
+<div class="relative flex overflow-hidden border-y border-ink-600/70 bg-ink-850 py-3.5 sm:py-4" aria-hidden="true" data-mock>
+  <div
+    class="flex shrink-0 items-center gap-8 pr-8 sm:gap-12 sm:pr-12"
+    data-anim
+    style="animation: marquee-drift 46s linear infinite; min-width: 200%;"
+  >
+    {
+      [...items, ...items].map((item) => (
+        <span class="flex shrink-0 items-center gap-8 sm:gap-12">
+          <span class="label-mono whitespace-nowrap text-paper-dim">{item}</span>
+          <span class="size-1 shrink-0 rotate-45 bg-ember/70" />
+        </span>
+      ))
+    }
+  </div>
+  <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ink-850 to-transparent sm:w-28"></div>
+  <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-ink-850 to-transparent sm:w-28"></div>
+</div>

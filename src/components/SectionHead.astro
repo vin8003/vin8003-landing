@@ -1,0 +1,23 @@
+---
+interface Props {
+  index?: string;
+  label: string;
+  title: string;
+  note?: string;
+  class?: string;
+}
+
+const { index, label, title, note, class: className = '' } = Astro.props;
+---
+
+<div class={`flex flex-col gap-5 sm:gap-7 ${className}`} data-reveal>
+  <div class="flex items-center gap-4">
+    {index && <span class="label-mono shrink-0 text-ember">{index}</span>}
+    <span class="label-mono shrink-0">{label}</span>
+    <span class="rule-draw h-px flex-1 bg-ink-500" style="--reveal-delay:150ms"></span>
+  </div>
+  <h2 class="max-w-4xl font-display text-title">
+    <span class="reveal-line"><span>{title}</span></span>
+  </h2>
+  {note && <p class="max-w-2xl text-lead text-paper-dim">{note}</p>}
+</div>

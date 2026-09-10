@@ -1,0 +1,106 @@
+---
+import '../styles/global.css';
+import { person } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${person.name} — builder & founder`,
+  description = 'Vineet Sharma builds OrderEasy, CiteBench and GSTSlip — software for the shop counter, the law chamber and the GST file. Python/Django backend, shipped on Cloudflare.',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com').href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="preload" href="/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/instrument-sans-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon-180.png" />
+    <meta name="theme-color" content="#08080a" />
+    <meta name="author" content={person.name} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/og.png', Astro.site ?? 'https://vin8003.com').href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="vin8003.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@vin8003" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: person.name,
+        url: 'https://vin8003.com',
+        email: `mailto:${person.email}`,
+        jobTitle: 'Builder & founder',
+        address: { '@type': 'PostalAddress', addressRegion: 'Delhi NCR', addressCountry: 'IN' },
+        sameAs: ['https://x.com/vin8003', 'https://www.linkedin.com/in/vin8003', 'https://github.com/vin8003'],
+      })}
+    />
+  </head>
+  <body class="grain">
+    <a
+      href="#work"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[110] focus:rounded-full focus:bg-ember focus:px-5 focus:py-2.5 focus:text-fine focus:font-medium focus:text-white"
+    >
+      Skip to the work
+    </a>
+    <slot />
+
+    <script>
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Reveal on scroll. Elements stay revealed once seen.
+      const revealables = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if (reduced) {
+        revealables.forEach((el) => el.classList.add('is-revealed'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-revealed');
+              io.unobserve(entry.target);
+            }
+          },
+          { rootMargin: '0px 0px -12% 0px', threshold: 0.12 },
+        );
+        revealables.forEach((el) => io.observe(el));
+      }
+
+      // Mock UIs only animate while visible, so idle pages cost nothing.
+      const mocks = document.querySelectorAll<HTMLElement>('[data-mock]');
+      if (mocks.length && !reduced) {
+        const mockIo = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              entry.target.classList.toggle('mock-live', entry.isIntersecting);
+            }
+          },
+          { threshold: 0.15 },
+        );
+        mocks.forEach((el) => mockIo.observe(el));
+      }
+    </script>
+  </body>
+</html>

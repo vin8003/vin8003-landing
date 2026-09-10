@@ -1,0 +1,95 @@
+---
+import { person, socials, demoHub } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<section id="contact" class="relative scroll-mt-20 overflow-hidden border-t border-ink-600/70 pt-16 sm:pt-24 lg:pt-28">
+  <div
+    class="pointer-events-none absolute inset-x-0 top-0 h-80 opacity-25"
+    style="background: radial-gradient(44rem 22rem at 50% 0%, var(--color-ember), transparent 70%);"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="container-page relative">
+    <div class="flex flex-col items-start gap-4" data-reveal>
+      <p class="label-mono text-ember">08 &nbsp;·&nbsp; Contact</p>
+      <h2 class="font-display text-hero" aria-label="Let’s talk about the build.">
+        <span class="reveal-line"><span>Let’s talk</span></span>
+        <span class="reveal-line" style="--reveal-delay:90ms"><span>about the build.</span></span>
+      </h2>
+    </div>
+
+    <div class="mt-8 grid gap-8 sm:mt-12 lg:grid-cols-12 lg:items-end lg:gap-12">
+      <div class="lg:col-span-7" data-reveal style="--reveal-delay:140ms">
+        <p class="max-w-xl text-lead text-paper-dim">
+          Building something for Indian retail, legal practice, or GST compliance — or want a backend that
+          someone will still understand in three years? Email is the fastest way in.
+        </p>
+        <a
+          href={`mailto:${person.email}`}
+          class="group mt-7 inline-flex max-w-full items-center gap-3 rounded-full bg-paper px-5 py-3.5 text-ink-900 transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:mt-8 sm:px-7 sm:py-4"
+        >
+          <span class="truncate font-mono text-[0.85rem] font-medium sm:text-[0.95rem]">{person.email}</span>
+          <svg viewBox="0 0 16 16" class="size-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+
+      <ul class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink-600/70 bg-ink-600/70 lg:col-span-5" data-reveal style="--reveal-delay:200ms">
+        {
+          socials.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+                rel="noopener noreferrer"
+                class="group flex h-full flex-col justify-between gap-5 bg-ink-900 p-4 transition-colors duration-300 hover:bg-ink-850 sm:p-5"
+              >
+                <span class="label-mono transition-colors duration-300 group-hover:text-ember">{link.label}</span>
+                <span class="break-all font-mono text-[0.72rem] text-paper sm:text-fine">{link.handle}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <footer class="container-page relative mt-16 border-t border-ink-600/70 py-8 sm:mt-24">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        <p class="text-fine text-paper">{person.name}</p>
+        <p class="label-mono mt-2">{person.location} · Builder &amp; founder</p>
+      </div>
+
+      <nav class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Product links">
+        {
+          [
+            { label: 'Demo hub', href: `${demoHub}/` },
+            { label: 'CiteBench', href: 'https://citebench.ordereasy.win' },
+            { label: 'GSTSlip', href: 'https://gstslip.grok.me' },
+          ].map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="label-mono transition-colors duration-200 hover:text-paper"
+            >
+              {link.label} ↗
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+
+    <p class="label-mono mt-8 text-[0.58rem] leading-relaxed">
+      © {year} {person.name}. Built and deployed by hand. No tracking, no invented metrics.
+    </p>
+  </footer>
+
+  {/* Clears the floating thumb nav on phones. */}
+  <div class="h-16 md:hidden" aria-hidden="true"></div>
+</section>

@@ -1,11 +1,11 @@
 ---
-import { person, demoHub } from '../data/site';
+import { person, liveLinks } from '../data/site';
 
 const lines = [
-  { text: 'I ship products', tint: '' },
-  { text: 'for the shop counter,', tint: 'text-mint' },
-  { text: 'the law chamber,', tint: 'text-violet' },
-  { text: 'and the GST file.', tint: 'text-amber' },
+  { text: 'I build products', tint: '' },
+  { text: 'end to end —', tint: '' },
+  { text: 'sensors, fintech, AI,', tint: 'text-ember' },
+  { text: 'and what is live now.', tint: 'text-mint' },
 ];
 ---
 
@@ -40,19 +40,60 @@ const lines = [
       <span class="label-mono">{person.location}</span>
     </div>
 
-    <h1
-      class="mt-6 font-display text-hero sm:mt-8"
-      aria-label={lines.map((l) => l.text).join(' ')}
-      data-reveal
-    >
-      {
-        lines.map((line, i) => (
-          <span class="reveal-line" style={`--reveal-delay:${i * 90}ms`}>
-            <span class={line.tint}>{line.text}</span>
-          </span>
-        ))
-      }
-    </h1>
+    {/* Opener + live links — stacked on mobile, side-by-side on desktop. */}
+    <div class="mt-6 flex flex-col gap-8 sm:mt-8 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+      <h1
+        class="font-display text-hero lg:max-w-3xl lg:flex-1"
+        aria-label={lines.map((l) => l.text).join(' ')}
+        data-reveal
+      >
+        {
+          lines.map((line, i) => (
+            <span class="reveal-line" style={`--reveal-delay:${i * 90}ms`}>
+              <span class={line.tint}>{line.text}</span>
+            </span>
+          ))
+        }
+      </h1>
+
+      <nav
+        class="rounded-2xl border border-ink-600/80 bg-ink-850/50 p-4 sm:p-5 lg:max-w-sm lg:shrink-0"
+        aria-label="Live demos and apps"
+        data-reveal
+        style="--reveal-delay:120ms"
+      >
+        <p class="label-mono text-paper-dim">Live now</p>
+        <ul class="mt-3 flex flex-col gap-1">
+          {
+            liveLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group flex items-center justify-between gap-3 rounded-xl px-2 py-2.5 transition-colors duration-200 hover:bg-ink-800/80"
+                >
+                  <span class="flex min-w-0 items-center gap-2.5">
+                    {'dot' in link && link.dot ? (
+                      <span class={`size-1.5 shrink-0 rounded-full ${link.dot}`} />
+                    ) : (
+                      <span class="size-1.5 shrink-0 rounded-full bg-paper-faint/40" />
+                    )}
+                    <span class="min-w-0">
+                      <span class="block truncate text-body font-medium text-paper">{link.label}</span>
+                      <span class="block truncate text-fine text-paper-faint">{link.note}</span>
+                    </span>
+                  </span>
+                  <svg viewBox="0 0 16 16" class="size-3.5 shrink-0 text-paper-faint transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                    <path d="M5 11 11 5M6 5h5v5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
 
     <div class="mt-8 grid gap-8 sm:mt-12 lg:grid-cols-12 lg:items-end lg:gap-10">
       <p class="max-w-2xl text-lead text-paper-dim lg:col-span-7" data-reveal style="--reveal-delay:180ms">
@@ -70,48 +111,11 @@ const lines = [
               <path d="M8 2.5v11M3.5 9.5 8 14l4.5-4.5" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
           </a>
-          <a
-            href={`${demoHub}/`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group inline-flex items-center gap-2 rounded-full border border-ink-500 px-5 py-3 text-body text-paper transition-colors duration-200 hover:border-paper-faint hover:bg-ink-800 sm:px-6"
-          >
-            Open the demo hub
-            <svg viewBox="0 0 16 16" class="size-3.5 text-paper-faint transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-              <path d="M5 11 11 5M6 5h5v5" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-          </a>
         </div>
         <p class="label-mono max-w-xs leading-relaxed lg:text-right">
           Three products, four surfaces. Real seed data. No invented metrics.
         </p>
       </div>
-    </div>
-  </div>
-
-  {/* Product rail — doubles as a table of contents for the page. */}
-  <div class="relative border-t border-ink-600/70 bg-ink-900/40 backdrop-blur-sm" data-reveal style="--reveal-delay:340ms">
-    <div class="container-page grid grid-cols-1 divide-y divide-ink-600/70 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-      {
-        [
-          { name: 'OrderEasy', note: 'Retailer + customer shop SaaS', href: '#ordereasy-retailer', dot: 'bg-mint' },
-          { name: 'CiteBench', note: 'Case-law research desk', href: '#citebench', dot: 'bg-violet' },
-          { name: 'GSTSlip', note: 'India GST invoice capture', href: '#gstslip', dot: 'bg-amber' },
-        ].map((p) => (
-          <a href={p.href} class="group flex items-center justify-between gap-4 py-4 transition-colors duration-200 hover:bg-ink-800/60 sm:px-5 sm:py-6 sm:first:pl-0">
-            <span class="flex min-w-0 items-baseline gap-2.5 sm:flex-col sm:items-start sm:gap-1.5">
-              <span class="flex items-center gap-2 text-body font-medium">
-                <span class={`size-1.5 shrink-0 rounded-full ${p.dot}`} />
-                {p.name}
-              </span>
-              <span class="truncate text-fine text-paper-faint">{p.note}</span>
-            </span>
-            <svg viewBox="0 0 16 16" class="size-3.5 shrink-0 text-paper-faint transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </a>
-        ))
-      }
     </div>
   </div>
 </section>

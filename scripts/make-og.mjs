@@ -14,9 +14,9 @@ const W = 1200;
 const H = 630;
 
 const products = [
-  { name: 'OrderEasy', note: 'shop counter', color: '#3DDC97' },
-  { name: 'CiteBench', note: 'law chamber', color: '#8A7CFF' },
-  { name: 'GSTSlip', note: 'GST file', color: '#FFB020' },
+  { name: 'OrderEasy', note: 'retailer SaaS', color: '#3DDC97' },
+  { name: 'CiteBench', note: 'legal desk', color: '#8A7CFF' },
+  { name: 'GSTSlip', note: 'GST capture', color: '#FFB020' },
 ];
 
 const chips = products
@@ -54,8 +54,8 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
 
   <text x="80" y="234" font-family="Fraunces" font-size="104" fill="#EFEAE1">Vineet Sharma</text>
 
-  <text x="80" y="312" font-family="Fraunces" font-size="46" fill="#B9B3A8">I ship products for the shop counter,</text>
-  <text x="80" y="366" font-family="Fraunces" font-size="46" fill="#B9B3A8">the law chamber, and the GST file.</text>
+  <text x="80" y="312" font-family="Fraunces" font-size="46" fill="#B9B3A8">I build products end to end —</text>
+  <text x="80" y="366" font-family="Fraunces" font-size="46" fill="#B9B3A8">sensors, fintech, AI, and what is live now.</text>
 
   ${chips}
 

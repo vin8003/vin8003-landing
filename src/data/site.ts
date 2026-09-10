@@ -10,8 +10,8 @@ export const person = {
   role: 'Builder & founder',
   location: 'Delhi NCR, India',
   email: 'vin8003@gmail.com',
-  tagline: 'I build products for the shop counter, the law chamber, and the GST file.',
-  bio: 'Builder and founder. Ten years of Python and Django on the backend, now shipping AI-shaped SaaS end to end — design, code, deploy, support. Dad of two, based in Delhi NCR, India.',
+  tagline: 'Builder and founder — shipping AI-shaped SaaS from embedded sensors to live products.',
+  bio: 'Builder and founder. Ten years of Python and Django on backends across embedded sensors, fintech, banking, medical imaging, casino gaming, and AI data pipelines — now shipping my own SaaS end to end. Dad of two, based in Delhi NCR, India.',
 } as const;
 
 export const socials = [
@@ -24,6 +24,15 @@ export const socials = [
 const DEMO_HUB = 'https://oe-product-demos.vin8003.workers.dev';
 
 export const demoHub = DEMO_HUB;
+
+/** External live demos and apps — surfaced in the hero, not in-page anchors. */
+export const liveLinks = [
+  { label: 'Demo hub', href: `${DEMO_HUB}/`, note: 'All guided demos' },
+  { label: 'OrderEasy retailer', href: `${DEMO_HUB}/retailer/`, note: 'Shop counter demo', dot: 'bg-mint' },
+  { label: 'OrderEasy customer', href: `${DEMO_HUB}/customer/`, note: 'Customer journey demo', dot: 'bg-mint' },
+  { label: 'CiteBench', href: 'https://citebench.ordereasy.win', note: 'Live app', dot: 'bg-violet' },
+  { label: 'GSTSlip', href: 'https://gstslip.grok.me', note: 'Live app', dot: 'bg-amber' },
+] as const;
 
 export type Step = { n: string; name: string; note: string };
 

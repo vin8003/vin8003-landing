@@ -20,27 +20,27 @@
 
   <text x="80" y="234" font-family="Fraunces" font-size="104" fill="#EFEAE1">Vineet Sharma</text>
 
-  <text x="80" y="312" font-family="Fraunces" font-size="46" fill="#B9B3A8">I ship products for the shop counter,</text>
-  <text x="80" y="366" font-family="Fraunces" font-size="46" fill="#B9B3A8">the law chamber, and the GST file.</text>
+  <text x="80" y="312" font-family="Fraunces" font-size="46" fill="#B9B3A8">I build products end to end —</text>
+  <text x="80" y="366" font-family="Fraunces" font-size="46" fill="#B9B3A8">sensors, fintech, AI, and what is live now.</text>
 
   
       <g transform="translate(80, 452)">
         <rect width="316" height="98" rx="16" fill="#101014" stroke="#2A2A35"/>
         <circle cx="26" cy="34" r="5" fill="#3DDC97"/>
         <text x="44" y="40" font-family="Instrument Sans" font-size="25" font-weight="600" fill="#EFEAE1">OrderEasy</text>
-        <text x="26" y="72" font-family="JetBrains Mono" font-size="15" letter-spacing="1.6" fill="#7D7970">SHOP COUNTER</text>
+        <text x="26" y="72" font-family="JetBrains Mono" font-size="15" letter-spacing="1.6" fill="#7D7970">RETAILER SAAS</text>
       </g>
       <g transform="translate(436, 452)">
         <rect width="316" height="98" rx="16" fill="#101014" stroke="#2A2A35"/>
         <circle cx="26" cy="34" r="5" fill="#8A7CFF"/>
         <text x="44" y="40" font-family="Instrument Sans" font-size="25" font-weight="600" fill="#EFEAE1">CiteBench</text>
-        <text x="26" y="72" font-family="JetBrains Mono" font-size="15" letter-spacing="1.6" fill="#7D7970">LAW CHAMBER</text>
+        <text x="26" y="72" font-family="JetBrains Mono" font-size="15" letter-spacing="1.6" fill="#7D7970">LEGAL DESK</text>
       </g>
       <g transform="translate(792, 452)">
         <rect width="316" height="98" rx="16" fill="#101014" stroke="#2A2A35"/>
         <circle cx="26" cy="34" r="5" fill="#FFB020"/>
         <text x="44" y="40" font-family="Instrument Sans" font-size="25" font-weight="600" fill="#EFEAE1">GSTSlip</text>
-        <text x="26" y="72" font-family="JetBrains Mono" font-size="15" letter-spacing="1.6" fill="#7D7970">GST FILE</text>
+        <text x="26" y="72" font-family="JetBrains Mono" font-size="15" letter-spacing="1.6" fill="#7D7970">GST CAPTURE</text>
       </g>
 
   <line x1="80" y1="588" x2="1120" y2="588" stroke="#2A2A35"/>

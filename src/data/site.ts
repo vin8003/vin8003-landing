@@ -10,8 +10,8 @@ export const person = {
   role: 'Builder & founder',
   location: 'Delhi NCR, India',
   email: 'vin8003@gmail.com',
-  tagline: 'Builder and founder — shipping AI-shaped SaaS from embedded sensors to live products.',
-  bio: 'Builder and founder. Ten years of Python and Django on backends across embedded sensors, fintech, banking, medical imaging, casino gaming, and AI data pipelines — now shipping my own SaaS end to end. Also Lead Software Engineer at a publicly listed Indian NBFC, on flagship product development. Dad of two, based in Delhi NCR, India.',
+  tagline: 'Builder and founder — AI-shaped SaaS from embedded sensors to live products.',
+  bio: 'Builder and founder. Ten years of Python and Django across embedded sensors, fintech, banking, medical imaging, casino gaming, and AI data pipelines. Shipping my own SaaS end to end; also Lead Software Engineer at a publicly listed Indian NBFC on flagship product development. Dad of two, Delhi NCR, India.',
 } as const;
 
 export const socials = [
@@ -27,9 +27,9 @@ export const demoHub = DEMO_HUB;
 
 /** External live demos and apps — surfaced in the hero, not in-page anchors. */
 export const liveLinks = [
-  { label: 'Demo hub', href: `${DEMO_HUB}/`, note: 'All guided demos' },
-  { label: 'OrderEasy retailer', href: `${DEMO_HUB}/retailer/`, note: 'Shop counter demo', dot: 'bg-mint' },
-  { label: 'OrderEasy customer', href: `${DEMO_HUB}/customer/`, note: 'Customer journey demo', dot: 'bg-mint' },
+  { label: 'Demo hub', href: `${DEMO_HUB}/`, note: 'Guided walkthroughs' },
+  { label: 'OrderEasy retailer', href: `${DEMO_HUB}/retailer/`, note: 'Retailer surface', dot: 'bg-mint' },
+  { label: 'OrderEasy customer', href: `${DEMO_HUB}/customer/`, note: 'Customer surface', dot: 'bg-mint' },
   { label: 'CiteBench', href: 'https://citebench.ordereasy.win', note: 'Live app', dot: 'bg-violet' },
   { label: 'GSTSlip', href: 'https://gstslip.grok.me', note: 'Live app', dot: 'bg-amber' },
 ] as const;
@@ -197,7 +197,7 @@ export const method = [
   {
     n: '01',
     title: 'Ship the surface, not the deck',
-    body: 'Each product gets one real surface a user can open. The demo hub is the pitch — ten screens, in order, the way the work actually happens.',
+    body: 'Each product gets one real surface a user can open. The demo hub walks ten screens in order — the way the work actually happens.',
   },
   {
     n: '02',

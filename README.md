@@ -1,13 +1,24 @@
 # vin8003.com
 
-Personal landing page and product demo hub for **Vineet Sharma** — builder and founder, Delhi NCR, India.
+Public command center for **Vineet Sharma** — builder and founder, Delhi NCR, India. The domain is the
+front door; the products live underneath it.
 
-It is a single static page that introduces Vineet and then hands the visitor straight into the real
-products: **OrderEasy** (retailer + customer shop SaaS), **CiteBench** (case-law research desk for Indian
-practice) and **GSTSlip** (India GST invoice capture).
+It is a single static page, in this order:
 
-Every product section carries a hand-built preview of that product's surface, a set of deep links into the
-individual steps of the real guided demo, and a button that loads the actual demo inline in an iframe.
+| #   | Section          | Anchor      | What it holds                                                          |
+| --- | ---------------- | ----------- | ---------------------------------------------------------------------- |
+| —   | **Hero**         | `#top`      | Wordmark, thesis line, "I build products with AI.", live product rail  |
+| 01  | **Building now** | `#building` | The active products, each with a `LIVE` / `BUILDING` status chip        |
+| 02  | **Lab**          | `#lab`      | The four guided demo journeys, previewed and embeddable                |
+| 03  | **Build log**    | `#log`      | Dated ships, each linked to a real commit, pull request or repo        |
+| 04  | **Thesis**       | `#thesis`   | An army of AI assistants, one job each — plus what is parked           |
+| 05  | **About**        | `#about`    | Short and personal                                                     |
+| 06  | **Contact**      | `#contact`  | Email and socials. No hire-me pitch.                                   |
+
+The products are **OrderEasy** (retailer + customer shop SaaS), **CiteBench** (case-law research desk for
+Indian practice) and **GSTSlip** (India GST invoice capture). Every lab walk carries a hand-built preview
+of that surface, deep links into the individual steps of the real guided demo, and a button that loads the
+actual demo inline in an iframe.
 
 ## Stack
 
@@ -17,10 +28,22 @@ individual steps of the real guided demo, and a button that loads the actual dem
 | Styling    | Tailwind CSS v4 via `@tailwindcss/vite`, tokens in `src/styles/global.css` |
 | Fonts      | Fraunces (soft) / Instrument Sans / JetBrains Mono, self-hosted from `public/fonts` |
 | Motion     | `IntersectionObserver` + CSS keyframes, fully gated on `prefers-reduced-motion` |
+| Theming    | Dark and light, by inverting the `ink` / `paper` ramps — no `dark:` variants |
 | Hosting    | Cloudflare Workers static assets (Cloudflare Pages also works) |
 
 There is no client-side framework and no tracking. The only JavaScript is a few dozen lines for scroll
-reveals, the nav progress bar and the inline demo embeds.
+reveals, the nav progress bar and scroll-spy, the theme toggle and the inline demo embeds.
+
+### How theming works
+
+`ink` is always the surface and `paper` is always the type on it, so flipping those two ramps is the whole
+theme. `:root[data-theme='light']` in `src/styles/global.css` redefines the tokens, and every existing
+utility — `bg-ink-850`, `text-paper-dim`, the per-product accents — follows without a single `dark:`
+variant. A small inline script in `src/layouts/Base.astro` applies the stored choice before first paint;
+with nothing stored, the OS preference wins.
+
+Light-mode accents are deliberately darker than their dark-mode counterparts so they still clear WCAG AA
+on a bone background. `npm run contrast` checks both themes against the actual computed colours.
 
 ## Running it locally
 
@@ -37,7 +60,9 @@ npm run preview        # serve the built output
 npm run check          # astro type + template check
 npm run og             # regenerate public/og.png and the app icons
 npm run fonts          # re-copy the latin woff2 subsets into public/fonts
-npm run audit          # responsive sweep across 11 viewports (needs the dev server running)
+npm run audit          # responsive sweep across 11 viewports (needs a server running)
+npm run contrast       # WCAG AA sweep of every text node, in both themes
+npm run shots          # screenshots each section at desktop and phone widths
 npm run deploy         # build, then wrangler deploy
 ```
 
@@ -86,15 +111,34 @@ The generated `og.png` is committed, so you only need this if you change the car
 
 Nearly all copy lives in one file: **`src/data/site.ts`**.
 
-- `person`, `socials` — name, bio, contact links. The phone number is deliberately not on this site.
-- `products` — the four product sections. Each has `headline`, `blurb`, `guardrail`, `facts`, `links`,
-  an optional `embed` URL (used for the inline iframe and the step deep links) and the `steps` array that
-  mirrors the real guided demo.
-- `houseRules` — quotes lifted verbatim from the live product surfaces.
-- `method`, `stack`, `nav`.
+- `person`, `socials` — name, claim, thesis line, contact links. The phone number is deliberately not on
+  this site.
+- `ventures` — the **Building now** cards. Each carries a `status` of `LIVE`, `BUILDING` or `EXPERIMENT`,
+  the guardrail line, a primary link and any secondary surfaces.
+- `lab` — the four demo journeys. Each has `headline`, `blurb`, `guardrail`, `facts`, `links`, an optional
+  `embed` URL (used for the inline iframe and the step deep links) and the `steps` array that mirrors the
+  real guided demo.
+- `buildLog` — dated ships, newest first.
+- `thesis`, `about`, `breadth`, `stack`, `nav`.
 
-Adding a product means adding an entry to `products`, writing a preview component in
-`src/components/mocks/`, and rendering one more `<ProductSection>` in `src/pages/index.astro`.
+Adding a product means adding an entry to `ventures`, an entry to `lab`, a preview component in
+`src/components/mocks/`, and one more `<LabWalk>` in `src/pages/index.astro`.
+
+### Two rules the content follows
+
+**Status chips are facts.** `LIVE` means a URL anyone can open today. `BUILDING` means the demos are open
+but the app is not. `EXPERIMENT` means designed and parked. If a product's public state changes, change
+the chip — do not stretch the meaning.
+
+**No invented metrics.** The only numbers on the page are ones that already exist: GSTSlip's "10 free
+documents", the count of demo surfaces, and the build-log dates. If a claim needs a number that does not
+exist yet, leave the number out rather than estimating it.
+
+### The build log
+
+Every entry in `buildLog` maps to a real dated commit, merged pull request or repo on
+`github.com/vin8003`, and carries the link. Dates are merge or commit dates, not estimates. If a line
+cannot be linked, it does not go in the log.
 
 ### Where the product links point
 
@@ -105,7 +149,12 @@ Adding a product means adding an entry to `products`, writing a preview componen
 | OrderEasy — customer demo  | `https://oe-product-demos.vin8003.workers.dev/customer/` |
 | CiteBench — guided demo    | `https://oe-product-demos.vin8003.workers.dev/citebench/` |
 | CiteBench — live app       | `https://citebench.ordereasy.win`                                 |
+| GSTSlip — guided demo      | `https://oe-product-demos.vin8003.workers.dev/gstslip/` |
 | GSTSlip — live app         | `https://gstslip.grok.me`                                         |
+
+`gstslip.vin8003.com` also resolves to the same GSTSlip deployment, so the product-under-domain pattern
+already works. The page links `gstslip.grok.me` as the primary; swap `ventures[2].primary.href` in
+`src/data/site.ts` if you want the under-domain promoted.
 
 The step chips deep-link to `#step-1` … `#step-10` on the demo pages, which is the anchor scheme the demo
 hub already uses. If the demo hub is redeployed to a different `workers.dev` subdomain, change `DEMO_HUB`
@@ -192,5 +241,6 @@ but the certificate is not ready yet, give it a little longer before debugging.
 
 - No usage numbers, revenue figures or testimonials appear anywhere. The demo previews are labelled as seed
   or sample data, and the seed shop is GreenCart Mini Mart — the same one used in the real OrderEasy demos.
-- The "House rules" quotes are Vineet's own product copy, taken from the live surfaces.
-- Contact is email and social only. The phone number is intentionally absent.
+- The guardrail lines on the product cards and lab walks are Vineet's own product copy, taken verbatim from
+  the live surfaces.
+- Contact is email and social only, with no hire-me framing. The phone number is intentionally absent.

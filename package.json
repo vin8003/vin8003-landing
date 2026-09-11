@@ -16,6 +16,8 @@
     "astro": "astro",
     "og": "node scripts/make-og.mjs",
     "audit": "node scripts/audit-responsive.mjs",
+    "contrast": "node scripts/audit-contrast.mjs",
+    "shots": "node scripts/shots.mjs",
     "fonts": "node scripts/sync-fonts.mjs"
   },
   "dependencies": {

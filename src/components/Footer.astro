@@ -14,7 +14,7 @@ const year = new Date().getFullYear();
 
   <div class="container-page relative">
     <div class="flex flex-col items-start gap-4" data-reveal>
-      <p class="label-mono text-ember">08 &nbsp;·&nbsp; Contact</p>
+      <p class="label-mono text-ember">06 &nbsp;·&nbsp; Contact</p>
       <h2 class="font-display text-title" aria-label="Reach out.">
         <span class="reveal-line"><span>Reach out.</span></span>
       </h2>
@@ -23,8 +23,8 @@ const year = new Date().getFullYear();
     <div class="mt-8 grid gap-8 sm:mt-12 lg:grid-cols-12 lg:items-end lg:gap-12">
       <div class="lg:col-span-7" data-reveal style="--reveal-delay:140ms">
         <p class="max-w-xl text-lead text-paper-dim">
-          Questions or notes on anything here — demos, products, or how something is built. Email below;
-          socials on the right.
+          Questions or notes on anything here — the products, the demos, or how something is built. Email
+          below; socials on the right.
         </p>
         <a
           href={`mailto:${person.email}`}
@@ -61,7 +61,7 @@ const year = new Date().getFullYear();
     <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
       <div>
         <p class="text-fine text-paper">{person.name}</p>
-        <p class="label-mono mt-2">{person.location} · Builder &amp; founder</p>
+        <p class="label-mono mt-2">{person.location} · {person.thesisLine}</p>
       </div>
 
       <nav class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Product links">
@@ -85,10 +85,11 @@ const year = new Date().getFullYear();
     </div>
 
     <p class="label-mono mt-8 text-[0.58rem] leading-relaxed">
-      © {year} {person.name}. Built and deployed by hand. No tracking, no invented metrics.
+      © {year} {person.name}. The products live under this domain. Built in the open — no tracking, no
+      invented metrics.
     </p>
   </footer>
 
   {/* Clears the floating thumb nav on phones. */}
-  <div class="h-16 md:hidden" aria-hidden="true"></div>
+  <div class="h-16 lg:hidden" aria-hidden="true"></div>
 </section>

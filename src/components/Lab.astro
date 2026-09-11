@@ -1,0 +1,31 @@
+---
+import SectionHead from './SectionHead.astro';
+import { demoHub } from '../data/site';
+---
+
+<section id="lab" class="scroll-mt-20 border-t border-ink-600/70 pt-16 sm:pt-24 lg:pt-28">
+  <div class="container-page">
+    <SectionHead
+      index="02"
+      label="Lab"
+      title="Walk the product before anyone asks you to sign up."
+      note="Four guided journeys, ten steps each, running on seed data. Every screen below is the real surface — previews here, the live demo one click away."
+    />
+
+    <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2" data-reveal style="--reveal-delay:120ms">
+      <a
+        href={`${demoHub}/`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="label-mono text-paper transition-colors duration-200 hover:text-ember"
+      >
+        {demoHub.replace('https://', '')}/ ↗
+      </a>
+      <span class="label-mono">No fake UIs · nothing here is a mockup of a plan</span>
+    </div>
+  </div>
+
+  <div class="mt-12 sm:mt-16">
+    <slot />
+  </div>
+</section>

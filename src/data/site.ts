@@ -74,10 +74,10 @@ export const ventures: Venture[] = [
     accent: 'mint',
     what: 'One shop, two surfaces — the counter that bills and the customer who orders from it.',
     guardrail: 'Not a marketplace. Not a delivery company.',
-    primary: { label: 'ordereasy.win', href: ORDEREASY_HOME },
+    primary: { label: 'ordereasy.win — product home', href: ORDEREASY_HOME },
     surfaces: [
-      { label: 'retailer.ordereasy.win', href: ORDEREASY_RETAILER },
-      { label: 'customer.ordereasy.win', href: ORDEREASY_CUSTOMER },
+      { label: 'Retailer portal', href: ORDEREASY_RETAILER },
+      { label: 'Customer portal', href: ORDEREASY_CUSTOMER },
       { label: 'Retailer guided demo', href: `${DEMO_HUB}/retailer/` },
       { label: 'Customer guided demo', href: `${DEMO_HUB}/customer/` },
     ],
@@ -115,9 +115,7 @@ export const ventures: Venture[] = [
 /** External live demos and apps — surfaced in the hero rail. */
 export const liveLinks = [
   { label: 'Demo hub', href: `${DEMO_HUB}/`, note: 'Four guided walkthroughs', status: 'LIVE' as Status },
-  { label: 'OrderEasy', href: ORDEREASY_HOME, note: 'Retailer + customer shop SaaS', status: 'LIVE' as Status, dot: 'bg-mint' },
-  { label: 'OrderEasy retailer', href: ORDEREASY_RETAILER, note: 'Counter, stock, POS', status: 'LIVE' as Status, dot: 'bg-mint' },
-  { label: 'OrderEasy customer', href: ORDEREASY_CUSTOMER, note: 'Shop-first ordering', status: 'LIVE' as Status, dot: 'bg-mint' },
+  { label: 'OrderEasy', href: ORDEREASY_HOME, note: 'Product home · retailer + customer portals', status: 'LIVE' as Status, dot: 'bg-mint' },
   { label: 'CiteBench', href: 'https://citebench.ordereasy.win', note: 'Case-law research desk', status: 'LIVE' as Status, dot: 'bg-violet' },
   { label: 'GSTSlip', href: 'https://gstslip.grok.me', note: 'GST invoice capture', status: 'LIVE' as Status, dot: 'bg-amber' },
 ] as const;
@@ -158,7 +156,7 @@ export const lab: LabWalk[] = [
     embed: `${DEMO_HUB}/retailer/`,
     links: [
       { label: 'Open guided demo', href: `${DEMO_HUB}/retailer/`, primary: true },
-      { label: 'retailer.ordereasy.win', href: ORDEREASY_RETAILER },
+      { label: 'Retailer portal', href: ORDEREASY_RETAILER },
       { label: 'All demos', href: `${DEMO_HUB}/` },
     ],
     steps: [
@@ -189,7 +187,7 @@ export const lab: LabWalk[] = [
     embed: `${DEMO_HUB}/customer/`,
     links: [
       { label: 'Open guided demo', href: `${DEMO_HUB}/customer/`, primary: true },
-      { label: 'customer.ordereasy.win', href: ORDEREASY_CUSTOMER },
+      { label: 'Customer portal', href: ORDEREASY_CUSTOMER },
       { label: 'All demos', href: `${DEMO_HUB}/` },
     ],
     steps: [

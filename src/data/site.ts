@@ -1,6 +1,7 @@
 /**
  * Every string here is either Vineet's own product copy (pulled from the live
- * demo hub / live apps) or plain biography. Nothing is embellished, and there
+ * demo hub / live apps), a plain biographical fact, or a build-log entry that
+ * maps to a real dated commit, PR or repo. Nothing is embellished, and there
  * are deliberately no usage numbers anywhere on this site.
  */
 
@@ -10,8 +11,12 @@ export const person = {
   role: 'Builder & founder',
   location: 'Delhi NCR, India',
   email: 'vin8003@gmail.com',
-  tagline: 'Builder and founder — AI-shaped SaaS from embedded sensors to live products.',
-  bio: 'Builder and founder. Ten years of Python and Django across embedded sensors, fintech, banking, medical imaging, casino gaming, and AI data pipelines. Shipping my own SaaS end to end; also Lead Software Engineer at a publicly listed Indian NBFC on flagship product development. Dad of two, Delhi NCR, India.',
+  /** The line the whole site hangs off. */
+  claim: 'I build products with AI.',
+  /** Banner thesis — the wordmark's other half. */
+  thesisLine: 'Building an army of AI assistants.',
+  identity: 'Builder and founder. Dad of two. Delhi NCR, India.',
+  tagline: 'Builder and founder. I build products with AI — an army of assistants, each handling one job.',
 } as const;
 
 export const socials = [
@@ -21,22 +26,100 @@ export const socials = [
   { label: 'GitHub', handle: 'vin8003', href: 'https://github.com/vin8003' },
 ] as const;
 
+/** Stable demo hub. Every guided walkthrough lives under it — do not repoint. */
 const DEMO_HUB = 'https://oe-product-demos.vin8003.workers.dev';
 
 export const demoHub = DEMO_HUB;
 
-/** External live demos and apps — surfaced in the hero, not in-page anchors. */
+export type Status = 'LIVE' | 'BUILDING' | 'EXPERIMENT';
+
+/** Status chips are honest labels, not marketing. LIVE means a URL anyone can
+ *  open right now; BUILDING means the demos are open but the app is not. */
+export const statusNote: Record<Status, string> = {
+  LIVE: 'Open the URL — it works today.',
+  BUILDING: 'Demos are open; the app is not public yet.',
+  EXPERIMENT: 'Designed, parked, not sold.',
+};
+
+export type Venture = {
+  id: string;
+  index: string;
+  name: string;
+  status: Status;
+  kind: string;
+  accent: 'mint' | 'violet' | 'amber';
+  /** One line: what it is. */
+  what: string;
+  /** Vineet's own boundary line — what it deliberately is not. */
+  guardrail: string;
+  primary: { label: string; href: string };
+  /** Secondary surfaces under the same product. */
+  surfaces: { label: string; href: string }[];
+  /** Shown as a small mono note under the links. Facts only. */
+  note?: string;
+};
+
+/** BUILDING NOW — the active products, front and centre. */
+export const ventures: Venture[] = [
+  {
+    id: 'ordereasy',
+    index: '01',
+    name: 'OrderEasy',
+    // Retailer + customer surfaces are demo-only in public today, so the chip
+    // says BUILDING. Flip to LIVE the day a public app URL exists.
+    status: 'BUILDING',
+    kind: 'Retailer + customer shop SaaS',
+    accent: 'mint',
+    what: 'One shop, two surfaces — the counter that bills and the customer who orders from it.',
+    guardrail: 'Not a marketplace. Not a delivery company.',
+    primary: { label: 'Open the demo hub', href: `${DEMO_HUB}/` },
+    surfaces: [
+      { label: 'Retailer surface', href: `${DEMO_HUB}/retailer/` },
+      { label: 'Customer surface', href: `${DEMO_HUB}/customer/` },
+    ],
+    note: 'Guided demos on seed data',
+  },
+  {
+    id: 'citebench',
+    index: '02',
+    name: 'CiteBench',
+    status: 'LIVE',
+    kind: 'Case-law research desk',
+    accent: 'violet',
+    what: 'A research desk for Indian practice — diary, matters, and authorities in one place.',
+    guardrail: 'Suggestions are not court directions.',
+    primary: { label: 'citebench.ordereasy.win', href: 'https://citebench.ordereasy.win' },
+    surfaces: [{ label: 'Guided demo', href: `${DEMO_HUB}/citebench/` }],
+  },
+  {
+    id: 'gstslip',
+    index: '03',
+    name: 'GSTSlip',
+    status: 'LIVE',
+    kind: 'India GST invoice capture',
+    accent: 'amber',
+    what: 'Photograph a tax invoice, get a clean register row you can export.',
+    guardrail: 'Fields stay on the device until you export.',
+    // gstslip.vin8003.com also resolves to this same app (checked 2026-09-11),
+    // so the product-under-domain pattern is ready whenever Vineet wants it
+    // promoted to primary.
+    primary: { label: 'gstslip.grok.me', href: 'https://gstslip.grok.me' },
+    surfaces: [{ label: 'Guided demo', href: `${DEMO_HUB}/gstslip/` }],
+    note: '10 free documents, then paid',
+  },
+];
+
+/** External live demos and apps — surfaced in the hero rail. */
 export const liveLinks = [
-  { label: 'Demo hub', href: `${DEMO_HUB}/`, note: 'Guided walkthroughs' },
-  { label: 'OrderEasy retailer', href: `${DEMO_HUB}/retailer/`, note: 'Retailer surface', dot: 'bg-mint' },
-  { label: 'OrderEasy customer', href: `${DEMO_HUB}/customer/`, note: 'Customer surface', dot: 'bg-mint' },
-  { label: 'CiteBench', href: 'https://citebench.ordereasy.win', note: 'Live app', dot: 'bg-violet' },
-  { label: 'GSTSlip', href: 'https://gstslip.grok.me', note: 'Live app', dot: 'bg-amber' },
+  { label: 'Demo hub', href: `${DEMO_HUB}/`, note: 'Four guided walkthroughs', status: 'LIVE' as Status },
+  { label: 'CiteBench', href: 'https://citebench.ordereasy.win', note: 'Case-law research desk', status: 'LIVE' as Status, dot: 'bg-violet' },
+  { label: 'GSTSlip', href: 'https://gstslip.grok.me', note: 'GST invoice capture', status: 'LIVE' as Status, dot: 'bg-amber' },
+  { label: 'OrderEasy', href: `${DEMO_HUB}/retailer/`, note: 'Retailer + customer demos', status: 'BUILDING' as Status, dot: 'bg-mint' },
 ] as const;
 
 export type Step = { n: string; name: string; note: string };
 
-export type Product = {
+export type LabWalk = {
   id: string;
   index: string;
   name: string;
@@ -44,7 +127,6 @@ export type Product = {
   accent: 'mint' | 'violet' | 'amber';
   headline: string;
   blurb: string;
-  /** Vineet's own boundary line for the product — what it deliberately is not. */
   guardrail: string;
   facts: string[];
   links: { label: string; href: string; primary?: boolean }[];
@@ -54,9 +136,10 @@ export type Product = {
   seed?: string;
 };
 
-export const products: Product[] = [
+/** LAB — the guided journeys that actually exist on the hub. No fake UIs. */
+export const lab: LabWalk[] = [
   {
-    id: 'ordereasy-retailer',
+    id: 'lab-ordereasy-retailer',
     index: '01',
     name: 'OrderEasy',
     kind: 'Retailer journey',
@@ -86,7 +169,7 @@ export const products: Product[] = [
     ],
   },
   {
-    id: 'ordereasy-customer',
+    id: 'lab-ordereasy-customer',
     index: '02',
     name: 'OrderEasy',
     kind: 'Customer journey',
@@ -116,7 +199,7 @@ export const products: Product[] = [
     ],
   },
   {
-    id: 'citebench',
+    id: 'lab-citebench',
     index: '03',
     name: 'CiteBench',
     kind: 'Legal research desk',
@@ -145,7 +228,7 @@ export const products: Product[] = [
     ],
   },
   {
-    id: 'gstslip',
+    id: 'lab-gstslip',
     index: '04',
     name: 'GSTSlip',
     kind: 'India GST invoice capture',
@@ -176,49 +259,161 @@ export const products: Product[] = [
   },
 ];
 
-/** Vineet's own guardrails, lifted verbatim from the product surfaces. */
-export const houseRules = [
-  { rule: 'One product surface. No invented metrics.', source: 'Every demo, footer' },
-  { rule: 'Not a marketplace. Not a delivery company.', source: 'OrderEasy Customer' },
-  { rule: 'Suggestions are not court directions.', source: 'CiteBench' },
-  { rule: 'Fields stay on this device until you export CSV.', source: 'GSTSlip' },
-  { rule: 'Small shop is fine — start with a few products and the first bill.', source: 'OrderEasy Retailer' },
-  { rule: 'IRN lookup uses a GSP sandbox — not the live NIC IRP.', source: 'GSTSlip' },
+export type LogEntry = {
+  date: string;
+  /** Human date shown in the log. */
+  label: string;
+  project: string;
+  accent: 'mint' | 'violet' | 'amber' | 'ember';
+  line: string;
+  link?: { label: string; href: string };
+};
+
+/**
+ * BUILD LOG — every entry maps to a real dated commit, merged PR or repo on
+ * github.com/vin8003. Dates are the merge/commit dates, not estimates. Add new
+ * entries at the top; do not write a line you cannot link.
+ */
+export const buildLog: LogEntry[] = [
+  {
+    date: '2026-09-11',
+    label: '11 Sep 2026',
+    project: 'vin8003.com',
+    accent: 'ember',
+    line: 'Rebuilt this site as a command center — building now, lab, build log, thesis.',
+    link: { label: 'vin8003-landing', href: 'https://github.com/vin8003/vin8003-landing' },
+  },
+  {
+    date: '2026-09-10',
+    label: '10 Sep 2026',
+    project: 'vin8003.com',
+    accent: 'ember',
+    line: 'Landing shipped on Cloudflare Workers, with a GitHub Actions deploy on deploy/prod.',
+    link: { label: 'PR #2', href: 'https://github.com/vin8003/vin8003-landing/pull/2' },
+  },
+  {
+    date: '2026-09-10',
+    label: '10 Sep 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'Production export of the customer surface from main.',
+    link: { label: 'customer_web_build #7', href: 'https://github.com/vin8003/customer_web_build/pull/7' },
+  },
+  {
+    date: '2026-09-10',
+    label: '10 Sep 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'Production export of the retailer surface from main.',
+    link: { label: 'retailer_web_build #5', href: 'https://github.com/vin8003/retailer_web_build/pull/5' },
+  },
+  {
+    date: '2026-09-10',
+    label: '10 Sep 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'Backend deployment batch merged on the platform repo.',
+    link: { label: 'RetailerCustomerPlatform #84', href: 'https://github.com/vin8003/RetailerCustomerPlatform/pull/84' },
+  },
+  {
+    date: '2026-09-10',
+    label: '10 Sep 2026',
+    project: 'Demo hub',
+    accent: 'ember',
+    line: 'Landing repointed at the densified hub — four walkthroughs, ten steps each.',
+    link: { label: 'Open the hub', href: `${DEMO_HUB}/` },
+  },
+  {
+    date: '2026-09-09',
+    label: '09 Sep 2026',
+    project: 'GSTSlip',
+    accent: 'amber',
+    line: 'Repo opened for the invoice capture app now live at gstslip.grok.me.',
+    link: { label: 'gstslip', href: 'https://github.com/vin8003/gstslip' },
+  },
+  {
+    date: '2026-09-05',
+    label: '05 Sep 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'Retailer barcode binding fix and TVS LP46NEO print alignment exported to production.',
+    link: { label: 'retailer_web_build #4', href: 'https://github.com/vin8003/retailer_web_build/pull/4' },
+  },
+  {
+    date: '2026-08-30',
+    label: '30 Aug 2026',
+    project: 'CiteBench',
+    accent: 'violet',
+    line: 'Research desk redesigned on a shared design system.',
+    link: { label: 'nyayasetu #11', href: 'https://github.com/vin8003/nyayasetu/pull/11' },
+  },
+  {
+    date: '2026-08-22',
+    label: '22 Aug 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'Customer city map and city-wide shop merge previewed against the radius-filtered live list.',
+    link: { label: 'customer_web_build #6', href: 'https://github.com/vin8003/customer_web_build/pull/6' },
+  },
+];
+
+/** THESIS — the founder line, then the working detail. */
+export const thesis = {
+  line: 'I want to build an army of AI assistants, each handling a specific piece of work.',
+  body: [
+    'Not one assistant that claims to do everything. A set of narrow ones, each with its own surface, its own guardrail, and its own definition of done. A general assistant is a demo. A narrow one is a colleague.',
+    'The products are the first recruits. OrderEasy runs a shop — the counter and the customer ordering from it. CiteBench works a chamber’s case law. GSTSlip reads a tax invoice and hands back a register row. None of them pretends to do another one’s job, and each carries the line saying what it is not.',
+    'The build loop is the same shape every time. Cloud agents work branches in parallel while I review; Django on the backend, TypeScript on the surfaces, everything deployed to Cloudflare. The moment an assistant can hold a whole job end to end, it stops being a tool and starts being staff.',
+  ],
+  parked: {
+    name: 'AI Secretary',
+    status: 'EXPERIMENT' as Status,
+    note: 'An AI secretary for business phone lines. Designed, then parked until the three above are done. Not shipped, not sold — it is here because the log should include the things that are waiting.',
+  },
+};
+
+/** ABOUT — short and personal. Not a résumé. */
+export const about = {
+  lines: [
+    'I build products with AI. I write the backend, the surface and the copy, then sit with the support mail. That whole loop is the job I actually wanted.',
+    'Ten years of Python and Django before this, through embedded electronics and sensors, fintech and banking, medical systems, casino gaming, image pipelines and AI data work. Different industries, same habit: get the thing into somebody’s hands and watch what breaks.',
+    'Dad of two, in Delhi NCR. That is most of the reason the tooling has to be fast and the scope has to stay honest.',
+  ],
+  /** Secondary, deliberately not title-first and deliberately unnamed. */
+  dayRole: 'Also Lead Software Engineer at a publicly listed Indian NBFC, on flagship product development.',
+  notebook:
+    'X is a lab notebook, not a brand channel. Progress, dead ends and the occasional rewrite go up as they happen.',
+};
+
+/** Career breadth — the site is not niche-locked to retail, law and GST. */
+export const breadth = [
+  'Embedded electronics',
+  'Sensors',
+  'Fintech',
+  'Banking',
+  'Medical systems',
+  'Casino gaming',
+  'Image pipelines',
+  'Data science',
+  'AI assistants',
+  'Retailer POS',
+  'Case-law research',
+  'GST capture',
 ];
 
 export const stack = [
   { group: 'Backend', items: ['Python', 'Django', 'REST APIs'] },
-  { group: 'Frontend', items: ['React', 'TypeScript', 'TanStack Start', 'Astro'] },
+  { group: 'Surfaces', items: ['React', 'TypeScript', 'TanStack Start', 'Astro'] },
   { group: 'Edge & deploy', items: ['Cloudflare Workers', 'Cloudflare Pages'] },
   { group: 'Build loop', items: ['Multi-agent desk', 'Cursor Cloud Agents'] },
 ];
 
-export const method = [
-  {
-    n: '01',
-    title: 'Ship the surface, not the deck',
-    body: 'Each product gets one real surface a user can open. The demo hub walks ten screens in order — the way the work actually happens.',
-  },
-  {
-    n: '02',
-    title: 'Write the guardrail first',
-    body: 'Before a feature lands, the line describing what it is not gets written. Those lines stay in the product UI, not just in my notes.',
-  },
-  {
-    n: '03',
-    title: 'Run a multi-agent desk',
-    body: 'Cursor Cloud Agents work branches in parallel while I review. Backend in Django, product surfaces in TypeScript, everything deployed to Cloudflare.',
-  },
-  {
-    n: '04',
-    title: 'Build in the open',
-    body: 'X is a lab notebook, not a brand channel. Progress, dead ends and the occasional rewrite go up as they happen.',
-  },
-];
-
+/** `short` is what the thumb-reach nav shows, where five pills have to fit a
+ *  320px screen without wrapping. */
 export const nav = [
-  { label: 'Work', href: '#work' },
-  { label: 'Method', href: '#method' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Building now', short: 'Now', href: '#building' },
+  { label: 'Lab', short: 'Lab', href: '#lab' },
+  { label: 'Build log', short: 'Log', href: '#log' },
+  { label: 'Thesis', short: 'Thesis', href: '#thesis' },
+  { label: 'About', short: 'About', href: '#about' },
 ];

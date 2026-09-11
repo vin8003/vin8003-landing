@@ -1,69 +1,55 @@
 ---
 import SectionHead from './SectionHead.astro';
+import { about, person, socials } from '../data/site';
+
+const x = socials.find((s) => s.label === 'X')!;
 ---
 
 <section id="about" class="scroll-mt-20 border-t border-ink-600/70 py-16 sm:py-24 lg:py-28">
   <div class="container-page">
-    <SectionHead index="07" label="About" title="Builder first. The title came after." />
+    <SectionHead index="05" label="About" title="Short version." />
 
     <div class="mt-10 grid gap-10 sm:mt-14 lg:grid-cols-12 lg:gap-14">
-      <div class="flex flex-col gap-6 text-lead text-paper-dim lg:col-span-7" data-reveal>
-        <p>
-          Ten years writing Python and Django backends for other people’s products. The interesting problem
-          became the whole stack: what the screen says, what the business does at 8 pm on a Tuesday, who gets
-          trusted with the data.
-        </p>
-        <p>
-          Career ran through embedded electronics and sensors, fintech and banking, medical systems, casino
-          gaming, and AI / data / image work — before I owned the full stack. Now shipping
-          <span class="text-paper">OrderEasy</span>, <span class="text-paper">CiteBench</span>, and
-          <span class="text-paper">GSTSlip</span> — design through support. Also Lead Software Engineer at a
-          publicly listed Indian NBFC, on flagship product development.
-        </p>
-        <p>
-          Based in <span class="text-paper">Delhi NCR, India</span>. Dad of two — which is why the tooling has
-          to be fast and the scope honest.
-        </p>
-        <p>
+      <div class="flex flex-col gap-6 text-lead text-paper-dim lg:col-span-7">
+        {
+          about.lines.map((line, i) => (
+            <p data-reveal style={`--reveal-delay:${i * 70}ms`}>
+              {line}
+            </p>
+          ))
+        }
+        <p data-reveal style="--reveal-delay:210ms">
           <a
-            href="https://x.com/vin8003"
+            href={x.href}
             target="_blank"
             rel="noopener noreferrer"
             class="text-paper underline decoration-ember decoration-2 underline-offset-4 transition-colors duration-200 hover:text-ember"
-            >@vin8003</a
-          > is a lab notebook, not a brand channel. Progress, dead ends, and rewrites go up as they happen.
+            >{x.handle}</a
+          > is a lab notebook, not a brand channel. Progress, dead ends and the occasional rewrite go up as
+          they happen.
         </p>
       </div>
 
       <aside class="flex flex-col gap-3 lg:col-span-5" data-reveal style="--reveal-delay:120ms">
-        <div class="rounded-2xl border border-ink-600/80 bg-ink-850/60 p-5 sm:p-6">
-          <p class="label-mono">Currently shipping</p>
-          <ul class="mt-4 flex flex-col gap-3">
-            {
-              [
-                { name: 'OrderEasy', note: 'Retailer + customer shop SaaS', dot: 'bg-mint' },
-                { name: 'CiteBench', note: 'Case-law research desk', dot: 'bg-violet' },
-                { name: 'GSTSlip', note: 'India GST invoice capture', dot: 'bg-amber' },
-              ].map((p) => (
-                <li class="flex items-start gap-3">
-                  <span class={`mt-[0.45rem] size-1.5 shrink-0 rounded-full ${p.dot}`} />
-                  <span class="min-w-0">
-                    <span class="block text-body font-medium text-paper">{p.name}</span>
-                    <span class="block text-fine text-paper-faint">{p.note}</span>
-                  </span>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
+        <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink-600/70 bg-ink-600/70">
+          {
+            [
+              { k: 'Based', v: person.location },
+              { k: 'Home', v: 'Dad of two' },
+              { k: 'Writes', v: 'Python · Django · TypeScript' },
+              { k: 'Ships to', v: 'Cloudflare' },
+            ].map((row) => (
+              <div class="flex flex-col justify-between gap-4 bg-ink-900 p-4 sm:p-5">
+                <dt class="label-mono">{row.k}</dt>
+                <dd class="text-fine text-paper">{row.v}</dd>
+              </div>
+            ))
+          }
+        </dl>
 
-        <div class="rounded-2xl border border-dashed border-ink-500/80 p-5 sm:p-6">
-          <p class="label-mono">Parked</p>
-          <p class="mt-3 text-fine leading-relaxed text-paper-dim">
-            An AI secretary for business phone lines. Designed, shelved until the three above are done. Not
-            shipped, not sold.
-          </p>
-        </div>
+        <p class="rounded-2xl border border-ink-600/80 bg-ink-850/50 p-5 text-fine leading-relaxed text-paper-dim sm:p-6">
+          {about.dayRole}
+        </p>
       </aside>
     </div>
   </div>

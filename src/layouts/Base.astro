@@ -8,15 +8,15 @@ interface Props {
 }
 
 const {
-  title = 'vin8003 — builder & founder',
-  description = `${person.tagline} Currently shipping OrderEasy, CiteBench, and GSTSlip. Python/Django · Delhi NCR, India.`,
+  title = 'vin8003 — I build products with AI',
+  description = `${person.name} — builder and founder in Delhi NCR. ${person.thesisLine} Building OrderEasy, CiteBench and GSTSlip.`,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com').href;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -24,11 +24,26 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="preload" href="/fonts/fraunces-soft.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/instrument-sans-var.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icon-180.png" />
     <meta name="theme-color" content="#08080a" />
     <meta name="author" content={person.name} />
+
+    {/* Applied before first paint so a light-mode visitor never sees a dark flash. */}
+    <script is:inline>
+      (() => {
+        let stored = null;
+        try {
+          stored = localStorage.getItem('vin8003-theme');
+        } catch {
+          /* private mode — fall through to the OS preference */
+        }
+        const light = stored ? stored === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
+        document.documentElement.dataset.theme = light ? 'light' : 'dark';
+      })();
+    </script>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -53,6 +68,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com
         url: 'https://vin8003.com',
         email: `mailto:${person.email}`,
         jobTitle: 'Builder & founder',
+        description: person.tagline,
         address: { '@type': 'PostalAddress', addressRegion: 'Delhi NCR', addressCountry: 'IN' },
         sameAs: ['https://x.com/vin8003', 'https://www.linkedin.com/in/vin8003', 'https://github.com/vin8003'],
       })}
@@ -60,10 +76,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com
   </head>
   <body class="grain">
     <a
-      href="#work"
+      href="#building"
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[110] focus:rounded-full focus:bg-ember focus:px-5 focus:py-2.5 focus:text-fine focus:font-medium focus:text-white"
     >
-      Skip to the work
+      Skip to what is building now
     </a>
     <slot />
 
@@ -100,6 +116,27 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com
           { threshold: 0.15 },
         );
         mocks.forEach((el) => mockIo.observe(el));
+      }
+
+      // The section the reader is in stays lit in both navs.
+      const links = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
+      const sections = [...links]
+        .map((link) => document.querySelector<HTMLElement>(link.hash))
+        .filter((el): el is HTMLElement => Boolean(el));
+
+      if (sections.length) {
+        const spy = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              for (const link of links) {
+                link.toggleAttribute('data-current', link.hash === `#${entry.target.id}`);
+              }
+            }
+          },
+          { rootMargin: '-45% 0px -50% 0px' },
+        );
+        sections.forEach((el) => spy.observe(el));
       }
     </script>
   </body>

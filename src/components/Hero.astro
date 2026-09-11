@@ -1,17 +1,17 @@
 ---
 import { person, liveLinks } from '../data/site';
+import StatusChip from './StatusChip.astro';
 
-const lines = [
+// The claim is split so each line can reveal from behind its own mask.
+const claimLines = [
   { text: 'I build products', tint: '' },
-  { text: 'end to end —', tint: '' },
-  { text: 'sensors, fintech, AI,', tint: 'text-ember' },
-  { text: 'and what is live now.', tint: 'text-mint' },
+  { text: 'with AI.', tint: 'text-ember' },
 ];
 ---
 
 <section
   id="top"
-  class="relative isolate flex min-h-[100svh] flex-col justify-between overflow-hidden pt-24 sm:pt-28"
+  class="relative isolate flex min-h-[100svh] flex-col justify-center overflow-hidden pb-16 pt-24 sm:pt-28"
   data-hero
 >
   {/* Substrate + light */}
@@ -27,7 +27,8 @@ const lines = [
   >
   </div>
 
-  <div class="container-page flex flex-1 flex-col justify-center py-10 sm:py-14">
+  <div class="container-page">
+    {/* Instrument row — the command-center readout. */}
     <div class="flex flex-wrap items-center gap-x-4 gap-y-2" data-reveal>
       <span class="flex items-center gap-2">
         <span class="relative flex size-1.5">
@@ -38,31 +39,58 @@ const lines = [
       </span>
       <span class="hidden h-3 w-px bg-ink-500 sm:block"></span>
       <span class="label-mono">{person.location}</span>
+      <span class="hidden h-3 w-px bg-ink-500 sm:block"></span>
+      <span class="label-mono hidden sm:inline">Public command center</span>
     </div>
 
-    {/* Opener + live links — stacked on mobile, side-by-side on desktop. */}
-    <div class="mt-6 flex flex-col gap-8 sm:mt-8 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
-      <h1
-        class="font-display text-hero lg:max-w-3xl lg:flex-1"
-        aria-label={lines.map((l) => l.text).join(' ')}
-        data-reveal
-      >
-        {
-          lines.map((line, i) => (
-            <span class="reveal-line" style={`--reveal-delay:${i * 90}ms`}>
-              <span class={line.tint}>{line.text}</span>
-            </span>
-          ))
-        }
-      </h1>
+    {/* Banner: wordmark over the thesis line. */}
+    <div class="mt-7 sm:mt-9" data-reveal style="--reveal-delay:60ms">
+      <p class="font-mono text-mark font-semibold text-paper">
+        <span class="reveal-line"><span>VINEET SHARMA</span></span>
+      </p>
+      <div class="rule-draw mt-3 h-px w-full origin-left bg-ink-500" style="--reveal-delay:220ms"></div>
+      <p class="label-mono mt-3 text-ember sm:text-right">{person.thesisLine}</p>
+    </div>
+
+    {/*
+      Claim, live rail, buttons. On desktop the rail sits to the right of the
+      opener; on mobile it slots between the bio and the buttons, so the live
+      product links land directly under the opener instead of last.
+    */}
+    <div class="mt-10 grid gap-8 sm:mt-14 lg:grid-cols-12 lg:items-start lg:gap-x-14 lg:gap-y-10">
+      <div class="min-w-0 lg:col-span-7 lg:col-start-1 lg:row-start-1">
+        <h1
+          class="font-display text-hero"
+          aria-label={person.claim}
+          data-reveal
+          style="--reveal-delay:120ms"
+        >
+          {
+            claimLines.map((line, i) => (
+              <span class="reveal-line" style={`--reveal-delay:${160 + i * 90}ms`}>
+                <span class={line.tint}>{line.text}</span>
+              </span>
+            ))
+          }
+        </h1>
+
+        <p class="mt-6 max-w-xl text-lead text-paper-dim sm:mt-8" data-reveal style="--reveal-delay:240ms">
+          Builder and founder. Dad of two, in Delhi NCR, India. Ten years of Python and Django across
+          embedded sensors, fintech, banking, medical systems and casino gaming — now spent shipping my own
+          products end to end.
+        </p>
+      </div>
 
       <nav
-        class="rounded-2xl border border-ink-600/80 bg-ink-850/50 p-4 sm:p-5 lg:max-w-sm lg:shrink-0"
+        class="rounded-2xl border border-ink-600/80 bg-ink-850/50 p-4 sm:p-5 lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1"
         aria-label="Live demos and apps"
         data-reveal
-        style="--reveal-delay:120ms"
+        style="--reveal-delay:180ms"
       >
-        <p class="label-mono text-paper-dim">Live now</p>
+        <div class="flex items-baseline justify-between gap-3">
+          <p class="label-mono text-paper-dim">Open right now</p>
+          <p class="label-mono text-[0.55rem]">{liveLinks.length} links</p>
+        </div>
         <ul class="mt-3 flex flex-col gap-1">
           {
             liveLinks.map((link) => (
@@ -72,49 +100,55 @@ const lines = [
                   target="_blank"
                   rel="noopener noreferrer"
                   class="group flex items-center justify-between gap-3 rounded-xl px-2 py-2.5 transition-colors duration-200 hover:bg-ink-800/80"
+                  style={'dot' in link && link.dot ? `--accent: var(--color-${link.dot.replace('bg-', '')})` : undefined}
                 >
                   <span class="flex min-w-0 items-center gap-2.5">
                     {'dot' in link && link.dot ? (
                       <span class={`size-1.5 shrink-0 rounded-full ${link.dot}`} />
                     ) : (
-                      <span class="size-1.5 shrink-0 rounded-full bg-paper-faint/40" />
+                      <span class="size-1.5 shrink-0 rounded-full bg-paper-faint/60" />
                     )}
                     <span class="min-w-0">
                       <span class="block truncate text-body font-medium text-paper">{link.label}</span>
                       <span class="block truncate text-fine text-paper-faint">{link.note}</span>
                     </span>
                   </span>
-                  <svg viewBox="0 0 16 16" class="size-3.5 shrink-0 text-paper-faint transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-                    <path d="M5 11 11 5M6 5h5v5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
+                  <span class="flex shrink-0 items-center gap-2">
+                    <StatusChip status={link.status} class="hidden sm:inline-flex" />
+                    <svg viewBox="0 0 16 16" class="size-3.5 shrink-0 text-paper-faint transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                      <path d="M5 11 11 5M6 5h5v5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </span>
                 </a>
               </li>
             ))
           }
         </ul>
-      </nav>
-    </div>
-
-    <div class="mt-8 grid gap-8 sm:mt-12 lg:grid-cols-12 lg:items-end lg:gap-10">
-      <p class="max-w-2xl text-lead text-paper-dim lg:col-span-7" data-reveal style="--reveal-delay:180ms">
-        {person.bio}
-      </p>
-
-      <div class="flex flex-col gap-4 lg:col-span-5 lg:items-end" data-reveal style="--reveal-delay:260ms">
-        <div class="flex flex-wrap gap-2.5 sm:gap-3">
-          <a
-            href="#work"
-            class="group inline-flex items-center gap-2 rounded-full bg-paper px-5 py-3 text-body font-medium text-ink-900 transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:px-6"
-          >
-            See the work
-            <svg viewBox="0 0 16 16" class="size-3.5 transition-transform duration-300 group-hover:translate-y-0.5" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-              <path d="M8 2.5v11M3.5 9.5 8 14l4.5-4.5" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-          </a>
-        </div>
-        <p class="label-mono max-w-xs leading-relaxed lg:text-right">
-          Three products · four surfaces · seed data · no invented metrics
+        <p class="label-mono mt-4 border-t border-ink-600/70 pt-3 text-[0.55rem] leading-relaxed">
+          Seed data · guided demos · no invented metrics
         </p>
+      </nav>
+
+      <div
+        class="flex flex-wrap gap-2.5 sm:gap-3 lg:col-span-7 lg:col-start-1 lg:row-start-2 lg:self-start"
+        data-reveal
+        style="--reveal-delay:300ms"
+      >
+        <a
+          href="#building"
+          class="group inline-flex items-center gap-2 rounded-full bg-paper px-5 py-3 text-body font-medium text-ink-900 transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:px-6"
+        >
+          What is building now
+          <svg viewBox="0 0 16 16" class="size-3.5 transition-transform duration-300 group-hover:translate-y-0.5" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M8 2.5v11M3.5 9.5 8 14l4.5-4.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+        <a
+          href="#log"
+          class="inline-flex items-center gap-2 rounded-full border border-ink-500 px-5 py-3 text-body font-medium text-paper transition-colors duration-200 hover:bg-ink-800 sm:px-6"
+        >
+          Build log
+        </a>
       </div>
     </div>
   </div>

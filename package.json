@@ -16,6 +16,8 @@
     "astro": "astro",
     "og": "node scripts/make-og.mjs",
     "audit": "node scripts/audit-responsive.mjs",
+    "contrast": "node scripts/audit-contrast.mjs",
+    "shots": "node scripts/shots.mjs",
     "fonts": "node scripts/sync-fonts.mjs"
   },
   "dependencies": {
@@ -25,9 +27,12 @@
     "astro": "^7.3.2"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@tailwindcss/vite": "^4.3.3",
+    "playwright-core": "^1.63.0",
     "sharp": "^0.34.2",
     "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3",
     "wrangler": "^4.130.0"
   },
   "allowScripts": {

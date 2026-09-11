@@ -1,8 +1,22 @@
-# Checkpoint — vin8003.com landing
+# Checkpoint — vin8003.com
 
-Status at this commit: **the site is complete and deployable.** It builds clean, has no type errors,
-and has no horizontal overflow at any width from 320px to 2560px. What is missing is the deploy itself,
-which needs Cloudflare credentials that only Vineet has.
+Status at this commit: **the site is complete and deployable.** It builds clean, has no type errors, no
+horizontal overflow from 320px to 2560px, and no WCAG AA contrast failures in either theme. What is
+missing is the deploy itself, which needs Cloudflare credentials that only Vineet has.
+
+## What the site is
+
+A public command center, not a portfolio. The domain is the front door; the products live underneath it.
+
+| #   | Section      | Anchor      | Holds                                                          |
+| --- | ------------ | ----------- | -------------------------------------------------------------- |
+| —   | Hero         | `#top`      | Wordmark, thesis line, "I build products with AI.", live rail   |
+| 01  | Building now | `#building` | OrderEasy, CiteBench, GSTSlip with honest status chips          |
+| 02  | Lab          | `#lab`      | The four guided demo journeys                                   |
+| 03  | Build log    | `#log`      | Ten dated ships, every one linked                               |
+| 04  | Thesis       | `#thesis`   | An army of AI assistants + the parked AI Secretary              |
+| 05  | About        | `#about`    | Short and personal                                              |
+| 06  | Contact      | `#contact`  | Email and socials, no hire-me pitch                             |
 
 ## Done
 
@@ -10,6 +24,8 @@ which needs Cloudflare credentials that only Vineet has.
 
 - Astro 7 static site, Tailwind CSS v4 via `@tailwindcss/vite`, no client-side UI framework.
 - Self-hosted Fraunces (soft optical size) / Instrument Sans / JetBrains Mono through Fontsource.
+- Dark and light themes, done by inverting the `ink` / `paper` ramps rather than adding `dark:` variants.
+  The stored choice is applied before first paint; with nothing stored the OS preference wins.
 - `npm run build` succeeds; `npx astro check` reports 0 errors, 0 warnings, 0 hints.
 
 **Content**
@@ -17,88 +33,56 @@ which needs Cloudflare credentials that only Vineet has.
 - All copy lives in `src/data/site.ts`.
 - Product copy, journey step names and guardrail lines were taken from the real demo hub and the live
   GSTSlip app, not invented. No usage numbers, revenue figures or testimonials anywhere.
-- Phone number deliberately absent. Contact is email, X, LinkedIn, GitHub only.
+- Status chips are facts: `LIVE` = a URL that works today, `BUILDING` = demos only, `EXPERIMENT` = parked.
+  OrderEasy is `BUILDING` because only its demos are public; CiteBench and GSTSlip are `LIVE`.
+- Every build-log entry maps to a dated commit, merged PR or repo on `github.com/vin8003` and carries the
+  link.
+- Phone number deliberately absent. Contact is email, X, LinkedIn, GitHub only, framed as questions and
+  notes rather than a pitch.
 
-**Page**
-
-- Hero, sticky top nav with scroll progress, thumb-reach pill nav on phones, keyword marquee.
-- Four product sections: OrderEasy Retailer, OrderEasy Customer, CiteBench, GSTSlip.
-- Method (four principles + stack card), House rules (six verbatim product quotes), About
-  (including the parked AI-secretary note), Contact/footer, styled 404.
-
-**Product demos — all three paths wired**
+**Product demos — all three paths still wired**
 
 - Hand-built animated preview of each surface (POS bill, phone storefront, research desk, invoice capture).
 - Deep links into every step of each guided demo, using the hub's existing `#step-1`…`#step-10` anchors.
-- "Run the real demo here" loads the actual demo in an iframe, fetched only on click. Verified loading
-  and toggling back for all three journeys.
-- GSTSlip links out to the live app, as briefed.
+- "Run the real demo here" loads the actual demo in an iframe, fetched only on click. Verified loading and
+  tearing down again.
+- `DEMO_HUB` is unchanged: `https://oe-product-demos.vin8003.workers.dev`.
 
 **Responsive**
 
 - Fluid type scale — every size interpolates between a 360px phone and a large desktop.
-- Dense dashboard mocks use container queries, shedding side rails as their column narrows.
-- `scripts/audit-responsive.mjs` (`npm run audit`) sweeps 11 viewports and reports overflow with the
-  responsible elements. Current result: no horizontal overflow at any tested width.
+- Live product rail sits to the right of the opener on desktop and directly under the bio on mobile, so the
+  product links are never pushed below the buttons.
+- Desktop nav switches to the thumb-reach rail below `lg`, now that there are five sections.
+- `npm run audit` sweeps 11 viewports: no horizontal overflow at any tested width.
 
 **Accessibility and weight**
 
-- No WCAG AA contrast failures across the page (checked programmatically against the actual computed
-  colours, including text inside the product mocks).
-- Heading order is clean, every link and button has an accessible name, and the two headings split
-  across visual lines carry `aria-label` so they are not read run-together.
+- `npm run contrast` walks every text node in both themes against the actual computed colours: no AA
+  failures. Light-mode accents are darker than their dark-mode counterparts to earn that.
+- Every mono link has a real tap target; masked headline reveals no longer clip descenders.
 - All motion is gated on `prefers-reduced-motion`; mock animations only run while on screen.
-- Fonts are latin-only subsets served from `public/fonts` — 96 KB across three files, down from 208 KB
-  when importing the Fontsource stylesheets. Built output is 428 KB total, with no JavaScript bundle.
+- Fonts are latin-only subsets served from `public/fonts`, no JavaScript bundle.
 
 **Deploy readiness**
 
-- `wrangler.jsonc` configured for Workers static assets; `wrangler deploy --dry-run` passes (27 files).
+- `wrangler.jsonc` configured for Workers static assets.
 - `public/_headers` for caching and security headers, `robots.txt`, `sitemap.xml`.
 - `public/og.png` social card and app icons, generated by `npm run og`.
-- README documents Workers and Pages deploys, attaching `vin8003.com` and `www`, and the
-  www-to-apex redirect rule.
+- README documents Workers and Pages deploys, attaching `vin8003.com` and `www`, and the www-to-apex
+  redirect rule.
 
 ## Remaining
 
 1. **Deploy to Cloudflare.** Needs `wrangler login` on a machine with access to the account. Everything
    else is ready: `npm run deploy`.
-2. **Attach the domain.** README has the click-path; nothing can be verified from here until the site
-   is actually published.
-3. **Optional, needs Vineet's input:** no photograph of Vineet is used — the About section is
-   typographic only. If he wants a portrait, drop it in `public/` and it can go into the About aside.
-4. **Out of scope by instruction:** AuthorityTrail is not featured. The AI secretary is mentioned once,
-   as parked.
-
-## Deploy status (2026-09-09 19:23 UTC)
-
-Published from this VM with `npx wrangler deploy --temporary`, which mints a throwaway Cloudflare
-account via proof-of-work and needs no login.
-
-- Worker: `vin8003-com` on temporary account **Pattern Petroleum** (`414b17f8e5390bee6a0309d92ab8ca63`)
-- URL: `https://vin8003-com.pattern-petroleum.workers.dev` — 16 assets uploaded, triggers deployed
-- **The URL returns HTTP 403 "Just a moment…" (`cf-mitigated: challenge`), not 200.** Cloudflare puts
-  unclaimed temporary preview accounts behind a managed challenge. This is not a network problem with
-  this VM: another workers.dev site returns 200 from the same host. Claiming the account, or
-  redeploying from Vineet's real account, is what clears it.
-- Custom domains did **not** attach: `Can't infer zone from route, please specify zone for
-  "vin8003.com" [code: 10082]` — the temporary account does not own the zone. Expected.
-- `npx wrangler deploy` without `--temporary` fails: no credentials on this VM.
-
-Note that declaring `routes` silently disables the workers.dev subdomain unless `workers_dev` is set
-explicitly. That happened once here and took the URL down; `"workers_dev": true` is now in the config
-so there is always a working URL while the custom domains are pending.
-
-## Verified against the production build
-
-Checks below were run against `astro preview` serving `dist/`, not the dev server:
-
-- Nav anchors at 360px, 390px and 1440px all land clear of the sticky header — no heading is ever
-  hidden behind it.
-- No heading anywhere on the page is truncated or ellipsised. The `truncate` class appears only inside
-  the product mock UIs, where clipping a long product name is the intended behaviour.
-- All 30 step deep links resolve, spanning the retailer, customer and CiteBench journeys, and all open
-  in a new tab.
-- All three inline demo embeds load the real demo and restore the preview when toggled back, at both
-  390px and 1440px.
-- No horizontal overflow at any of 11 widths from 320px to 2560px.
+2. **Attach the domain.** README has the click-path.
+3. **Optional, needs Vineet's input:**
+   - No photograph is used — About is typographic only. Drop one in `public/` if you want it.
+   - The pinned X "Two weeks later" article could not be verified from outside, so the build log links
+     `@vin8003` and `github.com/vin8003` generally. Add the post URL to a `buildLog` entry to call it out.
+   - `gstslip.vin8003.com` resolves to the same app as `gstslip.grok.me`. The page links `grok.me` as the
+     primary; promote the under-domain in `ventures` whenever you want.
+   - OrderEasy's chip flips from `BUILDING` to `LIVE` the day there is a public app URL.
+4. **Out of scope by instruction:** AuthorityTrail is not featured. The AI secretary appears once, in
+   Thesis, labelled `EXPERIMENT` and parked.

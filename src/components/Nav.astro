@@ -1,5 +1,6 @@
 ---
 import { nav, person } from '../data/site';
+import ThemeToggle from './ThemeToggle.astro';
 ---
 
 <div
@@ -20,16 +21,17 @@ import { nav, person } from '../data/site';
         >VS</span
       >
       <span class="flex min-w-0 flex-col leading-none">
-        <span class="truncate text-[0.9rem] font-semibold tracking-tight sm:text-[0.95rem]">{person.name}</span>
-        <span class="label-mono mt-1 hidden text-[0.6rem] sm:block">Builder &amp; founder</span>
+        <span class="truncate font-mono text-[0.85rem] font-semibold tracking-tight sm:text-[0.9rem]">{person.name}</span>
+        <span class="label-mono mt-1 hidden text-[0.6rem] sm:block">{person.thesisLine}</span>
       </span>
     </a>
 
-    <nav class="hidden items-center gap-1 md:flex" aria-label="Sections">
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Sections">
       {
         nav.map((item) => (
           <a
             href={item.href}
+            data-section-link
             class="rounded-full px-3.5 py-2 text-fine text-paper-dim transition-colors duration-200 hover:bg-ink-700 hover:text-paper"
           >
             {item.label}
@@ -39,6 +41,7 @@ import { nav, person } from '../data/site';
     </nav>
 
     <div class="flex items-center gap-2">
+      <ThemeToggle />
       <a
         href="https://x.com/vin8003"
         target="_blank"
@@ -64,7 +67,7 @@ import { nav, person } from '../data/site';
 
 {/* Thumb-reach nav for tall phone screens. */}
 <nav
-  class="fixed inset-x-0 bottom-0 z-50 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-10 md:hidden"
+  class="fixed inset-x-0 bottom-0 z-50 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-10 lg:hidden"
   aria-label="Sections"
 >
   <div
@@ -79,9 +82,11 @@ import { nav, person } from '../data/site';
       nav.map((item) => (
         <a
           href={item.href}
-          class="flex-1 rounded-full px-2 py-2.5 text-center text-[0.78rem] font-medium text-paper-dim transition-colors duration-200 active:bg-ink-600 active:text-paper"
+          aria-label={item.label}
+          data-section-link
+          class="flex-1 whitespace-nowrap rounded-full px-1.5 py-2.5 text-center text-[0.74rem] font-medium text-paper-dim transition-colors duration-200 active:bg-ink-600 active:text-paper"
         >
-          {item.label}
+          {item.short}
         </a>
       ))
     }

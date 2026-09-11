@@ -29,6 +29,10 @@ export const socials = [
 /** Stable demo hub. Every guided walkthrough lives under it — do not repoint. */
 const DEMO_HUB = 'https://oe-product-demos.vin8003.workers.dev';
 
+const ORDEREASY_HOME = 'https://ordereasy.win';
+const ORDEREASY_RETAILER = 'https://retailer.ordereasy.win';
+const ORDEREASY_CUSTOMER = 'https://customer.ordereasy.win';
+
 export const demoHub = DEMO_HUB;
 
 export type Status = 'LIVE' | 'BUILDING' | 'EXPERIMENT';
@@ -65,19 +69,18 @@ export const ventures: Venture[] = [
     id: 'ordereasy',
     index: '01',
     name: 'OrderEasy',
-    // Retailer + customer surfaces are demo-only in public today, so the chip
-    // says BUILDING. Flip to LIVE the day a public app URL exists.
-    status: 'BUILDING',
+    status: 'LIVE',
     kind: 'Retailer + customer shop SaaS',
     accent: 'mint',
     what: 'One shop, two surfaces — the counter that bills and the customer who orders from it.',
     guardrail: 'Not a marketplace. Not a delivery company.',
-    primary: { label: 'Open the demo hub', href: `${DEMO_HUB}/` },
+    primary: { label: 'ordereasy.win', href: ORDEREASY_HOME },
     surfaces: [
-      { label: 'Retailer surface', href: `${DEMO_HUB}/retailer/` },
-      { label: 'Customer surface', href: `${DEMO_HUB}/customer/` },
+      { label: 'retailer.ordereasy.win', href: ORDEREASY_RETAILER },
+      { label: 'customer.ordereasy.win', href: ORDEREASY_CUSTOMER },
+      { label: 'Retailer guided demo', href: `${DEMO_HUB}/retailer/` },
+      { label: 'Customer guided demo', href: `${DEMO_HUB}/customer/` },
     ],
-    note: 'Guided demos on seed data',
   },
   {
     id: 'citebench',
@@ -112,9 +115,11 @@ export const ventures: Venture[] = [
 /** External live demos and apps — surfaced in the hero rail. */
 export const liveLinks = [
   { label: 'Demo hub', href: `${DEMO_HUB}/`, note: 'Four guided walkthroughs', status: 'LIVE' as Status },
+  { label: 'OrderEasy', href: ORDEREASY_HOME, note: 'Retailer + customer shop SaaS', status: 'LIVE' as Status, dot: 'bg-mint' },
+  { label: 'OrderEasy retailer', href: ORDEREASY_RETAILER, note: 'Counter, stock, POS', status: 'LIVE' as Status, dot: 'bg-mint' },
+  { label: 'OrderEasy customer', href: ORDEREASY_CUSTOMER, note: 'Shop-first ordering', status: 'LIVE' as Status, dot: 'bg-mint' },
   { label: 'CiteBench', href: 'https://citebench.ordereasy.win', note: 'Case-law research desk', status: 'LIVE' as Status, dot: 'bg-violet' },
   { label: 'GSTSlip', href: 'https://gstslip.grok.me', note: 'GST invoice capture', status: 'LIVE' as Status, dot: 'bg-amber' },
-  { label: 'OrderEasy', href: `${DEMO_HUB}/retailer/`, note: 'Retailer + customer demos', status: 'BUILDING' as Status, dot: 'bg-mint' },
 ] as const;
 
 export type Step = { n: string; name: string; note: string };
@@ -152,7 +157,8 @@ export const lab: LabWalk[] = [
     facts: ['POS · cash / UPI / credit / split', 'Stock correction', 'Supplier khata', 'Incoming customer orders'],
     embed: `${DEMO_HUB}/retailer/`,
     links: [
-      { label: 'Open retailer demo', href: `${DEMO_HUB}/retailer/`, primary: true },
+      { label: 'Open guided demo', href: `${DEMO_HUB}/retailer/`, primary: true },
+      { label: 'retailer.ordereasy.win', href: ORDEREASY_RETAILER },
       { label: 'All demos', href: `${DEMO_HUB}/` },
     ],
     steps: [
@@ -182,7 +188,8 @@ export const lab: LabWalk[] = [
     facts: ['Shop-first, area-scoped', 'Bag → delivery or pickup', 'My Orders tracking', 'Message the shop'],
     embed: `${DEMO_HUB}/customer/`,
     links: [
-      { label: 'Open customer demo', href: `${DEMO_HUB}/customer/`, primary: true },
+      { label: 'Open guided demo', href: `${DEMO_HUB}/customer/`, primary: true },
+      { label: 'customer.ordereasy.win', href: ORDEREASY_CUSTOMER },
       { label: 'All demos', href: `${DEMO_HUB}/` },
     ],
     steps: [

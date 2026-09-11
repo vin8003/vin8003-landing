@@ -79,6 +79,37 @@
 
   --text-fine: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
   --text-fine--line-height: 1.55;
+
+  /* Wordmark — the banner line. Tracks wide, never wider than its container. */
+  --text-mark: clamp(1.5rem, 0.35rem + 4.9vw, 5.25rem);
+  --text-mark--line-height: 1;
+  --text-mark--letter-spacing: 0.02em;
+}
+
+/* --- Light mode ---------------------------------------------------------
+   The palette is semantic, not literal: "ink" is always the surface and
+   "paper" is always the type on it. Flipping those two ramps is the whole
+   theme, so every utility on the page inverts without a single dark: variant.
+   Values below were picked to clear WCAG AA on the surfaces they sit on. */
+
+:root[data-theme='light'] {
+  --color-ink-900: #f6f3ec;
+  --color-ink-850: #f0ece3;
+  --color-ink-800: #e9e4d9;
+  --color-ink-700: #ded8ca;
+  --color-ink-600: #cfc8b7;
+  --color-ink-500: #b4ab97;
+
+  --color-paper: #14120e;
+  --color-paper-dim: #46433c;
+  --color-paper-faint: #605c52;
+
+  --color-ember: #c3350f;
+  --color-ember-soft: #a82c0b;
+
+  --color-mint: #0b7d4e;
+  --color-violet: #4f3fd0;
+  --color-amber: #8a5600;
 }
 
 @layer base {
@@ -91,6 +122,11 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    color-scheme: dark;
+  }
+
+  html[data-theme='light'] {
+    color-scheme: light;
   }
 
   body {
@@ -152,11 +188,31 @@
   color: var(--color-paper-faint);
 }
 
+/* Card and frame elevation. A heavy black drop reads as depth on the dark
+   sheet and as dirt on the light one, so the whole shadow is a token. */
+@utility shadow-frame {
+  box-shadow: var(--shadow-frame);
+}
+
+:root {
+  --shadow-frame: 0 28px 80px -32px rgb(0 0 0 / 0.9);
+  --substrate-line: rgb(255 255 255 / 0.028);
+  --grain-opacity: 0.035;
+  --grain-blend: normal;
+}
+
+:root[data-theme='light'] {
+  --shadow-frame: 0 20px 50px -28px rgb(41 34 20 / 0.45);
+  --substrate-line: rgb(20 18 14 / 0.05);
+  --grain-opacity: 0.05;
+  --grain-blend: multiply;
+}
+
 /* Fine blueprint grid — the "engineering notebook" substrate. */
 .grid-substrate {
   background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.028) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.028) 1px, transparent 1px);
+    linear-gradient(to right, var(--substrate-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--substrate-line) 1px, transparent 1px);
   background-size: 4rem 4rem;
 }
 
@@ -166,8 +222,50 @@
   inset: -50%;
   pointer-events: none;
   z-index: 100;
-  opacity: 0.035;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --- Status chips -------------------------------------------------------
+   LIVE / BUILDING / EXPERIMENT. Honest labels, so they read as instrument
+   readouts rather than badges. */
+
+@utility chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  padding: 0.2rem 0.6rem 0.2rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* An 11px label is only ~14px tall, which is not a tap target. Every mono link
+   on the page gets a comfortable one without changing how it looks. */
+a.label-mono {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+}
+
+/* Scroll-spy state, shared by the desktop and thumb-reach navs. */
+[data-section-link][data-current] {
+  color: var(--color-paper);
+  background-color: color-mix(in oklab, var(--color-paper) 8%, transparent);
+}
+
+.chip-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: currentColor;
 }
 
 /* --- Scroll reveal ------------------------------------------------------ */
@@ -186,10 +284,14 @@
   transform: none;
 }
 
-/* Display headlines reveal line-by-line from behind a mask. */
+/* Display headlines reveal line-by-line from behind a mask. The padding gives
+   descenders room the mask would otherwise clip; the matching negative margin
+   keeps the line box exactly where the type scale put it. */
 .reveal-line {
   display: block;
   overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
 }
 
 .reveal-line > span {

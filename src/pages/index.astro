@@ -3,10 +3,11 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import Marquee from '../components/Marquee.astro';
-import SectionHead from '../components/SectionHead.astro';
-import ProductSection from '../components/ProductSection.astro';
-import Method from '../components/Method.astro';
-import HouseRules from '../components/HouseRules.astro';
+import BuildingNow from '../components/BuildingNow.astro';
+import Lab from '../components/Lab.astro';
+import LabWalk from '../components/LabWalk.astro';
+import BuildLog from '../components/BuildLog.astro';
+import Thesis from '../components/Thesis.astro';
 import About from '../components/About.astro';
 import Footer from '../components/Footer.astro';
 
@@ -15,9 +16,9 @@ import CustomerMock from '../components/mocks/CustomerMock.astro';
 import CiteBenchMock from '../components/mocks/CiteBenchMock.astro';
 import GstSlipMock from '../components/mocks/GstSlipMock.astro';
 
-import { products, demoHub } from '../data/site';
+import { lab, demoHub } from '../data/site';
 
-const [retailer, customer, citebench, gstslip] = products;
+const [retailer, customer, citebench, gstslip] = lab;
 const hubHost = demoHub.replace('https://', '');
 ---
 
@@ -28,55 +29,47 @@ const hubHost = demoHub.replace('https://', '');
     <Hero />
     <Marquee />
 
-    <div id="work" class="scroll-mt-20 pt-16 sm:pt-24 lg:pt-28">
-      <div class="container-page">
-        <SectionHead
-          label="The work"
-          title="Four surfaces, openable now."
-          note="Guided demos and live apps — not mockups of plans."
-        />
-      </div>
-    </div>
+    <BuildingNow />
 
-    <div class="mt-14 sm:mt-20">
-      <ProductSection
-        product={retailer!}
+    <Lab>
+      <LabWalk
+        walk={retailer!}
         media="browser"
         frameUrl={`${hubHost}/retailer/`}
         frameCaption="Preview of the retailer surface · seed data"
       >
         <RetailerMock />
-      </ProductSection>
+      </LabWalk>
 
-      <ProductSection
-        product={customer!}
+      <LabWalk
+        walk={customer!}
         media="phone"
         frameCaption="Preview of the customer surface · seed data"
       >
         <CustomerMock />
-      </ProductSection>
+      </LabWalk>
 
-      <ProductSection
-        product={citebench!}
+      <LabWalk
+        walk={citebench!}
         media="browser"
         frameUrl="citebench.ordereasy.win/research"
         frameCaption="Preview of the research desk · sample data"
       >
         <CiteBenchMock />
-      </ProductSection>
+      </LabWalk>
 
-      <ProductSection
-        product={gstslip!}
+      <LabWalk
+        walk={gstslip!}
         media="browser"
         frameUrl="gstslip.grok.me"
         frameCaption="Preview of a capture · sample invoice"
       >
         <GstSlipMock />
-      </ProductSection>
-    </div>
+      </LabWalk>
+    </Lab>
 
-    <Method />
-    <HouseRules />
+    <BuildLog />
+    <Thesis />
     <About />
     <Footer />
   </main>

@@ -1,0 +1,96 @@
+---
+import SectionHead from './SectionHead.astro';
+import { buildLog, socials } from '../data/site';
+
+const accentVar = {
+  mint: 'var(--color-mint)',
+  violet: 'var(--color-violet)',
+  amber: 'var(--color-amber)',
+  ember: 'var(--color-ember)',
+} as const;
+
+const github = socials.find((s) => s.label === 'GitHub')!;
+const x = socials.find((s) => s.label === 'X')!;
+---
+
+<section id="log" class="scroll-mt-20 border-t border-ink-600/70 py-16 sm:py-24 lg:py-28">
+  <div class="container-page">
+    <SectionHead
+      index="03"
+      label="Build log"
+      title="What actually shipped, in the order it shipped."
+      note="Every line below maps to a dated commit, merged pull request or repo. If it cannot be linked, it does not go in the log."
+    />
+
+    <ol class="mt-10 sm:mt-14">
+      {
+        buildLog.map((entry, i) => (
+          <li
+            class="group grid grid-cols-[auto_1fr] gap-x-4 border-t border-ink-600/60 py-5 first:border-t-0 first:pt-0 sm:grid-cols-[7.5rem_auto_1fr] sm:gap-x-6 sm:py-6"
+            data-reveal
+            style={`--accent: ${accentVar[entry.accent]}; --reveal-delay:${Math.min(i, 6) * 55}ms`}
+          >
+            <time
+              datetime={entry.date}
+              class="label-mono col-span-2 pb-2 text-[0.62rem] sm:col-span-1 sm:pb-0 sm:pt-1"
+            >
+              {entry.label}
+            </time>
+
+            <span class="mt-[0.45rem] size-1.5 shrink-0 rotate-45 sm:mt-2" style="background: var(--accent)" aria-hidden="true" />
+
+            <div class="min-w-0">
+              <p class="text-body text-paper">
+                <span class="font-mono text-fine font-medium" style="color: var(--accent)">
+                  {entry.project}
+                </span>
+                <span class="mx-2 text-paper-faint" aria-hidden="true">
+                  ·
+                </span>
+                <span class="text-paper-dim">{entry.line}</span>
+              </p>
+              {entry.link && (
+                <a
+                  href={entry.link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="label-mono mt-2 inline-block transition-colors duration-200 hover:text-paper"
+                >
+                  {entry.link.label} ↗
+                </a>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div
+      class="mt-10 flex flex-col gap-4 rounded-2xl border border-ink-600/80 bg-ink-850/50 p-5 sm:mt-12 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+      data-reveal
+    >
+      <p class="max-w-lg text-fine leading-relaxed text-paper-dim">
+        The log is a summary. The commits, the dead ends and the rewrites are in the open — on GitHub as they
+        merge, on X as they happen.
+      </p>
+      <div class="flex shrink-0 flex-wrap gap-2.5">
+        <a
+          href={github.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full border border-ink-500 px-4 py-2 text-fine font-medium text-paper transition-colors duration-200 hover:bg-ink-800"
+        >
+          GitHub / {github.handle} ↗
+        </a>
+        <a
+          href={x.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full border border-ink-500 px-4 py-2 text-fine font-medium text-paper transition-colors duration-200 hover:bg-ink-800"
+        >
+          X / {x.handle} ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

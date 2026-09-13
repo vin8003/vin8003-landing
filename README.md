@@ -136,9 +136,10 @@ exist yet, leave the number out rather than estimating it.
 
 ### The build log
 
-Every entry in `buildLog` maps to a real dated commit, merged pull request or repo on
-`github.com/vin8003`, and carries the link. Dates are merge or commit dates, not estimates. If a line
-cannot be linked, it does not go in the log.
+Every entry in `buildLog` maps to a real dated commit, pull request or repo on `github.com/vin8003`, or a
+live URL, and carries the link. Dates are merge or commit dates, not estimates. A pull request that has not
+merged yet says so in the line and is never described as live. If a line cannot be linked, it does not go
+in the log.
 
 ### Where the product links point
 

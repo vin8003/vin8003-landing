@@ -386,7 +386,7 @@ export const thesis = {
   parked: {
     name: 'AI Secretary',
     status: 'EXPERIMENT' as Status,
-    note: 'An AI secretary for business phone lines. Designed, then parked until the three above are done. Not shipped, not sold — it is here because the log should include the things that are waiting.',
+    note: 'An AI secretary for business phone lines. The executable plan exists — a US solo and small-law beachhead on Retell + Twilio — and it stays parked until I unpark it. Not building, not shipped, not sold. It is here because the log should include the things that are waiting.',
   },
 };
 

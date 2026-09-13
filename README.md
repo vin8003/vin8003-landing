@@ -150,11 +150,11 @@ cannot be linked, it does not go in the log.
 | CiteBench — guided demo    | `https://oe-product-demos.vin8003.workers.dev/citebench/` |
 | CiteBench — live app       | `https://citebench.ordereasy.win`                                 |
 | GSTSlip — guided demo      | `https://oe-product-demos.vin8003.workers.dev/gstslip/` |
-| GSTSlip — live app         | `https://gstslip.grok.me`                                         |
+| GSTSlip — live app         | `https://gstslip.vin8003.com`                                     |
 
-`gstslip.vin8003.com` also resolves to the same GSTSlip deployment, so the product-under-domain pattern
-already works. The page links `gstslip.grok.me` as the primary; swap `ventures[2].primary.href` in
-`src/data/site.ts` if you want the under-domain promoted.
+`gstslip.grok.me` still resolves to the same GSTSlip deployment, but the page links the under-domain
+`gstslip.vin8003.com` as the primary everywhere — rail, Building now, Lab and footer. Change
+`ventures[2].primary` in `src/data/site.ts` if that ever moves again.
 
 The step chips deep-link to `#step-1` … `#step-10` on the demo pages, which is the anchor scheme the demo
 hub already uses. If the demo hub is redeployed to a different `workers.dev` subdomain, change `DEMO_HUB`

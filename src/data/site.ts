@@ -103,12 +103,9 @@ export const ventures: Venture[] = [
     accent: 'amber',
     what: 'Photograph a tax invoice, get a clean register row you can export.',
     guardrail: 'Fields stay on the device until you export.',
-    // gstslip.vin8003.com also resolves to this same app (checked 2026-09-11),
-    // so the product-under-domain pattern is ready whenever Vineet wants it
-    // promoted to primary.
-    primary: { label: 'gstslip.grok.me', href: 'https://gstslip.grok.me' },
+    primary: { label: 'gstslip.vin8003.com', href: 'https://gstslip.vin8003.com' },
     surfaces: [{ label: 'Guided demo', href: `${DEMO_HUB}/gstslip/` }],
-    note: '10 free documents, then paid',
+    note: '10 free documents, then ₹499/month Pro',
   },
 ];
 
@@ -117,7 +114,7 @@ export const liveLinks = [
   { label: 'Demo hub', href: `${DEMO_HUB}/`, note: 'Four guided walkthroughs', status: 'LIVE' as Status },
   { label: 'OrderEasy', href: ORDEREASY_HOME, note: 'Product home · retailer + customer portals', status: 'LIVE' as Status, dot: 'bg-mint' },
   { label: 'CiteBench', href: 'https://citebench.ordereasy.win', note: 'Case-law research desk', status: 'LIVE' as Status, dot: 'bg-violet' },
-  { label: 'GSTSlip', href: 'https://gstslip.grok.me', note: 'GST invoice capture', status: 'LIVE' as Status, dot: 'bg-amber' },
+  { label: 'GSTSlip', href: 'https://gstslip.vin8003.com', note: 'GST invoice capture', status: 'LIVE' as Status, dot: 'bg-amber' },
 ] as const;
 
 export type Step = { n: string; name: string; note: string };
@@ -247,7 +244,7 @@ export const lab: LabWalk[] = [
     embed: `${DEMO_HUB}/gstslip/`,
     links: [
       { label: 'Open guided demo', href: `${DEMO_HUB}/gstslip/`, primary: true },
-      { label: 'Open GSTSlip live', href: 'https://gstslip.grok.me' },
+      { label: 'Open GSTSlip live', href: 'https://gstslip.vin8003.com' },
     ],
     steps: [
       { n: '01', name: 'Drop zone', note: 'Photograph a tax invoice or drop JPEG, PNG or PDF pages.' },
@@ -259,7 +256,7 @@ export const lab: LabWalk[] = [
       { n: '07', name: 'CSV', note: 'Export the register as CSV.' },
       { n: '08', name: 'Tally XML', note: 'Export Tally purchase XML — a file you import, not a live link.' },
       { n: '09', name: 'IRN sandbox', note: 'Look up IRN through a GSP sandbox — not the live NIC IRP.' },
-      { n: '10', name: 'Pricing', note: 'See how GSTSlip is priced.' },
+      { n: '10', name: 'Pricing', note: '10 free documents, then ₹499/month for Pro.' },
     ],
   },
 ];
@@ -333,7 +330,7 @@ export const buildLog: LogEntry[] = [
     label: '09 Sep 2026',
     project: 'GSTSlip',
     accent: 'amber',
-    line: 'Repo opened for the invoice capture app now live at gstslip.grok.me.',
+    line: 'Repo opened for the invoice capture app now live at gstslip.vin8003.com.',
     link: { label: 'gstslip', href: 'https://github.com/vin8003/gstslip' },
   },
   {

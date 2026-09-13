@@ -103,12 +103,9 @@ export const ventures: Venture[] = [
     accent: 'amber',
     what: 'Photograph a tax invoice, get a clean register row you can export.',
     guardrail: 'Fields stay on the device until you export.',
-    // gstslip.vin8003.com also resolves to this same app (checked 2026-09-11),
-    // so the product-under-domain pattern is ready whenever Vineet wants it
-    // promoted to primary.
-    primary: { label: 'gstslip.grok.me', href: 'https://gstslip.grok.me' },
+    primary: { label: 'gstslip.vin8003.com', href: 'https://gstslip.vin8003.com' },
     surfaces: [{ label: 'Guided demo', href: `${DEMO_HUB}/gstslip/` }],
-    note: '10 free documents, then paid',
+    note: '10 free documents, then ₹499/month Pro',
   },
 ];
 
@@ -117,7 +114,7 @@ export const liveLinks = [
   { label: 'Demo hub', href: `${DEMO_HUB}/`, note: 'Four guided walkthroughs', status: 'LIVE' as Status },
   { label: 'OrderEasy', href: ORDEREASY_HOME, note: 'Product home · retailer + customer portals', status: 'LIVE' as Status, dot: 'bg-mint' },
   { label: 'CiteBench', href: 'https://citebench.ordereasy.win', note: 'Case-law research desk', status: 'LIVE' as Status, dot: 'bg-violet' },
-  { label: 'GSTSlip', href: 'https://gstslip.grok.me', note: 'GST invoice capture', status: 'LIVE' as Status, dot: 'bg-amber' },
+  { label: 'GSTSlip', href: 'https://gstslip.vin8003.com', note: 'GST invoice capture', status: 'LIVE' as Status, dot: 'bg-amber' },
 ] as const;
 
 export type Step = { n: string; name: string; note: string };
@@ -247,7 +244,7 @@ export const lab: LabWalk[] = [
     embed: `${DEMO_HUB}/gstslip/`,
     links: [
       { label: 'Open guided demo', href: `${DEMO_HUB}/gstslip/`, primary: true },
-      { label: 'Open GSTSlip live', href: 'https://gstslip.grok.me' },
+      { label: 'Open GSTSlip live', href: 'https://gstslip.vin8003.com' },
     ],
     steps: [
       { n: '01', name: 'Drop zone', note: 'Photograph a tax invoice or drop JPEG, PNG or PDF pages.' },
@@ -259,7 +256,7 @@ export const lab: LabWalk[] = [
       { n: '07', name: 'CSV', note: 'Export the register as CSV.' },
       { n: '08', name: 'Tally XML', note: 'Export Tally purchase XML — a file you import, not a live link.' },
       { n: '09', name: 'IRN sandbox', note: 'Look up IRN through a GSP sandbox — not the live NIC IRP.' },
-      { n: '10', name: 'Pricing', note: 'See how GSTSlip is priced.' },
+      { n: '10', name: 'Pricing', note: '10 free documents, then ₹499/month for Pro.' },
     ],
   },
 ];
@@ -275,11 +272,27 @@ export type LogEntry = {
 };
 
 /**
- * BUILD LOG — every entry maps to a real dated commit, merged PR or repo on
- * github.com/vin8003. Dates are the merge/commit dates, not estimates. Add new
- * entries at the top; do not write a line you cannot link.
+ * BUILD LOG — every ship maps to a real dated commit, merged PR, repo or live
+ * URL on github.com/vin8003. Dates are the merge/commit dates, not estimates.
+ * Add new entries at the top. A line with no link is a decision, not a ship —
+ * never dress one up as the other, and never link a URL that does not exist.
  */
 export const buildLog: LogEntry[] = [
+  {
+    date: '2026-09-13',
+    label: '13 Sep 2026',
+    project: 'GSTSlip',
+    accent: 'amber',
+    line: 'Razorpay Checkout live for Pro on gstslip.vin8003.com — ₹499 for 30 days.',
+    link: { label: 'gstslip.vin8003.com', href: 'https://gstslip.vin8003.com' },
+  },
+  {
+    date: '2026-09-13',
+    label: '13 Sep 2026',
+    project: 'AI Secretary',
+    accent: 'ember',
+    line: 'Executable plan locked, then re-parked — US solo and small-law beachhead on Retell + Twilio. Not shipping.',
+  },
   {
     date: '2026-09-11',
     label: '11 Sep 2026',
@@ -333,7 +346,7 @@ export const buildLog: LogEntry[] = [
     label: '09 Sep 2026',
     project: 'GSTSlip',
     accent: 'amber',
-    line: 'Repo opened for the invoice capture app now live at gstslip.grok.me.',
+    line: 'Repo opened for the invoice capture app now live at gstslip.vin8003.com.',
     link: { label: 'gstslip', href: 'https://github.com/vin8003/gstslip' },
   },
   {
@@ -373,7 +386,7 @@ export const thesis = {
   parked: {
     name: 'AI Secretary',
     status: 'EXPERIMENT' as Status,
-    note: 'An AI secretary for business phone lines. Designed, then parked until the three above are done. Not shipped, not sold — it is here because the log should include the things that are waiting.',
+    note: 'An AI secretary for business phone lines. The executable plan exists — a US solo and small-law beachhead on Retell + Twilio — and it stays parked until I unpark it. Not building, not shipped, not sold. It is here because the log should include the things that are waiting.',
   },
 };
 

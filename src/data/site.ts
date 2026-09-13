@@ -272,10 +272,11 @@ export type LogEntry = {
 };
 
 /**
- * BUILD LOG — every ship maps to a real dated commit, merged PR, repo or live
- * URL on github.com/vin8003. Dates are the merge/commit dates, not estimates.
- * Add new entries at the top. A line with no link is a decision, not a ship —
- * never dress one up as the other, and never link a URL that does not exist.
+ * BUILD LOG — every ship maps to a real dated commit, PR, repo or live URL on
+ * github.com/vin8003. Dates are the merge/commit dates, not estimates. Add new
+ * entries at the top. A line with no link is a decision, not a ship — never
+ * dress one up as the other, say when a PR is only merge-ready rather than
+ * live, and never link a URL that does not exist.
  */
 export const buildLog: LogEntry[] = [
   {
@@ -285,6 +286,30 @@ export const buildLog: LogEntry[] = [
     accent: 'amber',
     line: 'Razorpay Checkout live for Pro on gstslip.vin8003.com — ₹499 for 30 days.',
     link: { label: 'gstslip.vin8003.com', href: 'https://gstslip.vin8003.com' },
+  },
+  {
+    date: '2026-09-13',
+    label: '13 Sep 2026',
+    project: 'GSTSlip',
+    accent: 'amber',
+    line: 'Admin desk live on gstslip.vin8003.com — users list, Pro granted or cancelled for 30 days without a charge, Razorpay references alongside.',
+    link: { label: 'gstslip.vin8003.com/admin', href: 'https://gstslip.vin8003.com/admin' },
+  },
+  {
+    date: '2026-09-13',
+    label: '13 Sep 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'Exact-amount UPI intent QR at retailer POS, split bills included — merge-ready PR on main, not on retailer.ordereasy.win until it merges.',
+    link: { label: 'retailer_ordereasy_njs #34', href: 'https://github.com/vin8003/retailer_ordereasy_njs/pull/34' },
+  },
+  {
+    date: '2026-09-13',
+    label: '13 Sep 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'Per-order exact-amount UPI QR on the customer pay screen, in place of the static shop QR — merge-ready PR on main, not on customer.ordereasy.win until it merges.',
+    link: { label: 'customer_ordereasy_njs #21', href: 'https://github.com/vin8003/customer_ordereasy_njs/pull/21' },
   },
   {
     date: '2026-09-13',

@@ -272,11 +272,27 @@ export type LogEntry = {
 };
 
 /**
- * BUILD LOG — every entry maps to a real dated commit, merged PR or repo on
- * github.com/vin8003. Dates are the merge/commit dates, not estimates. Add new
- * entries at the top; do not write a line you cannot link.
+ * BUILD LOG — every ship maps to a real dated commit, merged PR, repo or live
+ * URL on github.com/vin8003. Dates are the merge/commit dates, not estimates.
+ * Add new entries at the top. A line with no link is a decision, not a ship —
+ * never dress one up as the other, and never link a URL that does not exist.
  */
 export const buildLog: LogEntry[] = [
+  {
+    date: '2026-09-13',
+    label: '13 Sep 2026',
+    project: 'GSTSlip',
+    accent: 'amber',
+    line: 'Razorpay Checkout live for Pro on gstslip.vin8003.com — ₹499 for 30 days.',
+    link: { label: 'gstslip.vin8003.com', href: 'https://gstslip.vin8003.com' },
+  },
+  {
+    date: '2026-09-13',
+    label: '13 Sep 2026',
+    project: 'AI Secretary',
+    accent: 'ember',
+    line: 'Executable plan locked, then re-parked — US solo and small-law beachhead on Retell + Twilio. Not shipping.',
+  },
   {
     date: '2026-09-11',
     label: '11 Sep 2026',

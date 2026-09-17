@@ -367,7 +367,7 @@ export const buildLog: LogEntry[] = [
     label: '10 Sep 2026',
     project: 'vin8003.com',
     accent: 'ember',
-    line: 'Landing shipped on Cloudflare Workers, with a GitHub Actions deploy on deploy/prod.',
+    line: 'Landing shipped on Cloudflare Workers. Production deploys from deploy/prod via Cloudflare Workers Builds.',
     link: { label: 'PR #2', href: 'https://github.com/vin8003/vin8003-landing/pull/2' },
   },
   {

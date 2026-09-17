@@ -280,6 +280,42 @@ export type LogEntry = {
  */
 export const buildLog: LogEntry[] = [
   {
+    date: '2026-09-17',
+    label: '17 Sep 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'Overnight thin EXTENDs — negative stock lock, barcodes, saleable_quantity, margin fields, pack/group variants, expiry flags — coded + reviewed + QA on dummy; SHIP+PASS, awaiting merge. Eng still chaining.',
+  },
+  {
+    date: '2026-09-16',
+    label: '16 Sep 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'BE opt + FE polish (Opus then Grok) — coded + reviewed + QA on dummy; awaiting merge.',
+  },
+  {
+    date: '2026-09-16',
+    label: '16 Sep 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'GST/HSN Reviewer SHIP nits on open PR — external notes only, not Jira Done.',
+    link: { label: 'RetailerCustomerPlatform #103', href: 'https://github.com/vin8003/RetailerCustomerPlatform/pull/103' },
+  },
+  {
+    date: '2026-09-15',
+    label: '15 Sep 2026',
+    project: 'AI Secretary',
+    accent: 'ember',
+    line: 'AI Secretary / Fomo research parked — plan-only, SKIP. Not shipping.',
+  },
+  {
+    date: '2026-09-15',
+    label: '15 Sep 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    line: 'Continue-all (14–15 Sep): fulfillment + catalog/inventory/credit/rewards thin EXTENDs and matching retailer FE (D2–D4 timelines/close-out/filters, pack SKUs, batch expiry, suppliers). Stack SHIP+PASS on dummy, unmerged.',
+  },
+  {
     date: '2026-09-13',
     label: '13 Sep 2026',
     project: 'GSTSlip',

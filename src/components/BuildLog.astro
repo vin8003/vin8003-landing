@@ -1,96 +1,281 @@
 ---
 import SectionHead from './SectionHead.astro';
-import { buildLog, socials } from '../data/site';
-
-const accentVar = {
-  mint: 'var(--color-mint)',
-  violet: 'var(--color-violet)',
-  amber: 'var(--color-amber)',
-  ember: 'var(--color-ember)',
-} as const;
+import { buildLog, socials, type LogEntry } from '../data/site';
 
 const github = socials.find((s) => s.label === 'GitHub')!;
 const x = socials.find((s) => s.label === 'X')!;
+
+const accentVar = (a: LogEntry['accent']) => `var(--color-${a})`;
+
+// Filters group the log by product; the site and the demo hub count as one.
+const groupOf = (e: LogEntry) =>
+  e.kind === 'decision' ? 'decisions' : e.project === 'vin8003.com' || e.project === 'Demos' ? 'site' : e.project.toLowerCase();
+
+const filters = [
+  { id: 'all', label: 'Everything', accent: 'var(--color-paper)' },
+  { id: 'ordereasy', label: 'OrderEasy', accent: 'var(--color-mint)' },
+  { id: 'citebench', label: 'CiteBench', accent: 'var(--color-violet)' },
+  { id: 'gstslip', label: 'GSTSlip', accent: 'var(--color-amber)' },
+  { id: 'site', label: 'Site & demos', accent: 'var(--color-ember)' },
+  { id: 'decisions', label: 'Decisions', accent: 'var(--color-paper-faint)' },
+].map((f) => ({ ...f, count: f.id === 'all' ? buildLog.length : buildLog.filter((e) => groupOf(e) === f.id).length }));
+
+// Activity strip: one column per day from the first entry to the last, with a
+// block for every entry on that day. Purely a picture of the list below.
+const DAY = 86_400_000;
+const dates = buildLog.map((e) => Date.parse(e.date));
+const first = Math.min(...dates);
+const last = Math.max(...dates);
+const days = Array.from({ length: Math.round((last - first) / DAY) + 1 }, (_, i) => {
+  const t = first + i * DAY;
+  const iso = new Date(t).toISOString().slice(0, 10);
+  return { iso, entries: buildLog.filter((e) => e.date === iso) };
+});
+const peak = Math.max(...days.map((d) => d.entries.length));
+const fmt = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', timeZone: 'UTC' });
+
+// Month headers inside the scroll pane.
+const month = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const groups: { month: string; entries: LogEntry[] }[] = [];
+for (const e of buildLog) {
+  const m = month(e.date);
+  const g = groups.at(-1);
+  if (g && g.month === m) g.entries.push(e);
+  else groups.push({ month: m, entries: [e] });
+}
+
+const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as const;
 ---
 
-<section id="log" class="scroll-mt-20 border-t border-ink-600/70 py-16 sm:py-24 lg:py-28">
-  <div class="container-page">
+<section id="log" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28">
+  <div class="aurora" aria-hidden="true">
+    <span class="-left-40 top-20 h-96 w-96" style="background: var(--color-mint); opacity: 0.18"></span>
+    <span class="-right-32 bottom-10 h-[28rem] w-[28rem]" style="background: var(--color-violet); opacity: 0.16"></span>
+  </div>
+
+  <div class="container-page relative">
     <SectionHead
       index="03"
       label="Build log"
       title="What actually shipped, in the order it shipped."
-      note="Every ship below maps to a dated commit, pull request, repo or live URL, and says so when it is merge-ready rather than live. A line with no link is a decision, not a ship."
+      note="Pulled from the public repos on GitHub. Every line links to the merged pull request, the commit or the deploy behind it. Open pull requests say so, and a line without a link is a decision, not a ship."
     />
 
-    <ol class="mt-10 sm:mt-14">
-      {
-        buildLog.map((entry, i) => (
-          <li
-            class="group grid grid-cols-[auto_1fr] gap-x-4 border-t border-ink-600/60 py-5 first:border-t-0 first:pt-0 sm:grid-cols-[7.5rem_auto_1fr] sm:gap-x-6 sm:py-6"
-            data-reveal
-            style={`--accent: ${accentVar[entry.accent]}; --reveal-delay:${Math.min(i, 6) * 55}ms`}
-          >
-            <time
-              datetime={entry.date}
-              class="label-mono col-span-2 pb-2 text-[0.62rem] sm:col-span-1 sm:pb-0 sm:pt-1"
-            >
-              {entry.label}
-            </time>
-
-            <span class="mt-[0.45rem] size-1.5 shrink-0 rotate-45 sm:mt-2" style="background: var(--accent)" aria-hidden="true" />
-
-            <div class="min-w-0">
-              <p class="text-body text-paper">
-                <span class="font-mono text-fine font-medium" style="color: var(--accent)">
-                  {entry.project}
-                </span>
-                <span class="mx-2 text-paper-faint" aria-hidden="true">
-                  ·
-                </span>
-                <span class="text-paper-dim">{entry.line}</span>
-              </p>
-              {entry.link && (
-                <a
-                  href={entry.link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="label-mono mt-2 inline-block transition-colors duration-200 hover:text-paper"
+    <div class="mt-10 grid gap-5 sm:mt-14 lg:grid-cols-12 lg:gap-8">
+      {/* Left: activity + filters */}
+      <aside class="flex flex-col gap-5 lg:col-span-4" data-reveal>
+        <div class="ring-gradient relative rounded-2xl bg-ink-850/70 p-5" style="--accent: var(--color-mint)">
+          <div class="flex items-baseline justify-between gap-3">
+            <p class="label-mono text-paper-dim">Ships per day</p>
+            <p class="label-mono text-[0.55rem]">{fmt(days[0]!.iso)} – {fmt(days.at(-1)!.iso)}</p>
+          </div>
+          <div class="mt-5 flex h-24 items-end gap-[2px]" role="img" aria-label={`A bar per day from ${fmt(days[0]!.iso)} to ${fmt(days.at(-1)!.iso)}, one block per entry in the log.`}>
+            {
+              days.map((d) => (
+                <div
+                  class="flex min-w-0 flex-1 flex-col-reverse gap-[2px]"
+                  style={`height: ${(Math.max(d.entries.length, 0) / peak) * 100}%`}
+                  title={d.entries.length ? `${fmt(d.iso)} · ${d.entries.map((e) => e.project).join(', ')}` : undefined}
                 >
-                  {entry.link.label} ↗
-                </a>
-              )}
-            </div>
-          </li>
-        ))
-      }
-    </ol>
+                  {d.entries.map((e) => (
+                    <span
+                      class="log-bar block flex-1 rounded-[2px]"
+                      style={`background: ${accentVar(e.accent)}; opacity: ${e.kind === 'ship' ? 1 : 0.45}`}
+                    />
+                  ))}
+                </div>
+              ))
+            }
+          </div>
+          <div class="mt-1 h-px bg-ink-500" aria-hidden="true"></div>
+          <div class="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 text-[0.7rem] text-paper-faint">
+            {
+              [
+                { c: 'mint', l: 'OrderEasy' },
+                { c: 'violet', l: 'CiteBench' },
+                { c: 'amber', l: 'GSTSlip' },
+                { c: 'ember', l: 'Site, demos, decisions' },
+              ].map((k) => (
+                <span class="flex items-center gap-1.5">
+                  <span class="size-2 rounded-[2px]" style={`background: var(--color-${k.c})`} />
+                  {k.l}
+                </span>
+              ))
+            }
+          </div>
+        </div>
 
-    <div
-      class="mt-10 flex flex-col gap-4 rounded-2xl border border-ink-600/80 bg-ink-850/50 p-5 sm:mt-12 sm:flex-row sm:items-center sm:justify-between sm:p-6"
-      data-reveal
-    >
-      <p class="max-w-lg text-fine leading-relaxed text-paper-dim">
-        The log is a summary. The commits, the dead ends and the rewrites are in the open — on GitHub as they
-        merge, on X as they happen.
-      </p>
-      <div class="flex shrink-0 flex-wrap gap-2.5">
-        <a
-          href={github.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 rounded-full border border-ink-500 px-4 py-2 text-fine font-medium text-paper transition-colors duration-200 hover:bg-ink-800"
-        >
-          GitHub / {github.handle} ↗
-        </a>
-        <a
-          href={x.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 rounded-full border border-ink-500 px-4 py-2 text-fine font-medium text-paper transition-colors duration-200 hover:bg-ink-800"
-        >
-          X / {x.handle} ↗
-        </a>
+        <div class="flex flex-wrap gap-2" role="group" aria-label="Filter the log" data-log-filters>
+          {
+            filters.map((f, i) => (
+              <button
+                type="button"
+                data-filter={f.id}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                class="log-filter inline-flex items-center gap-2 rounded-full border border-ink-500 px-3.5 py-2 text-fine text-paper-dim transition-colors hover:text-paper"
+                style={`--accent: ${f.accent}`}
+              >
+                <span class="size-1.5 rounded-full" style="background: var(--accent)" />
+                {f.label}
+                <span class="font-mono text-[0.6rem] text-paper-dim">{f.count}</span>
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="hidden flex-col gap-3 rounded-2xl border border-ink-600/80 bg-ink-850/50 p-5 lg:flex">
+          <p class="text-fine leading-relaxed text-paper-dim">
+            The log is a summary. The commits, the dead ends and the rewrites are in the open — on GitHub as they
+            merge, on X as they happen.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <a href={github.href} target="_blank" rel="noopener noreferrer" class="glass inline-flex items-center rounded-full px-4 py-2 text-fine font-medium text-paper transition-colors hover:bg-ink-700">
+              GitHub ↗
+            </a>
+            <a href={x.href} target="_blank" rel="noopener noreferrer" class="glass inline-flex items-center rounded-full px-4 py-2 text-fine font-medium text-paper transition-colors hover:bg-ink-700">
+              X / {x.handle} ↗
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      {/* Right: the scrollable timeline */}
+      <div class="relative min-w-0 lg:col-span-8" data-reveal style="--reveal-delay:120ms">
+        <div class="ring-gradient relative overflow-hidden rounded-3xl bg-ink-850/60" style="--accent: var(--color-ember)">
+          <div class="flex items-center justify-between gap-3 border-b border-ink-600/70 px-5 py-3.5 sm:px-6">
+            <p class="label-mono text-paper-dim">
+              <span data-log-count>{buildLog.length}</span> entries · newest first
+            </p>
+            <p class="label-mono hidden text-[0.55rem] sm:block">Scroll inside ↓</p>
+          </div>
+
+          <div
+            class="scroll-pane scroll-pane-end relative max-h-[34rem] px-5 sm:max-h-[38rem] sm:px-6"
+            tabindex="0"
+            role="region"
+            aria-label="Build log entries"
+            data-log-pane
+          >
+            {
+              groups.map((g) => (
+                <div data-log-month>
+                  <p class="sticky top-0 z-10 -mx-5 bg-ink-850/90 px-5 pb-2 pt-5 font-display text-[1.15rem] text-paper backdrop-blur sm:-mx-6 sm:px-6">
+                    {g.month}
+                  </p>
+                  <ol class="relative ml-1.5 border-l border-ink-500/70 pb-4">
+                    {g.entries.map((e) => (
+                      <li
+                        class="group relative py-3.5 pl-6 sm:pl-8"
+                        style={`--accent: ${accentVar(e.accent)}`}
+                        data-log-entry
+                        data-group={groupOf(e)}
+                      >
+                        <span
+                          class:list={[
+                            'absolute -left-[5px] top-[1.35rem] size-[9px] rounded-full ring-4 ring-ink-850',
+                            e.kind === 'ship' ? '' : 'border border-dashed bg-ink-850',
+                          ]}
+                          style={e.kind === 'ship' ? 'background: var(--accent); box-shadow: 0 0 12px var(--accent)' : 'border-color: var(--accent)'}
+                          aria-hidden="true"
+                        />
+                        <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                          <time datetime={e.date} class="font-mono text-[0.68rem] text-paper-faint">
+                            {e.label}
+                          </time>
+                          <span class="font-mono text-[0.72rem] font-semibold" style="color: var(--accent)">
+                            {e.project}
+                          </span>
+                          <span
+                            class:list={[
+                              'rounded-full px-2 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.12em]',
+                              e.kind === 'ship' ? 'text-paper-dim' : 'border border-dashed border-ink-500 text-paper-faint',
+                            ]}
+                            style={e.kind === 'ship' ? 'background: color-mix(in oklab, var(--accent) 14%, transparent)' : undefined}
+                          >
+                            {kindLabel[e.kind]}
+                          </span>
+                        </div>
+                        <p class="mt-1.5 max-w-2xl text-body text-paper">{e.line}</p>
+                        {e.link && (
+                          <a
+                            href={e.link.href}
+                            target={e.link.href.startsWith('/') ? undefined : '_blank'}
+                            rel={e.link.href.startsWith('/') ? undefined : 'noopener noreferrer'}
+                            class="label-mono mt-1 text-paper-faint transition-colors duration-200 hover:text-[var(--accent)]"
+                          >
+                            {e.link.label} {e.link.href.startsWith('/') ? '→' : '↗'}
+                          </a>
+                        )}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ))
+            }
+            <p class="hidden py-10 text-center text-fine text-paper-faint" data-log-empty>Nothing in this filter yet.</p>
+            <div class="h-6" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="mt-4 flex flex-wrap gap-2 lg:hidden">
+          <a href={github.href} target="_blank" rel="noopener noreferrer" class="glass inline-flex items-center rounded-full px-4 py-2 text-fine font-medium text-paper">
+            GitHub / {github.handle} ↗
+          </a>
+          <a href={x.href} target="_blank" rel="noopener noreferrer" class="glass inline-flex items-center rounded-full px-4 py-2 text-fine font-medium text-paper">
+            X / {x.handle} ↗
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .log-filter[aria-pressed='true'] {
+    color: var(--color-paper);
+    border-color: color-mix(in oklab, var(--accent) 60%, transparent);
+    background: color-mix(in oklab, var(--accent) 12%, transparent);
+  }
+
+  .log-bar {
+    transform-origin: bottom;
+  }
+
+  :global(.is-revealed) .log-bar {
+    animation: bar-rise 1.2s var(--ease-out-expo) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.is-revealed) .log-bar {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const filters = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+  const entries = [...document.querySelectorAll<HTMLElement>('[data-log-entry]')];
+  const months = [...document.querySelectorAll<HTMLElement>('[data-log-month]')];
+  const count = document.querySelector<HTMLElement>('[data-log-count]');
+  const empty = document.querySelector<HTMLElement>('[data-log-empty]');
+  const pane = document.querySelector<HTMLElement>('[data-log-pane]');
+
+  for (const button of filters) {
+    button.addEventListener('click', () => {
+      const id = button.dataset.filter;
+      filters.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      let shown = 0;
+      for (const li of entries) {
+        const on = id === 'all' || li.dataset.group === id;
+        li.hidden = !on;
+        if (on) shown++;
+      }
+      months.forEach((m) => (m.hidden = !m.querySelector('[data-log-entry]:not([hidden])')));
+      if (count) count.textContent = String(shown);
+      empty?.classList.toggle('hidden', shown > 0);
+      pane?.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+</script>

@@ -24,7 +24,7 @@ const viewports = [
   { name: '2560-ultrawide', width: 2560, height: 1400 },
 ];
 
-const browser = await chromium.launch({ executablePath: '/usr/local/bin/google-chrome' });
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? '/usr/local/bin/google-chrome' });
 if (shot) await mkdir('/tmp/shots', { recursive: true });
 
 let problems = 0;

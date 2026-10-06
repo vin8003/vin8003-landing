@@ -12,7 +12,7 @@ const theme = themeArg > -1 ? process.argv[themeArg + 1] : 'dark';
 const out = `/tmp/shots-${theme}`;
 
 await mkdir(out, { recursive: true });
-const browser = await chromium.launch({ executablePath: '/usr/local/bin/google-chrome' });
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? '/usr/local/bin/google-chrome' });
 
 for (const vp of [
   { name: 'desktop', width: 1440, height: 950 },
@@ -29,7 +29,7 @@ for (const vp of [
 
   await page.screenshot({ path: `${out}/${vp.name}-hero.png` });
 
-  for (const id of ['building', 'lab', 'log', 'thesis', 'about', 'contact']) {
+  for (const id of ['building', 'demo', 'log', 'thesis', 'about', 'contact']) {
     await page.evaluate((target) => {
       document.querySelector(`#${target}`)?.scrollIntoView({ block: 'start', behavior: 'instant' });
     }, id);

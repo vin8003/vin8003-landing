@@ -4,22 +4,11 @@ import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import Marquee from '../components/Marquee.astro';
 import BuildingNow from '../components/BuildingNow.astro';
-import Lab from '../components/Lab.astro';
-import LabWalk from '../components/LabWalk.astro';
+import DemoSection from '../components/DemoSection.astro';
 import BuildLog from '../components/BuildLog.astro';
 import Thesis from '../components/Thesis.astro';
 import About from '../components/About.astro';
 import Footer from '../components/Footer.astro';
-
-import RetailerMock from '../components/mocks/RetailerMock.astro';
-import CustomerMock from '../components/mocks/CustomerMock.astro';
-import CiteBenchMock from '../components/mocks/CiteBenchMock.astro';
-import GstSlipMock from '../components/mocks/GstSlipMock.astro';
-
-import { lab, demoHub } from '../data/site';
-
-const [retailer, customer, citebench, gstslip] = lab;
-const hubHost = demoHub.replace('https://', '');
 ---
 
 <Base>
@@ -28,46 +17,8 @@ const hubHost = demoHub.replace('https://', '');
   <main>
     <Hero />
     <Marquee />
-
     <BuildingNow />
-
-    <Lab>
-      <LabWalk
-        walk={retailer!}
-        media="browser"
-        frameUrl={`${hubHost}/retailer/`}
-        frameCaption="Preview of the retailer surface · seed data"
-      >
-        <RetailerMock />
-      </LabWalk>
-
-      <LabWalk
-        walk={customer!}
-        media="phone"
-        frameCaption="Preview of the customer surface · seed data"
-      >
-        <CustomerMock />
-      </LabWalk>
-
-      <LabWalk
-        walk={citebench!}
-        media="browser"
-        frameUrl="citebench.ordereasy.win/research"
-        frameCaption="Preview of the research desk · sample data"
-      >
-        <CiteBenchMock />
-      </LabWalk>
-
-      <LabWalk
-        walk={gstslip!}
-        media="browser"
-        frameUrl="gstslip.vin8003.com"
-        frameCaption="Preview of a capture · sample invoice"
-      >
-        <GstSlipMock />
-      </LabWalk>
-    </Lab>
-
+    <DemoSection />
     <BuildLog />
     <Thesis />
     <About />

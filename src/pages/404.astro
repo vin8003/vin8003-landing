@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { person, demoHub } from '../data/site';
+import { person } from '../data/site';
 ---
 
 <Base title="Not here — vin8003.com" description="That page does not exist on vin8003.com.">
@@ -27,12 +27,10 @@ import { person, demoHub } from '../data/site';
           Back to the command center
         </a>
         <a
-          href={`${demoHub}/`}
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/demo/"
           class="rounded-full border border-ink-500 px-6 py-3 text-body transition-colors duration-200 hover:border-paper-faint hover:bg-ink-800"
         >
-          Demo hub ↗
+          Walk the demos
         </a>
       </div>
 

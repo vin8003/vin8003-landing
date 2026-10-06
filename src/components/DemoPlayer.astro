@@ -1,0 +1,595 @@
+---
+import { demos, demoMedia, demoSource } from '../data/demos';
+
+interface Props {
+  /** Read and write `#<demo>-<step>` so a step can be linked to directly. */
+  syncHash?: boolean;
+  /** Which journey opens first. */
+  initial?: string;
+}
+
+const { syncHash = false, initial = 'retailer' } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<div class="demo-player" data-demo-player data-sync-hash={syncHash ? '' : undefined} data-initial={initial}>
+  {/* Journey tabs */}
+  <div class="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:px-0" role="tablist" aria-label="Product demos">
+    {
+      demos.map((d) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${d.id}`}
+          aria-controls={`panel-${d.id}`}
+          aria-selected={d.id === initial ? 'true' : 'false'}
+          tabindex={d.id === initial ? 0 : -1}
+          data-tab={d.id}
+          class="demo-tab glass group relative flex shrink-0 items-center gap-3 rounded-2xl px-4 py-3 text-left transition-[transform,background-color] duration-300 hover:-translate-y-0.5"
+          style={`--accent: var(--color-${d.accent})`}
+        >
+          <span class="grid size-8 place-items-center rounded-xl font-mono text-[0.7rem] font-bold text-ink-900" style="background: var(--accent)">
+            {d.product[0]}
+          </span>
+          <span class="flex flex-col leading-tight">
+            <span class="text-fine font-semibold text-paper">{d.product}</span>
+            <span class="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-paper-dim">
+              {d.journey} · {d.steps.length} steps
+            </span>
+          </span>
+        </button>
+      ))
+    }
+  </div>
+
+  {
+    demos.map((d) => (
+      <section
+        role="tabpanel"
+        id={`panel-${d.id}`}
+        aria-labelledby={`tab-${d.id}`}
+        data-panel={d.id}
+        hidden={d.id !== initial}
+        class="mt-6 sm:mt-8"
+        style={`--accent: var(--color-${d.accent})`}
+      >
+        <div class="grid gap-6 lg:grid-cols-12 lg:gap-8">
+          {/* Stage */}
+          <div class="min-w-0 lg:col-span-8">
+            <div class="relative">
+              <span
+                class="pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] opacity-30 blur-3xl"
+                style="background: radial-gradient(60% 60% at 50% 40%, var(--accent), transparent 70%)"
+                aria-hidden="true"
+              />
+
+              {d.device === 'browser' ? (
+                <figure class="ring-gradient relative overflow-hidden rounded-2xl bg-ink-850 shadow-frame">
+                  <div class="flex items-center gap-3 border-b border-ink-600/80 bg-ink-800 px-3 py-2.5 sm:px-4">
+                    <div class="flex shrink-0 gap-1.5" aria-hidden="true">
+                      <span class="size-2.5 rounded-full bg-[#ff5f57]/80" />
+                      <span class="size-2.5 rounded-full bg-[#febc2e]/80" />
+                      <span class="size-2.5 rounded-full bg-[#28c840]/80" />
+                    </div>
+                    <span class="min-w-0 flex-1 truncate rounded-md bg-ink-900/70 px-2.5 py-1 text-center font-mono text-[0.62rem] text-paper-faint sm:text-[0.68rem]">
+                      {d.host}
+                    </span>
+                    <span class="label-mono hidden shrink-0 text-[0.55rem] sm:inline">Seed data</span>
+                  </div>
+                  <div class="demo-stage relative aspect-[16/10] bg-ink-900" data-stage>
+                    <div class="demo-placeholder absolute inset-0" aria-hidden="true" />
+                    {d.steps.map((s, i) => (
+                      <button
+                        type="button"
+                        class="demo-shot absolute inset-0 block w-full cursor-zoom-in overflow-hidden"
+                        data-shot={i}
+                        data-active={i === 0 ? '' : undefined}
+                        aria-label={`Enlarge: ${s.title}`}
+                        tabindex={i === 0 ? 0 : -1}
+                      >
+                        <img
+                          src={i === 0 ? demoMedia(d, s) : undefined}
+                          data-src={demoMedia(d, s)}
+                          alt={`${d.product} ${d.journey.toLowerCase()} — ${s.title}`}
+                          class="size-full object-cover object-top"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </button>
+                    ))}
+                    <div class="demo-fallback absolute inset-0 hidden flex-col items-center justify-center gap-3 p-6 text-center" data-fallback>
+                      <p class="text-fine text-paper-dim">This screen did not load here.</p>
+                      <a href={demoSource(d)} target="_blank" rel="noopener noreferrer" class="label-mono text-paper hover:text-[var(--accent)]">
+                        Open the capture ↗
+                      </a>
+                    </div>
+                  </div>
+                </figure>
+              ) : (
+                <figure class="relative mx-auto w-full max-w-[18.5rem]">
+                  <div class="ring-gradient relative rounded-[2.4rem] bg-ink-850 p-2 shadow-frame">
+                    <div class="demo-stage relative aspect-[390/844] overflow-hidden rounded-[1.9rem] bg-ink-900" data-stage>
+                      <div class="demo-placeholder absolute inset-0" aria-hidden="true" />
+                      <div class="absolute left-1/2 top-2 z-20 h-5 w-20 -translate-x-1/2 rounded-full bg-black" aria-hidden="true" />
+                      {d.steps.map((s, i) => (
+                        <button
+                          type="button"
+                          class="demo-shot absolute inset-0 block w-full cursor-zoom-in overflow-hidden"
+                          data-shot={i}
+                          data-active={i === 0 ? '' : undefined}
+                          aria-label={`Enlarge: ${s.title}`}
+                          tabindex={i === 0 ? 0 : -1}
+                        >
+                          <img
+                            src={i === 0 ? demoMedia(d, s) : undefined}
+                            data-src={demoMedia(d, s)}
+                            alt={`${d.product} ${d.journey.toLowerCase()} — ${s.title}`}
+                            class="size-full object-cover object-top"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </button>
+                      ))}
+                      <div class="demo-fallback absolute inset-0 hidden flex-col items-center justify-center gap-3 p-6 text-center" data-fallback>
+                        <p class="text-fine text-paper-dim">This screen did not load here.</p>
+                        <a href={demoSource(d)} target="_blank" rel="noopener noreferrer" class="label-mono text-paper">
+                          Open the capture ↗
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </figure>
+              )}
+            </div>
+
+            {/* Segmented progress — also a scrubber. */}
+            <div class="mt-5 flex gap-1" aria-hidden="true">
+              {d.steps.map((s, i) => (
+                <button
+                  type="button"
+                  tabindex="-1"
+                  class="demo-seg group relative h-1.5 flex-1 overflow-hidden rounded-full bg-ink-600"
+                  data-seg={i}
+                  title={s.name}
+                >
+                  <span class="demo-seg-fill absolute inset-0 origin-left rounded-full" style="background: var(--accent)" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Narration */}
+          <div class="flex min-w-0 flex-col lg:col-span-4">
+            <p class="label-mono" style="color: var(--accent)">
+              {d.product} · {d.journey}
+              {d.seed && <span class="text-paper-faint"> · {d.seed}</span>}
+            </p>
+
+            <div class="relative mt-4 min-h-[11rem] sm:min-h-[10rem]" aria-live="polite">
+              {d.steps.map((s, i) => (
+                <div class="demo-copy" data-copy={i} data-active={i === 0 ? '' : undefined} hidden={i !== 0}>
+                  <p class="font-mono text-[0.68rem] text-paper-faint">
+                    <span class="text-paper">{pad(i + 1)}</span> / {pad(d.steps.length)}
+                    {s.stage && <span> · {s.stage}</span>}
+                  </p>
+                  <h3 class="mt-2 font-display text-sub text-paper">{s.title}</h3>
+                  <p class="mt-3 text-body text-paper-dim">{s.body}</p>
+                </div>
+              ))}
+            </div>
+
+            <div class="mt-5 flex items-center gap-2">
+              <button
+                type="button"
+                class="glass grid size-11 place-items-center rounded-full text-paper transition-colors hover:bg-ink-700 disabled:opacity-35"
+                data-prev
+                aria-label="Previous step"
+              >
+                <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+              <button
+                type="button"
+                class="inline-flex h-11 items-center gap-2 rounded-full px-5 text-fine font-semibold text-ink-900 transition-transform duration-200 hover:-translate-y-0.5"
+                style="background: var(--accent)"
+                data-next
+              >
+                <span data-next-label>Next step</span>
+                <svg viewBox="0 0 16 16" class="size-3.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+              <button
+                type="button"
+                class="glass ml-auto inline-flex h-11 items-center gap-2 rounded-full px-4 text-fine text-paper-dim transition-colors hover:text-paper"
+                data-play
+                aria-pressed="false"
+              >
+                <svg viewBox="0 0 16 16" class="size-3.5" fill="currentColor" aria-hidden="true" data-play-icon><path d="M5 3.2v9.6L12.5 8 5 3.2Z" /></svg>
+                <svg viewBox="0 0 16 16" class="hidden size-3.5" fill="currentColor" aria-hidden="true" data-pause-icon><path d="M4.5 3h2.4v10H4.5zM9.1 3h2.4v10H9.1z" /></svg>
+                <span data-play-label>Autoplay</span>
+              </button>
+            </div>
+
+            {/* Step rail */}
+            <ol class="scroll-pane mt-4 max-h-[17rem] space-y-0.5 py-3 pr-1 lg:max-h-[19rem]">
+              {d.steps.map((s, i) => (
+                <li>
+                  <button
+                    type="button"
+                    class="demo-step flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left text-fine text-paper-dim transition-colors hover:bg-ink-800 hover:text-paper"
+                    data-step={i}
+                    aria-current={i === 0 ? 'step' : undefined}
+                  >
+                    <span class="demo-step-n grid size-6 shrink-0 place-items-center rounded-full bg-ink-700 font-mono text-[0.58rem]">{pad(i + 1)}</span>
+                    <span class="truncate">{s.name}</span>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+
+        {/* Journey footer */}
+        <div class="mt-8 grid gap-5 rounded-2xl border border-ink-600/70 bg-ink-850/50 p-5 sm:p-6 lg:grid-cols-12 lg:items-center">
+          <div class="lg:col-span-8">
+            <p class="font-display text-[1.25rem] leading-snug text-paper sm:text-[1.4rem]">{d.headline}</p>
+            <p class="mt-2 text-fine text-paper-dim">{d.summary}</p>
+            <p class="mt-3 flex items-start gap-2 text-fine text-paper">
+              <svg viewBox="0 0 16 16" class="mt-0.5 size-4 shrink-0" style="color: var(--accent)" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M8 1.5 2.5 4v4c0 3.2 2.4 5.7 5.5 6.5 3.1-.8 5.5-3.3 5.5-6.5V4L8 1.5Z" stroke-linejoin="round" />
+              </svg>
+              <span>{d.guardrail}</span>
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2.5 lg:col-span-4 lg:justify-end">
+            {d.live && (
+              <a
+                href={d.live.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 rounded-full border border-ink-500 px-4 py-2.5 text-fine font-medium text-paper transition-colors hover:bg-ink-800"
+              >
+                {d.live.label} ↗
+              </a>
+            )}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  {/* Full-size view of the current screen. */}
+  <dialog class="demo-zoom m-auto max-h-[92svh] w-[min(72rem,94vw)] overflow-hidden rounded-2xl border border-ink-500 bg-ink-900 p-0 text-paper shadow-frame backdrop:bg-black/70 backdrop:backdrop-blur-sm" data-zoom>
+    <div class="flex items-center justify-between gap-3 border-b border-ink-600 px-4 py-3">
+      <p class="truncate text-fine" data-zoom-title></p>
+      <button type="button" class="glass grid size-9 shrink-0 place-items-center rounded-full" data-zoom-close aria-label="Close">
+        <svg viewBox="0 0 16 16" class="size-3.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8" stroke-linecap="round" /></svg>
+      </button>
+    </div>
+    <div class="max-h-[calc(92svh-3.5rem)] overflow-auto">
+      <img alt="" class="mx-auto w-full max-w-none" data-zoom-img />
+    </div>
+  </dialog>
+</div>
+
+<style>
+  .demo-shot {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.015);
+    transition:
+      opacity 0.55s var(--ease-out-expo),
+      transform 0.9s var(--ease-out-expo),
+      visibility 0s linear 0.55s;
+  }
+
+  .demo-shot[data-active] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.55s var(--ease-out-expo),
+      transform 0.9s var(--ease-out-expo),
+      visibility 0s;
+  }
+
+  /* Full-page captures pan down slowly while you look at them. */
+  .demo-shot img {
+    transition: object-position 7s cubic-bezier(0.45, 0, 0.55, 1);
+  }
+
+  @media (hover: hover) {
+    .demo-shot[data-active]:hover img {
+      object-position: 50% 100%;
+    }
+  }
+
+  .demo-placeholder {
+    background:
+      radial-gradient(60% 50% at 50% 45%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 70%),
+      linear-gradient(var(--substrate-line) 1px, transparent 1px) 0 0 / 100% 2.5rem,
+      var(--color-ink-900);
+  }
+
+  .demo-stage[data-failed] .demo-fallback {
+    display: flex;
+  }
+
+  .demo-stage[data-failed] .demo-shot {
+    visibility: hidden;
+  }
+
+  .demo-tab[aria-selected='true'] {
+    background: color-mix(in oklab, var(--accent) 16%, var(--color-ink-800));
+    border-color: color-mix(in oklab, var(--accent) 55%, transparent);
+    box-shadow: 0 12px 40px -18px var(--accent);
+  }
+
+  .demo-seg-fill {
+    transform: scaleX(0);
+  }
+
+  .demo-seg[data-done] .demo-seg-fill {
+    transform: scaleX(1);
+    opacity: 0.45;
+  }
+
+  .demo-seg[data-current] .demo-seg-fill {
+    transform: scaleX(1);
+  }
+
+  [data-playing] .demo-seg[data-current] .demo-seg-fill {
+    animation: seg-fill var(--step-ms, 5200ms) linear forwards;
+  }
+
+  @keyframes seg-fill {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .demo-step[aria-current='step'] {
+    background: color-mix(in oklab, var(--accent) 12%, transparent);
+    color: var(--color-paper);
+  }
+
+  .demo-step[aria-current='step'] .demo-step-n {
+    background: var(--accent);
+    color: var(--color-ink-900);
+  }
+
+  .demo-copy[data-active] {
+    animation: copy-in 0.6s var(--ease-out-expo);
+  }
+
+  @keyframes copy-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .demo-shot,
+    .demo-shot[data-active],
+    .demo-shot img {
+      transition: none;
+    }
+
+    .demo-copy[data-active] {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const STEP_MS = 5200;
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-demo-player]')) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+    const zoom = root.querySelector<HTMLDialogElement>('[data-zoom]');
+    const zoomImg = root.querySelector<HTMLImageElement>('[data-zoom-img]');
+    const zoomTitle = root.querySelector<HTMLElement>('[data-zoom-title]');
+    const syncHash = root.hasAttribute('data-sync-hash');
+
+    const state = { demo: root.dataset.initial ?? tabs[0]?.dataset.tab ?? '', step: 0 };
+    let timer = 0;
+
+    const panelFor = (id: string) => panels.find((p) => p.dataset.panel === id);
+
+    const load = (panel: HTMLElement, i: number) => {
+      const img = panel.querySelector<HTMLImageElement>(`[data-shot="${i}"] img`);
+      if (img && !img.getAttribute('src') && img.dataset.src) img.src = img.dataset.src;
+    };
+
+    const stepCount = (panel: HTMLElement) => panel.querySelectorAll('[data-shot]').length;
+
+    const render = (opts: { focusTab?: boolean; writeHash?: boolean; scrollRail?: boolean } = {}) => {
+      for (const tab of tabs) {
+        const on = tab.dataset.tab === state.demo;
+        tab.setAttribute('aria-selected', String(on));
+        tab.tabIndex = on ? 0 : -1;
+        if (on && opts.focusTab) tab.focus();
+      }
+
+      for (const panel of panels) panel.hidden = panel.dataset.panel !== state.demo;
+
+      const panel = panelFor(state.demo);
+      if (!panel) return;
+      const total = stepCount(panel);
+      state.step = Math.max(0, Math.min(state.step, total - 1));
+
+      load(panel, state.step);
+      load(panel, state.step + 1);
+
+      const stage = panel.querySelector('[data-stage]');
+      const current = panel.querySelector<HTMLImageElement>(`[data-shot="${state.step}"] img`);
+      stage?.toggleAttribute('data-failed', Boolean(current?.complete && current.getAttribute('src') && !current.naturalWidth));
+      panel.querySelectorAll<HTMLElement>('[data-shot]').forEach((el, i) => {
+        el.toggleAttribute('data-active', i === state.step);
+        el.tabIndex = i === state.step ? 0 : -1;
+      });
+      panel.querySelectorAll<HTMLElement>('[data-copy]').forEach((el, i) => {
+        el.hidden = i !== state.step;
+        el.toggleAttribute('data-active', i === state.step);
+      });
+      panel.querySelectorAll<HTMLElement>('[data-seg]').forEach((el, i) => {
+        el.toggleAttribute('data-done', i < state.step);
+        // Re-trigger the fill animation on each step.
+        el.removeAttribute('data-current');
+        if (i === state.step) {
+          void el.offsetWidth;
+          el.setAttribute('data-current', '');
+        }
+      });
+      panel.querySelectorAll<HTMLElement>('[data-step]').forEach((el, i) => {
+        if (i === state.step) {
+          el.setAttribute('aria-current', 'step');
+          const list = el.closest('ol');
+          if (list && opts.scrollRail !== false && !panel.hidden) {
+            const delta = el.getBoundingClientRect().top - list.getBoundingClientRect().top;
+            const top = list.scrollTop + delta - list.clientHeight / 2 + el.clientHeight / 2;
+            list.scrollTo({ top, behavior: 'smooth' });
+          }
+        } else el.removeAttribute('aria-current');
+      });
+
+      const prev = panel.querySelector<HTMLButtonElement>('[data-prev]');
+      const nextLabel = panel.querySelector<HTMLElement>('[data-next-label]');
+      if (prev) prev.disabled = state.step === 0;
+      if (nextLabel) nextLabel.textContent = state.step === total - 1 ? 'Next journey' : 'Next step';
+
+      if (syncHash && opts.writeHash) {
+        history.replaceState(null, '', `#${state.demo}${state.step ? `-${state.step + 1}` : ''}`);
+      }
+    };
+
+    const go = (delta: number) => {
+      const panel = panelFor(state.demo);
+      if (!panel) return;
+      const total = stepCount(panel);
+      const next = state.step + delta;
+      if (next >= total) {
+        // Roll into the next journey rather than dead-ending.
+        const at = tabs.findIndex((t) => t.dataset.tab === state.demo);
+        state.demo = tabs[(at + 1) % tabs.length]!.dataset.tab!;
+        state.step = 0;
+      } else {
+        state.step = Math.max(0, next);
+      }
+      render({ writeHash: true });
+    };
+
+    // Autoplay ---------------------------------------------------------------
+    const playing = () => root.hasAttribute('data-playing');
+    const schedule = () => {
+      window.clearTimeout(timer);
+      if (playing()) timer = window.setTimeout(() => (go(1), schedule()), STEP_MS);
+    };
+    const setPlaying = (on: boolean) => {
+      root.toggleAttribute('data-playing', on);
+      root.style.setProperty('--step-ms', `${STEP_MS}ms`);
+      for (const b of root.querySelectorAll<HTMLButtonElement>('[data-play]')) {
+        b.setAttribute('aria-pressed', String(on));
+        b.querySelector('[data-play-icon]')?.classList.toggle('hidden', on);
+        b.querySelector('[data-pause-icon]')?.classList.toggle('hidden', !on);
+        const label = b.querySelector('[data-play-label]');
+        if (label) label.textContent = on ? 'Pause' : 'Autoplay';
+      }
+      render();
+      schedule();
+    };
+
+    // Wiring -----------------------------------------------------------------
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => {
+        state.demo = tab.dataset.tab!;
+        state.step = 0;
+        render({ writeHash: true });
+        schedule();
+      });
+      tab.addEventListener('keydown', (e) => {
+        const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!dir) return;
+        e.preventDefault();
+        state.demo = tabs[(i + dir + tabs.length) % tabs.length]!.dataset.tab!;
+        state.step = 0;
+        render({ focusTab: true, writeHash: true });
+      });
+    });
+
+    for (const panel of panels) {
+      panel.querySelector('[data-prev]')?.addEventListener('click', () => (go(-1), schedule()));
+      panel.querySelector('[data-next]')?.addEventListener('click', () => (go(1), schedule()));
+      panel.querySelector('[data-play]')?.addEventListener('click', () => setPlaying(!playing()));
+
+      panel.querySelectorAll<HTMLElement>('[data-step], [data-seg]').forEach((el) =>
+        el.addEventListener('click', () => {
+          state.step = Number(el.dataset.step ?? el.dataset.seg);
+          render({ writeHash: true });
+          schedule();
+        }),
+      );
+
+      panel.querySelectorAll<HTMLImageElement>('[data-shot] img').forEach((img) =>
+        img.addEventListener('error', () => {
+          if (img.closest('[data-shot]')?.hasAttribute('data-active') && !img.closest('[data-panel]')?.hasAttribute('hidden')) {
+            img.closest('[data-stage]')?.setAttribute('data-failed', '');
+          }
+        }),
+      );
+
+      panel.querySelectorAll<HTMLButtonElement>('[data-shot]').forEach((shot) =>
+        shot.addEventListener('click', () => {
+          const img = shot.querySelector('img');
+          if (!zoom || !zoomImg || !img?.src) return;
+          setPlaying(false);
+          zoomImg.src = img.src;
+          zoomImg.alt = img.alt;
+          if (zoomTitle) zoomTitle.textContent = img.alt;
+          zoom.showModal();
+        }),
+      );
+    }
+
+    zoom?.querySelector('[data-zoom-close]')?.addEventListener('click', () => zoom.close());
+    zoom?.addEventListener('click', (e) => {
+      if (e.target === zoom) zoom.close();
+    });
+
+    root.addEventListener('keydown', (e) => {
+      if ((e.target as HTMLElement).closest('[role="tablist"]') || zoom?.open) return;
+      if (e.key === 'ArrowRight') (go(1), schedule());
+      if (e.key === 'ArrowLeft') (go(-1), schedule());
+    });
+
+    // Pause while the reader is busy elsewhere.
+    root.addEventListener('pointerenter', () => window.clearTimeout(timer));
+    root.addEventListener('pointerleave', schedule);
+    document.addEventListener('visibilitychange', () => (document.hidden ? window.clearTimeout(timer) : schedule()));
+    new IntersectionObserver(([entry]) => {
+      if (entry && !entry.isIntersecting && playing()) setPlaying(false);
+    }).observe(root);
+
+    // Deep links: #customer or #customer-4
+    const fromHash = () => {
+      const m = location.hash.slice(1).match(/^([a-z]+)(?:-(\d+))?$/);
+      if (!m || !tabs.some((t) => t.dataset.tab === m[1])) return false;
+      state.demo = m[1]!;
+      state.step = m[2] ? Number(m[2]) - 1 : 0;
+      return true;
+    };
+
+    if (syncHash) {
+      fromHash();
+      window.addEventListener('hashchange', () => fromHash() && render());
+    }
+    render({ scrollRail: false });
+  }
+</script>

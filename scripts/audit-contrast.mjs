@@ -8,7 +8,7 @@ import { chromium } from 'playwright-core';
 
 const url = process.argv[2] ?? 'http://127.0.0.1:43117/';
 
-const browser = await chromium.launch({ executablePath: '/usr/local/bin/google-chrome' });
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? '/usr/local/bin/google-chrome' });
 let failures = 0;
 
 for (const theme of ['dark', 'light']) {

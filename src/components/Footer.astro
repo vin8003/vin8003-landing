@@ -1,5 +1,5 @@
 ---
-import { person, socials, demoHub } from '../data/site';
+import { person, socials } from '../data/site';
 
 const year = new Date().getFullYear();
 ---
@@ -23,8 +23,8 @@ const year = new Date().getFullYear();
     <div class="mt-8 grid gap-8 sm:mt-12 lg:grid-cols-12 lg:items-end lg:gap-12">
       <div class="lg:col-span-7" data-reveal style="--reveal-delay:140ms">
         <p class="max-w-xl text-lead text-paper-dim">
-          Questions or notes on anything here — the products, the demos, or how something is built. Email
-          below; socials on the right.
+          Questions or notes on anything here — the products, the demos, or how something is built. Email is
+          the fastest way in; socials are on the right.
         </p>
         <a
           href={`mailto:${person.email}`}
@@ -67,17 +67,18 @@ const year = new Date().getFullYear();
       <nav class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Product links">
         {
           [
-            { label: 'Demo hub', href: `${demoHub}/` },
+            { label: 'Product demos', href: '/demo/' },
+            { label: 'OrderEasy', href: 'https://ordereasy.win' },
             { label: 'CiteBench', href: 'https://citebench.ordereasy.win' },
             { label: 'GSTSlip', href: 'https://gstslip.vin8003.com' },
           ].map((link) => (
             <a
               href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={link.href.startsWith('/') ? undefined : '_blank'}
+              rel={link.href.startsWith('/') ? undefined : 'noopener noreferrer'}
               class="label-mono transition-colors duration-200 hover:text-paper"
             >
-              {link.label} ↗
+              {link.label} {link.href.startsWith('/') ? '→' : '↗'}
             </a>
           ))
         }

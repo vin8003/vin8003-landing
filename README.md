@@ -3,22 +3,23 @@
 Public command center for **Vineet Sharma** — builder and founder, Delhi NCR, India. The domain is the
 front door; the products live underneath it.
 
-It is a single static page, in this order:
+It is a static site: the front page below, plus `/demo/`, which hosts the four guided product walkthroughs.
 
 | #   | Section          | Anchor      | What it holds                                                          |
 | --- | ---------------- | ----------- | ---------------------------------------------------------------------- |
 | —   | **Hero**         | `#top`      | Wordmark, thesis line, "I build products with AI.", live product rail  |
 | 01  | **Building now** | `#building` | The active products, each with a `LIVE` / `BUILDING` status chip        |
-| 02  | **Lab**          | `#lab`      | The four guided demo journeys, previewed and embeddable                |
-| 03  | **Build log**    | `#log`      | Dated ships, each linked to a real commit, pull request or repo        |
+| 02  | **Demo**         | `#demo`     | The four guided journeys, played natively from the real captured screens |
+| 03  | **Build log**    | `#log`      | Scrollable, filterable timeline; each ship links to a PR or commit     |
 | 04  | **Thesis**       | `#thesis`   | An army of AI assistants, one job each — plus what is parked           |
 | 05  | **About**        | `#about`    | Short and personal                                                     |
 | 06  | **Contact**      | `#contact`  | Email and socials. No hire-me pitch.                                   |
 
 The products are **OrderEasy** (retailer + customer shop SaaS), **CiteBench** (case-law research desk for
-Indian practice) and **GSTSlip** (India GST invoice capture). Every lab walk carries a hand-built preview
-of that surface, deep links into the individual steps of the real guided demo, and a button that loads the
-actual demo inline in an iframe.
+Indian practice) and **GSTSlip** (India GST invoice capture). Each product card carries a hand-built,
+animated preview of its surface. The demos are played on this site by `DemoPlayer.astro`: journey tabs, a
+step rail, autoplay, arrow keys and a full-size view, using the real screens captured on seed data.
+`/demo/#customer-4` deep-links to a journey and step.
 
 ## Stack
 
@@ -115,14 +116,13 @@ Nearly all copy lives in one file: **`src/data/site.ts`**.
   this site.
 - `ventures` — the **Building now** cards. Each carries a `status` of `LIVE`, `BUILDING` or `EXPERIMENT`,
   the guardrail line, a primary link and any secondary surfaces.
-- `lab` — the four demo journeys. Each has `headline`, `blurb`, `guardrail`, `facts`, `links`, an optional
-  `embed` URL (used for the inline iframe and the step deep links) and the `steps` array that mirrors the
-  real guided demo.
-- `buildLog` — dated ships, newest first.
+- `buildLog` — dated entries, newest first. `kind` is `ship`, `open` (an unmerged PR) or `decision`.
+- `src/data/demos.ts` — the four demo journeys: headline, summary, guardrail and the `steps` (title, body,
+  screenshot file name). Screens are served from `${DEMO_HUB}/<journey>/media/`.
 - `thesis`, `about`, `breadth`, `stack`, `nav`.
 
-Adding a product means adding an entry to `ventures`, an entry to `lab`, a preview component in
-`src/components/mocks/`, and one more `<LabWalk>` in `src/pages/index.astro`.
+Adding a product means adding an entry to `ventures`, a journey in `src/data/demos.ts`, and a preview
+component in `src/components/mocks/` wired into `BuildingNow.astro`.
 
 ### Two rules the content follows
 
@@ -157,9 +157,10 @@ in the log.
 `gstslip.vin8003.com` as the primary everywhere — rail, Building now, Lab and footer. Change
 `ventures[2].primary` in `src/data/site.ts` if that ever moves again.
 
-The step chips deep-link to `#step-1` … `#step-10` on the demo pages, which is the anchor scheme the demo
-hub already uses. If the demo hub is redeployed to a different `workers.dev` subdomain, change `DEMO_HUB`
-in `src/data/site.ts` — everything else follows from it.
+The demo screenshots are loaded from the demo hub's `media/` folders, only when a step is shown. If the
+hub is redeployed to a different `workers.dev` subdomain, change `DEMO_HUB` in `src/data/site.ts` and
+everything follows. If a screen ever fails to load, the player shows a link to the capture instead of a
+blank frame.
 
 ## Deploying to Cloudflare
 

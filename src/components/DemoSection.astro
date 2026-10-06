@@ -1,0 +1,35 @@
+---
+import SectionHead from './SectionHead.astro';
+import DemoPlayer from './DemoPlayer.astro';
+import { demos } from '../data/demos';
+
+const totalSteps = demos.reduce((n, d) => n + d.steps.length, 0);
+---
+
+<section id="demo" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28">
+  <div class="grid-substrate pointer-events-none absolute inset-0 -z-10 opacity-70 [mask-image:linear-gradient(to_bottom,transparent,#000_20%,#000_80%,transparent)]"></div>
+  <div class="aurora" aria-hidden="true">
+    <span class="left-1/4 top-1/3 h-[30rem] w-[30rem]" style="background: var(--color-ember); opacity: 0.16"></span>
+  </div>
+
+  <div class="container-page relative">
+    <SectionHead
+      index="02"
+      label="Product demos"
+      title="Walk the product before anyone asks you to sign up."
+      note={`Four guided journeys, ${totalSteps} real screens, right here on the page. Every screen is a capture of the product running on seed data — click one to see it full size, or use the arrow keys.`}
+    />
+
+    <div class="mt-10 sm:mt-14" data-reveal style="--reveal-delay:120ms">
+      <DemoPlayer />
+    </div>
+
+    <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2" data-reveal>
+      <a href="/demo/" class="group inline-flex items-center gap-2 text-fine font-medium text-paper transition-colors hover:text-ember">
+        Open the demos on their own page
+        <svg viewBox="0 0 16 16" class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </a>
+      <span class="label-mono">No sign-up · no fake UIs · seed data only</span>
+    </div>
+  </div>
+</section>

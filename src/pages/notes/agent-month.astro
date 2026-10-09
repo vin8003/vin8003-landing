@@ -1,0 +1,74 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import StackBar from '../../components/StackBar.astro';
+import { agentMonth as m } from '../../data/notes';
+import { person } from '../../data/site';
+---
+
+<Base title={`${m.title} — vin8003.com`} description={`${m.lesson.join(' ')} ${m.dek}`} skipTo="#note">
+  <Nav home={false} />
+
+  <main>
+    <article id="note" class="relative isolate overflow-hidden pb-16 pt-28 sm:pb-24 sm:pt-36">
+      <div class="aurora" aria-hidden="true">
+        <span class="-left-24 -top-24 h-[28rem] w-[28rem]" style="background: var(--color-ember); opacity: 0.35"></span>
+        <span class="-right-24 top-20 h-[26rem] w-[26rem]" style="background: var(--color-violet); opacity: 0.3"></span>
+      </div>
+
+      <div class="container-page">
+        <div class="mx-auto max-w-3xl">
+          <a href="/#notes" class="label-mono transition-colors hover:text-paper">← vin8003.com</a>
+          <p class="label-mono mt-8 text-ember">Field notes · <time datetime={m.date}>{m.label}</time></p>
+          <h1 class="mt-5 font-display text-title" data-reveal>
+            <span class="reveal-line"><span>{m.title}</span></span>
+          </h1>
+          <p class="mt-5 text-lead text-paper-dim">{m.dek}</p>
+          <p class="label-mono mt-6">{person.name} · {m.period}</p>
+        </div>
+
+        <figure class="mx-auto mt-10 max-w-5xl overflow-hidden rounded-3xl shadow-frame sm:mt-14">
+          <img src="/notes/agent-month/banner.webp" width="1500" height="600" alt="PRs opened per day across the month, with the 18 Sep spike: 414 PRs, 1,144 commits, 92 merged." class="w-full" />
+        </figure>
+
+        <div class="mx-auto mt-12 max-w-3xl">
+          <div class="glass mb-12 flex flex-col gap-8 rounded-3xl p-5 sm:p-7">
+            <StackBar title="Where the 414 PRs went" total="as of 9 Oct" parts={m.outcomes} />
+            <StackBar title="Who wrote the 1,144 commits" total="merge commits excluded" parts={m.authors} />
+          </div>
+
+          <div class="note-body flex flex-col">
+            {
+              m.body.map((b) =>
+                b.t === 'h' ? (
+                  <h2 class="mt-12 font-display text-sub text-paper">{b.text}</h2>
+                ) : b.t === 'img' ? (
+                  <figure class="my-8 overflow-hidden rounded-2xl border border-ink-600/70 shadow-frame sm:-mx-10 lg:-mx-24">
+                    <img src={`/notes/agent-month/${b.src}`} width="1600" height="900" alt={b.alt} loading="lazy" decoding="async" class="w-full" />
+                  </figure>
+                ) : (
+                  <p class="mt-5 text-lead text-paper-dim">
+                    {b.lines.map((line, i) => (
+                      <>
+                        {i > 0 && <br />}
+                        {line}
+                      </>
+                    ))}
+                  </p>
+                ),
+              )
+            }
+          </div>
+
+          <p class="mt-14 border-t border-ink-600/70 pt-6 font-mono text-[0.68rem] leading-relaxed text-paper-faint">
+            Source: {m.source} Grok’s planning-and-review role after the first 48 hours comes from my lab log, not from
+            git. Lines of code are left out on purpose: lockfiles, build exports and bundle PRs inflate them.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <Footer />
+  </main>
+</Base>

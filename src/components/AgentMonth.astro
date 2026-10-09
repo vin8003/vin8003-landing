@@ -1,0 +1,122 @@
+---
+import SectionHead from './SectionHead.astro';
+import StackBar from './StackBar.astro';
+import { agentMonth as m } from '../data/notes';
+
+const spikeMax = Math.max(...m.spike.map((s) => s.value));
+---
+
+<section id="notes" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28">
+  <div class="aurora" aria-hidden="true">
+    <span class="-right-24 top-10 h-[30rem] w-[30rem]" style="background: var(--color-violet); opacity: 0.22"></span>
+    <span class="-left-32 bottom-0 h-[24rem] w-[24rem]" style="background: var(--color-ember); opacity: 0.16"></span>
+  </div>
+
+  <div class="container-page relative">
+    <SectionHead
+      index="04"
+      label="Field notes"
+      title="One month of AI agents: 414 PRs, 92 merged."
+      note={`${m.period}. One SuperGrok Heavy seat, a fleet of Cursor cloud agents, and what git says actually happened.`}
+    />
+
+    {/* Stat tiles */}
+    <dl class="mt-10 grid grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-3 lg:grid-cols-6">
+      {
+        m.stats.map((s, i) => (
+          <div
+            class="spot ring-gradient relative flex flex-col justify-between gap-6 overflow-hidden rounded-2xl bg-ink-850/70 p-4 sm:p-5"
+            style={`--accent: ${i === 1 ? 'var(--color-mint)' : i === 4 ? 'var(--color-ember)' : 'var(--color-violet)'}; --reveal-delay:${i * 60}ms`}
+            data-reveal
+            data-spot
+          >
+            <dt class="label-mono text-[0.6rem]">{s.label}</dt>
+            <dd>
+              <span class="block font-display text-[clamp(2rem,1.4rem+2vw,3rem)] leading-none text-paper">{s.value}</span>
+              <span class="mt-2 block font-mono text-[0.62rem] text-paper-faint">{s.note}</span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="mt-5 grid gap-5 lg:grid-cols-12">
+      {/* Bars */}
+      <div class="glass flex flex-col gap-8 rounded-3xl p-5 sm:p-7 lg:col-span-7" data-reveal>
+        <StackBar title="Where the 414 PRs went" total="as of 9 Oct" parts={m.outcomes} />
+        <StackBar title="Who wrote the 1,144 commits" total="merge commits excluded" parts={m.authors} />
+
+        <figure class="flex flex-col gap-3">
+          <figcaption class="flex items-baseline justify-between gap-3">
+            <span class="label-mono text-paper-dim">18 Sep: 208 PRs in one day</span>
+            <span class="font-mono text-[0.7rem] text-paper-faint">by surface</span>
+          </figcaption>
+          <ul class="flex flex-col gap-2">
+            {
+              m.spike.map((s) => (
+                <li class="grid grid-cols-[7.5rem_1fr_2.5rem] items-center gap-3 text-fine sm:grid-cols-[9rem_1fr_2.5rem]">
+                  <span class="truncate text-paper-dim">{s.label}</span>
+                  <span class="h-2.5 overflow-hidden rounded-full bg-ink-600/60">
+                    <span class="stack-grow block h-full rounded-full" style={`width: ${(s.value / spikeMax) * 100}%; background: var(--color-ember)`} />
+                  </span>
+                  <span class="text-right font-mono text-paper">{s.value}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </figure>
+      </div>
+
+      {/* The lesson */}
+      <div
+        class="ring-gradient relative flex flex-col justify-between gap-8 overflow-hidden rounded-3xl bg-ink-850/70 p-6 sm:p-8 lg:col-span-5"
+        style="--accent: var(--color-ember); --reveal-delay:120ms"
+        data-reveal
+      >
+        <div>
+          <p class="label-mono text-ember">Where it landed</p>
+          <p class="mt-5 font-display text-sub text-paper">
+            {m.lesson[0]}<br /><span class="text-gradient">{m.lesson[1]}</span>
+          </p>
+          <p class="mt-5 text-body text-paper-dim">
+            Grok wrote the code for the first 48 hours, until the weekly quota ran out. After that the split was
+            Grok for planning and review, Cursor cloud agents for code — and me on the merge button. Three weeks
+            on, 80 small PRs are folded into 3 bundles and the review board holds 561 findings, 47 rated High.
+          </p>
+        </div>
+        <div class="flex flex-col gap-4">
+          <a
+            href={m.href}
+            class="group inline-flex w-fit items-center gap-2 rounded-full bg-paper px-5 py-3 text-fine font-semibold text-ink-900 transition-transform duration-200 hover:-translate-y-0.5"
+          >
+            Read the full note
+            <svg viewBox="0 0 16 16" class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </a>
+          <p class="font-mono text-[0.62rem] leading-relaxed text-paper-faint">Source: {m.source}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stack-grow {
+    transform-origin: left;
+  }
+
+  :global(.is-revealed) .stack-grow {
+    animation: grow 1.2s var(--ease-out-expo) both;
+  }
+
+  @keyframes grow {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.is-revealed) .stack-grow {
+      animation: none;
+    }
+  }
+</style>

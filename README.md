@@ -11,9 +11,10 @@ It is a static site: the front page below, plus `/demo/`, which hosts the four g
 | 01  | **Building now** | `#building` | The active products, each with a `LIVE` / `BUILDING` status chip        |
 | 02  | **Demo**         | `#demo`     | The four guided journeys, played natively from the real captured screens |
 | 03  | **Build log**    | `#log`      | Scrollable, filterable timeline; each ship links to a PR or commit     |
-| 04  | **Thesis**       | `#thesis`   | An army of AI assistants, one job each — plus what is parked           |
-| 05  | **About**        | `#about`    | Short and personal                                                     |
-| 06  | **Contact**      | `#contact`  | Email and socials. No hire-me pitch.                                   |
+| 04  | **Field notes**  | `#notes`    | One month of AI agents in numbers, linking to `/notes/agent-month/`    |
+| 05  | **Thesis**       | `#thesis`   | An army of AI assistants, one job each — plus what is parked           |
+| 06  | **About**        | `#about`    | Short and personal                                                     |
+| 07  | **Contact**      | `#contact`  | Email and socials. No hire-me pitch.                                   |
 
 The products are **OrderEasy** (retailer + customer shop SaaS), **CiteBench** (case-law research desk for
 Indian practice) and **GSTSlip** (India GST invoice capture). Each product card carries a hand-built,
@@ -133,6 +134,12 @@ the chip — do not stretch the meaning.
 **No invented metrics.** The only numbers on the page are ones that already exist: GSTSlip's "10 free
 documents", the count of demo surfaces, and the build-log dates. If a claim needs a number that does not
 exist yet, leave the number out rather than estimating it.
+
+### Field notes
+
+`src/data/notes.ts` holds longer write-ups. The agent-month numbers are measured, not estimated: git
+history across all branches and PR refs plus the GitHub PR list, for 19 Aug – 19 Sep 2026 IST, pulled on
+9 Oct 2026. Each note says where its numbers came from on the page. Its charts live in `public/notes/<slug>/`.
 
 ### The build log
 

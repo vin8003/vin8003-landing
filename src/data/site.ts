@@ -143,12 +143,30 @@ const commit = (repo: string, sha: string) => ({ label: `${repo} @ ${sha}`, href
  */
 export const buildLog: LogEntry[] = [
   {
+    date: '2026-10-09',
+    label: '09 Oct 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'open',
+    line: 'Android in-app update prompt for the customer app: a remote version file can nudge or force an update to the Play Store build, with no backend change. Open, not merged.',
+    link: pr('customer_ordereasy_njs', 94),
+  },
+  {
+    date: '2026-10-09',
+    label: '09 Oct 2026',
+    project: 'vin8003.com',
+    accent: 'ember',
+    kind: 'ship',
+    line: 'Field note: one month of SuperGrok Heavy and Cursor cloud agents, measured from git — 414 PRs opened, 92 merged.',
+    link: { label: 'Read the note', href: '/notes/agent-month/' },
+  },
+  {
     date: '2026-10-06',
     label: '06 Oct 2026',
     project: 'OrderEasy',
     accent: 'mint',
     kind: 'open',
-    line: 'Dozens of small catalogue-field PRs bundled into one review per app — backend, retailer and customer — with the overlaps resolved by hand. Open, not merged.',
+    line: '80 small catalogue-field PRs folded into 3 bundles, one review per app — backend, retailer and customer — with the overlaps resolved by hand. Open, not merged.',
     link: pr('RetailerCustomerPlatform', 186),
   },
   {
@@ -347,7 +365,7 @@ export const thesis = {
   body: [
     'Not one assistant that claims to do everything. A set of narrow ones, each with its own surface, its own guardrail and its own definition of done. A general assistant is a demo. A narrow one is a colleague.',
     'The products are the first recruits, and each one says plainly what it is not. None of them pretends to do another one’s job.',
-    'The build loop is the same shape every time: cloud agents work branches in parallel while I review and merge. Django on the backend, TypeScript on the surfaces, everything deployed to Cloudflare. When an assistant can hold a whole job end to end, it stops being a tool and starts being staff.',
+    'The build loop is the same shape every time: cloud agents work branches in parallel, an AI planner reviews, and I decide what merges. Django on the backend, TypeScript on the surfaces, everything deployed to Cloudflare. When an assistant can hold a whole job end to end, it stops being a tool and starts being staff.',
   ],
   /** The roster — each product framed as the job it does. */
   roster: [

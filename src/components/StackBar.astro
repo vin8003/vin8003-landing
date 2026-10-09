@@ -1,0 +1,67 @@
+---
+/** One horizontal stacked bar with a legend underneath. Values are counts. */
+interface Props {
+  title: string;
+  total: string;
+  parts: readonly { label: string; value: number; color: string }[];
+}
+
+const { title, total, parts } = Astro.props;
+const sum = parts.reduce((n, p) => n + p.value, 0);
+const fmt = (n: number) => n.toLocaleString('en-IN');
+---
+
+<figure class="flex flex-col gap-3">
+  <figcaption class="flex items-baseline justify-between gap-3">
+    <span class="label-mono text-paper-dim">{title}</span>
+    <span class="font-mono text-[0.7rem] text-paper-faint">{total}</span>
+  </figcaption>
+  <div
+    class="flex h-9 w-full gap-[3px] overflow-hidden rounded-xl"
+    role="img"
+    aria-label={`${title}: ${parts.map((p) => `${p.label} ${fmt(p.value)}`).join(', ')}`}
+  >
+    {
+      parts.map((p) => (
+        <span
+          class="stack-seg block h-full first:rounded-l-xl last:rounded-r-xl"
+          style={`width: ${(p.value / sum) * 100}%; background: ${p.color}`}
+          title={`${p.label}: ${fmt(p.value)}`}
+        />
+      ))
+    }
+  </div>
+  <ul class="flex flex-wrap gap-x-5 gap-y-1.5">
+    {
+      parts.map((p) => (
+        <li class="flex items-center gap-2 text-fine text-paper-dim">
+          <span class="size-2.5 rounded-[3px]" style={`background: ${p.color}`} />
+          {p.label}
+          <span class="font-mono font-semibold text-paper">{fmt(p.value)}</span>
+        </li>
+      ))
+    }
+  </ul>
+</figure>
+
+<style>
+  .stack-seg {
+    transform-origin: left;
+  }
+
+  :global(.is-revealed) .stack-seg {
+    animation: seg-grow 1.2s var(--ease-out-expo) both;
+  }
+
+  @keyframes seg-grow {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.is-revealed) .stack-seg {
+      animation: none;
+    }
+  }
+</style>

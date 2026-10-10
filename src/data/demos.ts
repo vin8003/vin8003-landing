@@ -36,7 +36,38 @@ export type Demo = {
   steps: DemoStep[];
 };
 
-export const demoMedia = (demo: Demo, step: DemoStep) => `${demoHub}/${demo.id}/media/${step.image}`;
+/** Screens captured on 10 Oct 2026 and served from this site (public/demo/<id>/media/).
+ *  Anything not listed here still loads from the demo hub. */
+const localMedia: Record<string, readonly string[]> = {
+  customer: [
+    'customer-area.jpg',
+    'customer-shop-list.jpg',
+    'customer-pick-known-shop.jpg',
+    'customer-browse-bag.jpg',
+    'customer-bag.jpg',
+    'customer-delivery-pickup-pay.jpg',
+    'customer-place-order.jpg',
+    'customer-my-orders.jpg',
+    'customer-message-shop.jpg',
+    'customer-help.jpg',
+  ],
+  citebench: [
+    'citebench-sign-in-chamber.jpg',
+    'citebench-today.jpg',
+    'citebench-diary.jpg',
+    'citebench-matters.jpg',
+    'citebench-inside-matter.jpg',
+    'citebench-research.jpg',
+    'citebench-directions-vs-suggestions.jpg',
+    'citebench-inbox.jpg',
+    'citebench-hi-en.jpg',
+  ],
+};
+
+export const demoMedia = (demo: Demo, step: DemoStep) =>
+  localMedia[demo.id]?.includes(step.image)
+    ? `/demo/${demo.id}/media/${step.image}`
+    : `${demoHub}/${demo.id}/media/${step.image}`;
 export const demoSource = (demo: Demo) => `${demoHub}/${demo.id}/`;
 
 export const demos: Demo[] = [

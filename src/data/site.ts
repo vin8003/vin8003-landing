@@ -143,12 +143,39 @@ const commit = (repo: string, sha: string) => ({ label: `${repo} @ ${sha}`, href
  */
 export const buildLog: LogEntry[] = [
   {
+    date: '2026-10-10',
+    label: '10 Oct 2026',
+    project: 'CiteBench',
+    accent: 'violet',
+    kind: 'ship',
+    line: 'CiteBench redesign: light and dark themes, a sidebar shell, a ⌘K command palette, and the Today board rendered on the server so it arrives in the first HTML.',
+    link: pr('nyayasetu', 14),
+  },
+  {
+    date: '2026-10-10',
+    label: '10 Oct 2026',
+    project: 'CiteBench',
+    accent: 'violet',
+    kind: 'ship',
+    line: 'Better output from every Grok action in CiteBench, and Indian Kanoon lookups now run from the Mumbai region so the calls leave from India.',
+    link: pr('nyayasetu', 15),
+  },
+  {
     date: '2026-10-09',
     label: '09 Oct 2026',
     project: 'OrderEasy',
     accent: 'mint',
-    kind: 'open',
-    line: 'Android in-app update prompt for the customer app: a remote version file can nudge or force an update to the Play Store build, with no backend change. Open, not merged.',
+    kind: 'ship',
+    line: 'Customer app redesign: every screen moved to the OrderEasy palette, mobile-first and responsive to desktop, with a 29 KB logo mark replacing a 4 MB image on the critical path.',
+    link: pr('customer_ordereasy_njs', 92),
+  },
+  {
+    date: '2026-10-09',
+    label: '09 Oct 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    line: 'Android in-app update prompt for the customer app: a remote version file can nudge or force an update to the Play Store build, with no backend change. Landed on main with OTA web updates.',
     link: pr('customer_ordereasy_njs', 94),
   },
   {

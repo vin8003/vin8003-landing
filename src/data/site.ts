@@ -122,7 +122,7 @@ export type LogEntry = {
   date: string;
   /** Human date shown in the log. */
   label: string;
-  project: 'OrderEasy' | 'CiteBench' | 'GSTSlip' | 'vin8003.com' | 'Demos' | 'AI Secretary';
+  project: 'OrderEasy' | 'CiteBench' | 'GSTSlip' | 'vin8003.com' | 'Demos' | 'AI Secretary' | 'Musical Explainers';
   accent: 'mint' | 'violet' | 'amber' | 'ember';
   /** ship = landed or deployed · open = a PR that has not merged · decision = no link, a call made. */
   kind: 'ship' | 'open' | 'decision';
@@ -142,6 +142,78 @@ const commit = (repo: string, sha: string) => ({ label: `${repo} @ ${sha}`, href
  * no link because nothing shipped. Newest first.
  */
 export const buildLog: LogEntry[] = [
+  {
+    date: '2026-10-11',
+    label: '11 Oct 2026',
+    project: 'vin8003.com',
+    accent: 'ember',
+    kind: 'ship',
+    line: 'Design pass on this site that keeps the brand: glow, glass and gradient text removed, a shorter hero, real demo captures in place of built mock UIs, and a lighter scroll-progress island.',
+    link: pr('vin8003-landing', 22),
+  },
+  {
+    date: '2026-10-10',
+    label: '10 Oct 2026',
+    project: 'Demos',
+    accent: 'ember',
+    kind: 'ship',
+    line: 'The 10 Oct 2026 demo screens are now hosted on this site, so the walkthroughs load their captures from here.',
+    link: pr('vin8003-landing', 20),
+  },
+  {
+    date: '2026-10-11',
+    label: '11 Oct 2026',
+    project: 'Musical Explainers',
+    accent: 'amber',
+    kind: 'ship',
+    line: 'Per-step model and effort controls for every Claude call in the explainer pipeline, a pipeline settings config, and a longer topic backlog.',
+    link: pr('musical-explainers', 2),
+  },
+  {
+    date: '2026-10-11',
+    label: '11 Oct 2026',
+    project: 'Musical Explainers',
+    accent: 'amber',
+    kind: 'ship',
+    line: 'Research-first editorial pipeline: research and outline before any script, an editorial review gating each script apart from the fact-check, and configurable, enforced durations for the video and the Short. Not yet run through audio and render.',
+    link: pr('musical-explainers', 1),
+  },
+  {
+    date: '2026-10-10',
+    label: '10 Oct 2026',
+    project: 'Musical Explainers',
+    accent: 'amber',
+    kind: 'ship',
+    line: 'First build of the code-driven explainer pipeline on main: storyboard v2 renderer with 12 scene systems, a staged production pipeline with local audio and optional Blender clips, a fact-check loop that revises flagged claims, and a local admin panel as the production cockpit.',
+    link: commit('musical-explainers', '4d87978'),
+  },
+  {
+    date: '2026-10-10',
+    label: '10 Oct 2026',
+    project: 'CiteBench',
+    accent: 'violet',
+    kind: 'ship',
+    line: 'Ask chat with research-grade citations and a bring-your-own database, saved by case, laid out as a case index beside a briefing sheet and placed under Research.',
+    link: commit('nyayasetu', '6b5ad77'),
+  },
+  {
+    date: '2026-10-10',
+    label: '10 Oct 2026',
+    project: 'CiteBench',
+    accent: 'violet',
+    kind: 'ship',
+    line: 'Indian Kanoon connection resets diagnosed and fixed with an IPv4 lookup, and the token is cleaned with header-character failures now reported.',
+    link: pr('nyayasetu', 17),
+  },
+  {
+    date: '2026-10-10',
+    label: '10 Oct 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    line: 'Customer web build deployed with a privacy policy, clean URLs and the minimum-version setting for the update prompt.',
+    link: commit('customer_web_build', '5c30e7a'),
+  },
   {
     date: '2026-10-10',
     label: '10 Oct 2026',

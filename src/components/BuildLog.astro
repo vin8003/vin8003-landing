@@ -16,6 +16,7 @@ const filters = [
   { id: 'ordereasy', label: 'OrderEasy', accent: 'var(--color-mint)' },
   { id: 'citebench', label: 'CiteBench', accent: 'var(--color-violet)' },
   { id: 'gstslip', label: 'GSTSlip', accent: 'var(--color-amber)' },
+  { id: 'musical explainers', label: 'Musical Explainers', accent: 'var(--color-amber)' },
   { id: 'site', label: 'Site & demos', accent: 'var(--color-ember)' },
   { id: 'decisions', label: 'Decisions', accent: 'var(--color-paper-faint)' },
 ].map((f) => ({ ...f, count: f.id === 'all' ? buildLog.length : buildLog.filter((e) => groupOf(e) === f.id).length }));

@@ -2,24 +2,26 @@
 import SectionHead from './SectionHead.astro';
 import StatusChip from './StatusChip.astro';
 import Frame from './Frame.astro';
-import RetailerMock from './mocks/RetailerMock.astro';
-import CustomerMock from './mocks/CustomerMock.astro';
-import CiteBenchMock from './mocks/CiteBenchMock.astro';
-import GstSlipMock from './mocks/GstSlipMock.astro';
 import { ventures, type Venture } from '../data/site';
+import { demos, demoMedia } from '../data/demos';
+import { ArrowUpRight, ShieldCheck } from 'lucide-react';
 
 const [orderEasy, citeBench, gstSlip] = ventures as [Venture, Venture, Venture];
 
 const isInternal = (href: string) => href.startsWith('/');
+
+// Real captures from the demo player, so a card and the walkthrough never disagree.
+const shot = (id: string, image: string) => {
+  const demo = demos.find((d) => d.id === id)!;
+  return demoMedia(demo, demo.steps.find((st) => st.image === image)!);
+};
 ---
 
 <section id="building" class="relative scroll-mt-20 py-16 sm:py-24 lg:py-28">
   <div class="container-page">
     <SectionHead
-      index="01"
-      label="Building now"
       title="Three products, and what each one refuses to be."
-      note="Every product here is live — a URL you can open today — and each carries its own line saying what it is not. The previews are hand-built from the real screens, running on seed data."
+      note="Every product here is live, a URL you can open today, and each carries its own line saying what it is not. The previews are real screens captured on seed data."
     />
 
     <div class="mt-10 grid gap-4 sm:mt-14 sm:gap-5 lg:grid-cols-12">
@@ -30,38 +32,27 @@ const isInternal = (href: string) => href.startsWith('/');
             <article
               id={v.id}
               class:list={[
-                'spot ring-gradient group relative flex scroll-mt-24 flex-col overflow-hidden rounded-3xl bg-ink-850/70',
+                'spot ring-gradient group relative flex scroll-mt-24 flex-col overflow-hidden rounded-2xl bg-ink-850',
                 wide ? 'lg:col-span-12 lg:grid lg:grid-cols-12 lg:items-center' : 'lg:col-span-6',
               ]}
               style={`--accent: var(--color-${v.accent}); --reveal-delay:${i * 90}ms`}
               data-reveal
               data-spot
             >
-              {/* Accent light in the corner. */}
-              <span
-                class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full opacity-25 blur-3xl transition-opacity duration-700 group-hover:opacity-45"
-                style="background: var(--accent)"
-                aria-hidden="true"
-              />
-
               <div class:list={['relative flex flex-col p-6 sm:p-8', wide && 'lg:col-span-5 lg:p-10']}>
-                <div class="flex items-center justify-between gap-3">
-                  <span class="label-mono" style="color: var(--accent)">
-                    {v.index} · {v.kind}
-                  </span>
-                  <StatusChip status={v.status} />
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="font-display text-title" style="color: var(--accent)">
+                    {v.name}
+                  </h3>
+                  <StatusChip status={v.status} class="mt-3" />
                 </div>
 
-                <h3 class="mt-5 font-display text-title" style="color: var(--accent)">
-                  {v.name}
-                </h3>
+                <p class="mt-2 text-fine text-paper-faint">{v.kind}</p>
 
                 <p class="mt-4 max-w-md text-lead text-paper-dim">{v.what}</p>
 
                 <blockquote class="mt-5 flex items-start gap-3 text-fine leading-relaxed text-paper">
-                  <svg viewBox="0 0 16 16" class="mt-0.5 size-4 shrink-0" style="color: var(--accent)" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path d="M8 1.5 2.5 4v4c0 3.2 2.4 5.7 5.5 6.5 3.1-.8 5.5-3.3 5.5-6.5V4L8 1.5Z" stroke-linejoin="round" />
-                  </svg>
+                  <ShieldCheck className="mt-0.5 size-4 shrink-0" style={{ color: "var(--accent)" }} strokeWidth={1.5} aria-hidden="true" />
                   <span>{v.guardrail}</span>
                 </blockquote>
 
@@ -70,13 +61,11 @@ const isInternal = (href: string) => href.startsWith('/');
                     href={v.primary.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="group/link inline-flex max-w-full items-center gap-2 rounded-full px-4 py-2.5 text-fine font-semibold text-ink-900 transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
-                    style="background: var(--accent); box-shadow: 0 10px 30px -12px var(--accent);"
+                    class="group/link inline-flex max-w-full items-center gap-2 rounded-full px-4 py-2.5 text-fine font-semibold text-ink-900 transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
+                    style="background: var(--accent);"
                   >
                     <span class="truncate">{v.primary.label}</span>
-                    <svg viewBox="0 0 16 16" class="size-3 shrink-0 opacity-70 transition-transform duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                      <path d="M5 11 11 5M6 5h5v5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
+                    <ArrowUpRight className="size-3 shrink-0 opacity-70 transition-transform duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" strokeWidth={1.8} aria-hidden="true" />
                   </a>
                 </div>
 
@@ -89,7 +78,7 @@ const isInternal = (href: string) => href.startsWith('/');
                         rel={isInternal(s.href) ? undefined : 'noopener noreferrer'}
                         class:list={['label-mono transition-colors duration-200 hover:text-paper', isInternal(s.href) && 'text-paper-dim']}
                       >
-                        {isInternal(s.href) ? `▸ ${s.label}` : `${s.label} ↗`}
+                        {isInternal(s.href) ? s.label : `${s.label} ↗`}
                       </a>
                     </li>
                   ))}
@@ -98,40 +87,68 @@ const isInternal = (href: string) => href.startsWith('/');
                 {v.note && <p class="label-mono mt-4 text-[0.6rem]">{v.note}</p>}
               </div>
 
-              {/* Visual */}
+              {/* Visual: real captures only. */}
               <div
                 class:list={[
                   'relative px-4 pb-4 sm:px-8 sm:pb-8',
                   wide ? 'lg:col-span-7 lg:py-10 lg:pl-0 lg:pr-10' : '',
                 ]}
-                data-mock
-                aria-hidden="true"
               >
                 {v.id === 'ordereasy' && (
                   <div class="relative">
-                    <div class="transition-transform duration-700 [transform:perspective(1600px)_rotateY(-6deg)_rotateX(2deg)] group-hover:[transform:perspective(1600px)_rotateY(-2deg)_rotateX(0deg)]">
-                      <Frame variant="browser" url="retailer.ordereasy.win">
-                        <RetailerMock />
-                      </Frame>
-                    </div>
-                    <div class="absolute -bottom-10 -right-3 hidden w-[9.5rem] sm:block lg:-right-5 lg:w-[10.5rem]" style="animation: float-y 7s ease-in-out infinite" data-orbit>
+                    <Frame variant="browser" url="retailer.ordereasy.win">
+                      <img
+                        src={shot('retailer', 'retailer-overview.jpg')}
+                        alt="OrderEasy retailer dashboard showing four shop KPIs for the selected range"
+                        width="1280"
+                        height="656"
+                        loading="lazy"
+                        decoding="async"
+                        class="block h-auto w-full"
+                      />
+                    </Frame>
+                    <div class="absolute -bottom-10 -right-3 hidden w-[9.5rem] sm:block lg:-right-5 lg:w-[10.5rem]">
                       <Frame variant="phone">
-                        <CustomerMock />
+                        <img
+                          src={shot('customer', 'customer-shop-list.jpg')}
+                          alt="OrderEasy customer app listing nearby shops"
+                          width="780"
+                          height="1688"
+                          loading="lazy"
+                          decoding="async"
+                          class="block h-auto w-full"
+                        />
                       </Frame>
                     </div>
                   </div>
                 )}
                 {v.id === 'citebench' && (
                   <div class="max-h-[22rem] overflow-hidden rounded-2xl [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]">
-                    <Frame variant="browser" url="citebench.ordereasy.win/research">
-                      <CiteBenchMock />
+                    <Frame variant="browser" url="citebench.ordereasy.win">
+                      <img
+                        src={shot('citebench', 'citebench-today.jpg')}
+                        alt="CiteBench Today screen showing a chamber's day"
+                        width="2160"
+                        height="1350"
+                        loading="lazy"
+                        decoding="async"
+                        class="block h-auto w-full"
+                      />
                     </Frame>
                   </div>
                 )}
                 {v.id === 'gstslip' && (
                   <div class="max-h-[22rem] overflow-hidden rounded-2xl [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]">
                     <Frame variant="browser" url="gstslip.vin8003.com">
-                      <GstSlipMock />
+                      <img
+                        src={shot('gstslip', 'gstslip-extracted-fields.jpg')}
+                        alt="GSTSlip showing fields extracted from a GST invoice"
+                        width="1280"
+                        height="800"
+                        loading="lazy"
+                        decoding="async"
+                        class="block h-auto w-full"
+                      />
                     </Frame>
                   </div>
                 )}

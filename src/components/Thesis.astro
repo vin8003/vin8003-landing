@@ -6,42 +6,27 @@ import { thesis, stack } from '../data/site';
 
 <section id="thesis" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28">
   <div class="grid-substrate pointer-events-none absolute inset-0 opacity-60 [mask-image:linear-gradient(to_bottom,transparent,#000_25%,#000_75%,transparent)]"></div>
-  <div class="aurora" aria-hidden="true">
-    <span class="left-[5%] top-0 h-[26rem] w-[40rem]" style="background: var(--color-ember); opacity: 0.22"></span>
-  </div>
 
   <div class="container-page relative">
-    <SectionHead index="05" label="Thesis" title="One job each." />
+    <SectionHead title="One job each." />
 
     <blockquote class="mt-10 max-w-5xl sm:mt-14" data-reveal>
       <p class="font-display text-title text-paper">
-        <span class="reveal-line"><span><span class="text-gradient">“</span>{thesis.line}</span></span>
+        <span class="reveal-line"><span><span class="text-ember">“</span>{thesis.line}</span></span>
       </p>
     </blockquote>
 
-    {/* The roster: each product as the job it holds. */}
-    <ol class="mt-12 grid gap-4 sm:mt-16 md:grid-cols-3">
+    {/* The roster: each product as the job it holds, one row each. */}
+    <ol class="mt-12 sm:mt-16" data-reveal>
       {
-        thesis.roster.map((r, i) => (
+        thesis.roster.map((r) => (
           <li
-            class="spot ring-gradient group relative flex flex-col overflow-hidden rounded-3xl bg-ink-850/70 p-6 sm:p-7"
-            style={`--accent: var(--color-${r.accent}); --reveal-delay:${i * 90}ms`}
-            data-reveal
-            data-spot
+            class="grid gap-x-8 gap-y-2 border-t border-ink-600/70 py-6 first:border-t-0 md:grid-cols-[minmax(0,14rem)_minmax(0,13rem)_1fr] md:items-baseline"
+            style={`--accent: var(--color-${r.accent})`}
           >
-            <span
-              class="pointer-events-none absolute -right-6 -top-10 font-display text-[9rem] leading-none opacity-[0.07] transition-opacity duration-500 group-hover:opacity-[0.14]"
-              style="color: var(--accent)"
-              aria-hidden="true"
-            >
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <span class="relative grid size-11 place-items-center rounded-2xl font-mono text-sm font-bold text-ink-900" style="background: var(--accent); box-shadow: 0 10px 30px -10px var(--accent)">
-              {r.name[0]}
-            </span>
-            <p class="label-mono relative mt-6" style="color: var(--accent)">{r.role}</p>
-            <p class="relative mt-2 font-display text-sub text-paper">{r.name}</p>
-            <p class="relative mt-3 text-fine leading-relaxed text-paper-dim">{r.job}</p>
+            <p class="font-display text-sub text-paper">{r.name}</p>
+            <p class="label-mono" style="color: var(--accent)">{r.role}</p>
+            <p class="max-w-[65ch] text-body text-paper-dim">{r.job}</p>
           </li>
         ))
       }

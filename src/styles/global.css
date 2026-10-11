@@ -2,6 +2,8 @@
 
 /* Latin-only subsets copied into public/fonts by `npm run fonts`. Importing the
    Fontsource stylesheets instead would pull every subset and both slants. */
+/* Fraunces is the brand display face (hero claim, headlines, stat numerals). It is kept on purpose:
+   it is the site's identity serif, not a default reach. See the preserve-brand pass. */
 @font-face {
   font-family: 'Fraunces';
   font-style: normal;
@@ -27,7 +29,7 @@
 }
 
 @theme {
-  /* Ink — the canvas is a dark press sheet, not pure black. */
+  /* Ink - the canvas is a dark press sheet, not pure black. */
   --color-ink-900: #08080a;
   --color-ink-850: #0b0b0e;
   --color-ink-800: #101014;
@@ -35,7 +37,7 @@
   --color-ink-600: #1e1e26;
   --color-ink-500: #2a2a35;
 
-  /* Paper — warm bone, so text reads like print rather than a screen. */
+  /* Paper - warm bone, so text reads like print rather than a screen. */
   --color-paper: #efeae1;
   --color-paper-dim: #b9b3a8;
   /* Clears 4.5:1 against every ink surface it sits on, including ink-800. */
@@ -54,17 +56,19 @@
   --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace;
 
+  /* Shape rule: interactive controls are full pills, containers are 1rem (rounded-2xl),
+     small inner tiles are 0.5rem (rounded-lg). Nothing else. */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.3, 0.64, 1);
 
-  /* Fluid type — every size interpolates between a 360px phone and a 1600px
+  /* Fluid type - every size interpolates between a 360px phone and a 1600px
      desktop, so there are no jumps between breakpoints. */
-  --text-hero: clamp(2.75rem, 1.05rem + 7.6vw, 8.5rem);
-  --text-hero--line-height: 0.9;
+  --text-hero: clamp(2.5rem, 1.35rem + 4.2vw, 5rem);
+  --text-hero--line-height: 1.02;
   --text-hero--letter-spacing: -0.03em;
 
   --text-title: clamp(2rem, 1.15rem + 3.7vw, 4.75rem);
-  --text-title--line-height: 0.98;
+  --text-title--line-height: 1.05;
   --text-title--letter-spacing: -0.025em;
 
   --text-sub: clamp(1.5rem, 1.1rem + 1.75vw, 2.5rem);
@@ -80,7 +84,7 @@
   --text-fine: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
   --text-fine--line-height: 1.55;
 
-  /* Wordmark — the banner line. Tracks wide, never wider than its container. */
+  /* Wordmark - the banner line. Tracks wide, never wider than its container. */
   --text-mark: clamp(1.5rem, 0.35rem + 4.9vw, 5.25rem);
   --text-mark--line-height: 1;
   --text-mark--letter-spacing: 0.02em;
@@ -208,7 +212,7 @@
   --grain-blend: multiply;
 }
 
-/* Fine blueprint grid — the "engineering notebook" substrate. */
+/* Fine blueprint grid - the "engineering notebook" substrate. */
 .grid-substrate {
   background-image:
     linear-gradient(to right, var(--substrate-line) 1px, transparent 1px),
@@ -324,133 +328,33 @@ a.label-mono {
    from the same accent tokens, so both themes and every product hue follow. */
 
 :root {
-  --aurora-strength: 1;
-  --glass-bg: color-mix(in oklab, var(--color-ink-800) 62%, transparent);
+  --glass-bg: var(--color-ink-800);
   --glass-line: color-mix(in oklab, var(--color-paper) 9%, transparent);
-  --glow-alpha: 34%;
 }
 
 :root[data-theme='light'] {
-  --aurora-strength: 0.55;
-  --glass-bg: color-mix(in oklab, #ffffff 58%, transparent);
+  --glass-bg: var(--color-ink-800);
   --glass-line: color-mix(in oklab, var(--color-paper) 12%, transparent);
-  --glow-alpha: 22%;
-}
-
-/* Slow-drifting colour fields behind a section. Children are the blobs. */
-.aurora {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: -1;
-  opacity: var(--aurora-strength);
-}
-
-.aurora > span {
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(72px);
-  opacity: 0.55;
-  animation: aurora-drift 22s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-.aurora > span:nth-child(2) {
-  animation-duration: 28s;
-  animation-delay: -7s;
-}
-
-.aurora > span:nth-child(3) {
-  animation-duration: 34s;
-  animation-delay: -15s;
-}
-
-@keyframes aurora-drift {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(6%, -8%, 0) scale(1.12);
-  }
-  100% {
-    transform: translate3d(-5%, 6%, 0) scale(0.94);
-  }
 }
 
 @utility glass {
   background: var(--glass-bg);
   border: 1px solid var(--glass-line);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
 
-/* A 1px border that runs from the accent to nothing. Needs a positioned host. */
+/* A 1px border tinted toward the card's product accent. */
 @utility ring-gradient {
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      var(--ring-angle, 145deg),
-      color-mix(in oklab, var(--accent, var(--color-ember)) 70%, transparent),
-      color-mix(in oklab, var(--color-paper) 8%, transparent) 38%,
-      color-mix(in oklab, var(--color-paper) 4%, transparent) 70%,
-      color-mix(in oklab, var(--accent, var(--color-ember)) 30%, transparent)
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
+  border: 1px solid color-mix(in oklab, var(--accent, var(--color-ember)) 28%, var(--color-ink-600));
 }
 
-/* Pointer-tracked glow inside a card. JS sets --mx / --my on hover. */
 .spot {
   position: relative;
   isolation: isolate;
+  transition: border-color 0.3s var(--ease-out-expo);
 }
 
-.spot::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.5s var(--ease-out-expo);
-  background: radial-gradient(
-    26rem circle at var(--mx, 50%) var(--my, 0%),
-    color-mix(in oklab, var(--accent, var(--color-ember)) var(--glow-alpha), transparent),
-    transparent 60%
-  );
-}
-
-.spot:hover::after {
-  opacity: 1;
-}
-
-.text-gradient {
-  background: linear-gradient(100deg, var(--color-ember) 0%, var(--color-amber) 45%, var(--color-ember-soft) 70%, var(--color-violet) 100%);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradient-pan 9s ease-in-out infinite alternate;
-}
-
-@keyframes gradient-pan {
-  from {
-    background-position: 0% 50%;
-  }
-  to {
-    background-position: 100% 50%;
-  }
+.spot:hover {
+  border-color: color-mix(in oklab, var(--accent, var(--color-ember)) 55%, var(--color-ink-600));
 }
 
 /* --- Constellation (hero) ---------------------------------------------- */
@@ -536,70 +440,6 @@ a.label-mono {
   }
 }
 
-@keyframes caret-blink {
-  0%,
-  45% {
-    opacity: 1;
-  }
-  50%,
-  95% {
-    opacity: 0;
-  }
-}
-
-@keyframes soft-pulse {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.35);
-  }
-}
-
-@keyframes scan-sweep {
-  0% {
-    transform: translateY(-8%);
-  }
-  50% {
-    transform: translateY(104%);
-  }
-  100% {
-    transform: translateY(-8%);
-  }
-}
-
-@keyframes row-arrive {
-  0% {
-    opacity: 0;
-    transform: translateY(0.75rem);
-  }
-  12%,
-  88% {
-    opacity: 1;
-    transform: none;
-  }
-  100% {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes field-lock {
-  0%,
-  20% {
-    opacity: 0;
-    transform: translateX(-0.5rem);
-  }
-  30%,
-  100% {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 @keyframes bar-rise {
   from {
     transform: scaleY(0.06);
@@ -609,16 +449,7 @@ a.label-mono {
   }
 }
 
-@keyframes ticker-roll {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-50%);
-  }
-}
-
-/* Mocks only animate while on screen — keeps idle CPU at zero. */
+/* The marquee only animates while on screen, so an idle page costs nothing. */
 .mock-live [data-anim] {
   animation-play-state: running;
 }
@@ -640,8 +471,6 @@ a.label-mono {
     transition: none !important;
   }
 
-  .aurora > span,
-  .text-gradient,
   [data-orbit],
   [data-orbit] > *,
   [data-orbit-label] {

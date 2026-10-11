@@ -1,7 +1,7 @@
 /**
  * Renders the social card to public/og.png.
  *
- * Run with `npm run og`. Needs the brand fonts visible to fontconfig — see the
+ * Run with `npm run og`. Needs the brand fonts visible to fontconfig, see the
  * README section on regenerating the OG image.
  */
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -49,8 +49,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
   <rect width="${W}" height="${H}" fill="url(#glow)"/>
 
   <g transform="translate(80, 92)">
-    <circle cx="5" cy="-5" r="5" fill="#3DDC97"/>
-    <text x="24" y="1" font-family="JetBrains Mono" font-size="17" letter-spacing="2.8" fill="#B9B3A8">BUILDER &amp; FOUNDER — DELHI NCR, INDIA</text>
+    <text x="0" y="1" font-family="JetBrains Mono" font-size="17" letter-spacing="2.8" fill="#B9B3A8">BUILDER &amp; FOUNDER</text>
   </g>
 
   <text x="80" y="176" font-family="JetBrains Mono" font-size="40" font-weight="600" letter-spacing="2" fill="#EFEAE1">VINEET SHARMA</text>

@@ -50,15 +50,8 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
 ---
 
 <section id="log" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28">
-  <div class="aurora" aria-hidden="true">
-    <span class="-left-40 top-20 h-96 w-96" style="background: var(--color-mint); opacity: 0.18"></span>
-    <span class="-right-32 bottom-10 h-[28rem] w-[28rem]" style="background: var(--color-violet); opacity: 0.16"></span>
-  </div>
-
   <div class="container-page relative">
     <SectionHead
-      index="03"
-      label="Build log"
       title="What actually shipped, in the order it shipped."
       note="Pulled from the public repos on GitHub. Every line links to the merged pull request, the commit or the deploy behind it. Open pull requests say so, and a line without a link is a decision, not a ship."
     />
@@ -69,7 +62,7 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
         <div class="ring-gradient relative rounded-2xl bg-ink-850/70 p-5" style="--accent: var(--color-mint)">
           <div class="flex items-baseline justify-between gap-3">
             <p class="label-mono text-paper-dim">Ships per day</p>
-            <p class="label-mono text-[0.55rem]">{fmt(days[0]!.iso)} – {fmt(days.at(-1)!.iso)}</p>
+            <p class="label-mono text-[0.55rem]">{fmt(days[0]!.iso)} to {fmt(days.at(-1)!.iso)}</p>
           </div>
           <div class="mt-5 flex h-24 items-end gap-[2px]" role="img" aria-label={`A bar per day from ${fmt(days[0]!.iso)} to ${fmt(days.at(-1)!.iso)}, one block per entry in the log.`}>
             {
@@ -77,7 +70,7 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
                 <div
                   class="flex min-w-0 flex-1 flex-col-reverse gap-[2px]"
                   style={`height: ${(Math.max(d.entries.length, 0) / peak) * 100}%`}
-                  title={d.entries.length ? `${fmt(d.iso)} · ${d.entries.map((e) => e.project).join(', ')}` : undefined}
+                  title={d.entries.length ? `${fmt(d.iso)}: ${d.entries.map((e) => e.project).join(', ')}` : undefined}
                 >
                   {d.entries.map((e) => (
                     <span
@@ -127,15 +120,15 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
 
         <div class="hidden flex-col gap-3 rounded-2xl border border-ink-600/80 bg-ink-850/50 p-5 lg:flex">
           <p class="text-fine leading-relaxed text-paper-dim">
-            The log is a summary. The commits, the dead ends and the rewrites are in the open — on GitHub as they
-            merge, on X as they happen.
+            The log is a summary. The commits, the dead ends and the rewrites are in the open , on GitHub as they
+            merge and on X as they happen.
           </p>
           <div class="flex flex-wrap gap-2">
             <a href={github.href} target="_blank" rel="noopener noreferrer" class="glass inline-flex items-center rounded-full px-4 py-2 text-fine font-medium text-paper transition-colors hover:bg-ink-700">
-              GitHub ↗
+              GitHub
             </a>
             <a href={x.href} target="_blank" rel="noopener noreferrer" class="glass inline-flex items-center rounded-full px-4 py-2 text-fine font-medium text-paper transition-colors hover:bg-ink-700">
-              X / {x.handle} ↗
+              X / {x.handle}
             </a>
           </div>
         </div>
@@ -143,12 +136,12 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
 
       {/* Right: the scrollable timeline */}
       <div class="relative min-w-0 lg:col-span-8" data-reveal style="--reveal-delay:120ms">
-        <div class="ring-gradient relative overflow-hidden rounded-3xl bg-ink-850/60" style="--accent: var(--color-ember)">
+        <div class="ring-gradient relative overflow-hidden rounded-2xl bg-ink-850/60" style="--accent: var(--color-ember)">
           <div class="flex items-center justify-between gap-3 border-b border-ink-600/70 px-5 py-3.5 sm:px-6">
             <p class="label-mono text-paper-dim">
-              <span data-log-count>{buildLog.length}</span> entries · newest first
+              <span data-log-count>{buildLog.length}</span> entries, newest first
             </p>
-            <p class="label-mono hidden text-[0.55rem] sm:block">Scroll inside ↓</p>
+            
           </div>
 
           <div
@@ -177,7 +170,7 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
                             'absolute -left-[5px] top-[1.35rem] size-[9px] rounded-full ring-4 ring-ink-850',
                             e.kind === 'ship' ? '' : 'border border-dashed bg-ink-850',
                           ]}
-                          style={e.kind === 'ship' ? 'background: var(--accent); box-shadow: 0 0 12px var(--accent)' : 'border-color: var(--accent)'}
+                          style={e.kind === 'ship' ? 'background: var(--accent)' : 'border-color: var(--accent)'}
                           aria-hidden="true"
                         />
                         <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -224,7 +217,7 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
             GitHub / {github.handle} ↗
           </a>
           <a href={x.href} target="_blank" rel="noopener noreferrer" class="glass inline-flex items-center rounded-full px-4 py-2 text-fine font-medium text-paper">
-            X / {x.handle} ↗
+            X / {x.handle}
           </a>
         </div>
       </div>

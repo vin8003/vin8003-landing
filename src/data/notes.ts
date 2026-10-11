@@ -1,5 +1,5 @@
 /**
- * FIELD NOTES — longer write-ups from the build loop.
+ * FIELD NOTES - longer write-ups from the build loop.
  *
  * Every number here is measured, not estimated. The agent-month figures were
  * pulled on 9 Oct 2026 from git history (all branches and PR refs, merge
@@ -13,12 +13,12 @@ export const agentMonth = {
   href: '/notes/agent-month/',
   date: '2026-10-09',
   label: '09 Oct 2026',
-  period: '19 Aug – 19 Sep 2026',
+  period: '19 Aug to 19 Sep 2026',
   title: 'One month of SuperGrok Heavy: 414 PRs, 92 merged',
   dek: 'One SuperGrok Heavy seat, a fleet of Cursor cloud agents, and what git says happened.',
   lesson: ['Writing code got cheap.', 'Reviewing it didn’t.'],
   source:
-    'git log across all branches and PR refs (merge commits excluded) and the GitHub PR list, 19 Aug – 19 Sep 2026 IST, pulled 9 Oct 2026.',
+    'git log across all branches and PR refs (merge commits excluded) and the GitHub PR list, 19 Aug to 19 Sep 2026 IST, pulled 9 Oct 2026.',
 
   stats: [
     { value: '414', label: 'PRs opened', note: 'across 9 repos' },

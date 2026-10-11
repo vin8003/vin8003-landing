@@ -10,8 +10,8 @@ interface Props {
 }
 
 const {
-  title = 'vin8003 — I build products with AI',
-  description = `${person.name} — builder and founder in Delhi NCR. ${person.thesisLine} Building OrderEasy, CiteBench and GSTSlip.`,
+  title = 'vin8003 - I build products with AI',
+  description = `${person.name}, builder and founder in Delhi NCR. ${person.thesisLine} Building OrderEasy, CiteBench and GSTSlip.`,
   skipTo = '#building',
 } = Astro.props;
 
@@ -41,7 +41,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com
         try {
           stored = localStorage.getItem('vin8003-theme');
         } catch {
-          /* private mode — fall through to the OS preference */
+          /* private mode - fall through to the OS preference */
         }
         const light = stored ? stored === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
         document.documentElement.dataset.theme = light ? 'light' : 'dark';
@@ -119,21 +119,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com
           { threshold: 0.15 },
         );
         mocks.forEach((el) => mockIo.observe(el));
-      }
-
-      // Cards with a pointer-tracked glow. Fine pointers only.
-      if (window.matchMedia('(pointer: fine)').matches && !reduced) {
-        for (const card of document.querySelectorAll<HTMLElement>('[data-spot]')) {
-          card.addEventListener(
-            'pointermove',
-            (event) => {
-              const rect = card.getBoundingClientRect();
-              card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
-              card.style.setProperty('--my', `${event.clientY - rect.top}px`);
-            },
-            { passive: true },
-          );
-        }
       }
 
       // The section the reader is in stays lit in both navs.

@@ -11,6 +11,7 @@ const { status, class: className = '' } = Astro.props;
 
 // LIVE borrows the surrounding product accent where one is set, so a chip
 // inside a product card reads as part of that product, not a generic badge.
+// The label carries the state; there is no decorative dot.
 const tone: Record<Status, string> = {
   LIVE: 'color: var(--accent, var(--color-mint))',
   BUILDING: 'color: var(--color-paper-dim)',
@@ -19,15 +20,5 @@ const tone: Record<Status, string> = {
 ---
 
 <span class={`chip ${className}`} style={tone[status]} title={statusNote[status]}>
-  {
-    status === 'LIVE' ? (
-      <span class="relative flex size-1.5 shrink-0">
-        <span class="chip-dot absolute inset-0" data-anim style="animation: soft-pulse 2.4s ease-in-out infinite;" />
-        <span class="chip-dot relative" />
-      </span>
-    ) : (
-      <span class="chip-dot" />
-    )
-  }
   {status}
 </span>

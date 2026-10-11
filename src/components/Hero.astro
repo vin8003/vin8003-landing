@@ -1,11 +1,12 @@
 ---
 import { person, liveLinks } from '../data/site';
 import StatusChip from './StatusChip.astro';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
 // The claim is split so each line can reveal from behind its own mask.
 const claimLines = [
   { text: 'I build products', tint: '' },
-  { text: 'with AI.', tint: 'text-gradient' },
+  { text: 'with AI.', tint: 'text-ember' },
 ];
 
 /**
@@ -22,40 +23,14 @@ const orbits = [
 
 <section
   id="top"
-  class="relative isolate flex min-h-[100svh] flex-col justify-center overflow-hidden pb-14 pt-24 sm:pt-28"
+  class="relative isolate flex min-h-[100dvh] flex-col justify-center overflow-hidden pb-14 pt-24"
   data-hero
 >
   {/* Substrate + light */}
   <div class="grid-substrate pointer-events-none absolute inset-0 -z-20 [mask-image:radial-gradient(ellipse_at_50%_35%,#000_30%,transparent_75%)]"></div>
-  <div class="aurora" aria-hidden="true">
-    <span class="left-[-10%] top-[-8%] h-[34rem] w-[34rem]" style="background: var(--color-ember)"></span>
-    <span class="right-[-12%] top-[18%] h-[30rem] w-[30rem]" style="background: var(--color-violet)"></span>
-    <span class="bottom-[-18%] left-[30%] h-[26rem] w-[26rem]" style="background: var(--color-mint); opacity: 0.32"></span>
-  </div>
-  <div
-    class="pointer-events-none absolute inset-0 -z-10 opacity-70 transition-opacity duration-700"
-    style="background: radial-gradient(40rem 30rem at var(--px, 50%) var(--py, 22%), color-mix(in oklab, var(--color-ember) 12%, transparent), transparent 70%);"
-    data-spotlight
-  >
-  </div>
-  <div class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-56 bg-gradient-to-b from-transparent to-ink-900"></div>
 
   <div class="container-page">
-    {/* Instrument row */}
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-2" data-reveal>
-      <span class="glass flex items-center gap-2 rounded-full px-3 py-1.5">
-        <span class="relative flex size-1.5">
-          <span class="absolute inset-0 rounded-full bg-mint" data-anim style="animation: soft-pulse 2.4s ease-in-out infinite;"></span>
-          <span class="relative size-1.5 rounded-full bg-mint"></span>
-        </span>
-        <span class="label-mono text-paper-dim">Three products live</span>
-      </span>
-      <span class="label-mono">{person.location}</span>
-      <span class="hidden h-3 w-px bg-ink-500 sm:block"></span>
-      <span class="label-mono hidden sm:inline">{person.thesisLine}</span>
-    </div>
-
-    <div class="mt-10 grid items-center gap-12 sm:mt-12 lg:grid-cols-12 lg:gap-10">
+    <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
       <div class="min-w-0 lg:col-span-7">
         <p class="font-mono text-[0.8rem] font-semibold tracking-[0.32em] text-paper-dim sm:text-[0.9rem]" data-reveal style="--reveal-delay:60ms">
           VINEET SHARMA
@@ -71,38 +46,28 @@ const orbits = [
           }
         </h1>
 
-        <p class="mt-7 max-w-xl text-lead text-paper-dim sm:mt-8" data-reveal style="--reveal-delay:240ms">
-          Builder and founder. I am building an army of narrow AI assistants: one runs a shop’s counter, one
-          works a chamber’s case law, one reads tax invoices. Ten years of Python and Django before this —
-          now I ship my own products, end to end.
+        <p class="mt-7 max-w-[65ch] text-lead text-paper-dim sm:mt-8" data-reveal style="--reveal-delay:240ms">
+          An army of narrow AI assistants: one runs a shop's counter, one works case law, one reads tax invoices.
         </p>
 
         <div class="mt-8 flex flex-wrap gap-2.5 sm:mt-10 sm:gap-3" data-reveal style="--reveal-delay:300ms">
           <a
             href="#demo"
-            class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-paper px-5 py-3 text-body font-medium text-ink-900 shadow-[0_10px_40px_-12px_var(--color-ember)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:px-6"
+            class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-paper px-5 py-3 text-body font-medium text-ink-900 transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98] sm:px-6"
           >
             Walk the demos
-            <svg viewBox="0 0 16 16" class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-              <path d="M5.5 3.5v9l7-4.5-7-4.5Z" stroke-linejoin="round"></path>
-            </svg>
+            <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={1.75} aria-hidden="true" />
           </a>
           <a
             href="#building"
-            class="glass inline-flex items-center gap-2 rounded-full px-5 py-3 text-body font-medium text-paper transition-colors duration-200 hover:bg-ink-700 sm:px-6"
+            class="glass inline-flex items-center gap-2 rounded-full px-5 py-3 text-body font-medium text-paper transition-[background-color,transform] duration-200 hover:bg-ink-700 active:scale-[0.98] sm:px-6"
           >
             What is building now
-          </a>
-          <a
-            href="#log"
-            class="inline-flex items-center gap-2 rounded-full px-4 py-3 text-body font-medium text-paper-dim transition-colors duration-200 hover:text-paper"
-          >
-            Build log →
           </a>
         </div>
       </div>
 
-      {/* Constellation — decorative for the eye, real links for the hand. */}
+      {/* Constellation - decorative for the eye, real links for the hand. */}
       <div class="relative mx-auto w-full max-w-[19rem] sm:max-w-[26rem] lg:col-span-5 lg:max-w-[32rem]" data-reveal style="--reveal-delay:200ms">
         <div class="group/const relative aspect-square" data-constellation>
           {/* Rings */}
@@ -120,12 +85,7 @@ const orbits = [
           {/* Core */}
           <div class="absolute inset-[38%] grid place-items-center" aria-hidden="true">
             <span
-              class="absolute inset-[-40%] rounded-full blur-2xl"
-              style="background: radial-gradient(circle, color-mix(in oklab, var(--color-ember) 55%, transparent), transparent 70%); animation: core-breathe 6s ease-in-out infinite;"
-              data-orbit
-            ></span>
-            <span
-              class="relative grid size-full place-items-center rounded-full border border-ember/50 font-mono text-[0.95rem] font-semibold text-paper shadow-[inset_0_0_30px_-6px_var(--color-ember)] sm:text-[1.1rem]"
+              class="relative grid size-full place-items-center rounded-full border border-ember/50 font-mono text-[0.95rem] font-semibold text-paper sm:text-[1.1rem]"
               style="background: radial-gradient(circle at 35% 30%, color-mix(in oklab, var(--color-ember) 40%, var(--color-ink-800)), var(--color-ink-850) 70%);"
             >
               VS
@@ -155,7 +115,7 @@ const orbits = [
                         >
                           <span
                             class="grid size-6 place-items-center rounded-full font-mono text-[0.6rem] font-bold text-ink-900"
-                            style="background: var(--accent); box-shadow: 0 0 18px -2px var(--accent);"
+                            style="background: var(--accent);"
                           >
                             {o.name[0]}
                           </span>
@@ -175,16 +135,18 @@ const orbits = [
           {/* The parked one, fixed on the outer ring. */}
           <div class="absolute bottom-[6%] left-[2%] sm:left-[4%]" aria-hidden="true">
             <span class="flex items-center gap-1.5 rounded-full border border-dashed border-ink-500 bg-ink-900/70 px-2.5 py-1 font-mono text-[0.55rem] uppercase tracking-[0.14em] text-paper-faint">
-              <span class="size-1.5 rounded-full bg-paper-faint/60"></span>
-              AI Secretary · parked
+              AI Secretary, parked
             </span>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    {/* Live rail */}
-    <nav class="mt-14 grid gap-3 sm:mt-16 sm:grid-cols-2 lg:grid-cols-4" aria-label="Open right now" data-reveal style="--reveal-delay:360ms">
+<section class="relative pb-16 sm:pb-24">
+  <div class="container-page">
+    <nav class="grid gap-px overflow-hidden rounded-2xl border border-ink-600/70 bg-ink-600/70 sm:grid-cols-2 lg:grid-cols-4" aria-label="Open right now" data-reveal style="--reveal-delay:360ms">
       {
         liveLinks.map((link) => {
           const internal = 'internal' in link && link.internal;
@@ -194,12 +156,11 @@ const orbits = [
               href={link.href}
               target={internal ? undefined : '_blank'}
               rel={internal ? undefined : 'noopener noreferrer'}
-              class="spot ring-gradient glass group relative flex items-center justify-between gap-3 rounded-2xl px-4 py-3.5 transition-transform duration-300 hover:-translate-y-0.5"
+              class="group relative flex items-center justify-between gap-3 bg-ink-900 px-4 py-4 transition-colors duration-300 hover:bg-ink-850"
               style={`--accent: ${accent}`}
               data-spot
             >
               <span class="flex min-w-0 items-center gap-3">
-                <span class="size-2 shrink-0 rounded-full" style="background: var(--accent); box-shadow: 0 0 12px var(--accent);" />
                 <span class="min-w-0">
                   <span class="block truncate text-body font-semibold text-paper">{link.label}</span>
                   <span class="block truncate text-fine text-paper-faint">{link.note}</span>
@@ -207,13 +168,11 @@ const orbits = [
               </span>
               <span class="flex shrink-0 items-center gap-2">
                 {internal ? (
-                  <span class="label-mono text-[0.55rem]" style="color: var(--accent)">On this site</span>
+                  <span class="label-mono hidden text-[0.55rem] 2xl:inline" style="color: var(--accent)">On this site</span>
                 ) : (
                   <StatusChip status={link.status} class="hidden xl:inline-flex" />
                 )}
-                <svg viewBox="0 0 16 16" class="size-3.5 shrink-0 text-paper-faint transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-                  {internal ? <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" /> : <path d="M5 11 11 5M6 5h5v5" stroke-linecap="round" stroke-linejoin="round" />}
-                </svg>
+                {internal ? <ArrowRight className="size-3.5 shrink-0 text-paper-faint transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={1.6} aria-hidden="true" /> : <ArrowUpRight className="size-3.5 shrink-0 text-paper-faint transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={1.6} aria-hidden="true" />}
               </span>
             </a>
           );
@@ -222,28 +181,3 @@ const orbits = [
     </nav>
   </div>
 </section>
-
-<script>
-  // Pointer-tracked light. Fine pointers only — no cost on touch devices.
-  const hero = document.querySelector<HTMLElement>('[data-hero]');
-  const spotlight = document.querySelector<HTMLElement>('[data-spotlight]');
-  const finePointer = window.matchMedia('(pointer: fine)').matches;
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (hero && spotlight && finePointer && !reduced) {
-    let frame = 0;
-    hero.addEventListener(
-      'pointermove',
-      (event) => {
-        if (frame) return;
-        frame = requestAnimationFrame(() => {
-          frame = 0;
-          const rect = hero.getBoundingClientRect();
-          spotlight.style.setProperty('--px', `${((event.clientX - rect.left) / rect.width) * 100}%`);
-          spotlight.style.setProperty('--py', `${((event.clientY - rect.top) / rect.height) * 100}%`);
-        });
-      },
-      { passive: true },
-    );
-  }
-</script>

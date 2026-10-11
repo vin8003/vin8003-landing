@@ -17,14 +17,14 @@ const fmt = (n: number) => n.toLocaleString('en-IN');
     <span class="font-mono text-[0.7rem] text-paper-faint">{total}</span>
   </figcaption>
   <div
-    class="flex h-9 w-full gap-[3px] overflow-hidden rounded-xl"
+    class="flex h-9 w-full gap-[3px] overflow-hidden rounded-lg"
     role="img"
     aria-label={`${title}: ${parts.map((p) => `${p.label} ${fmt(p.value)}`).join(', ')}`}
   >
     {
       parts.map((p) => (
         <span
-          class="stack-seg block h-full first:rounded-l-xl last:rounded-r-xl"
+          class="stack-seg block h-full first:rounded-l-lg last:rounded-r-lg"
           style={`width: ${(p.value / sum) * 100}%; background: ${p.color}`}
           title={`${p.label}: ${fmt(p.value)}`}
         />

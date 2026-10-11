@@ -1,6 +1,7 @@
 ---
 import { nav, person } from '../data/site';
 import ThemeToggle from './ThemeToggle.astro';
+import ScrollProgress from './islands/ScrollProgress';
 
 interface Props {
   /** Off the front page, section links point back to it. */
@@ -11,19 +12,17 @@ const { home = true } = Astro.props;
 const links = nav.map((item) => ({ ...item, href: home ? item.href : `/${item.href}` }));
 ---
 
-<div
-  aria-hidden="true"
-  class="fixed inset-x-0 top-0 z-[60] h-px origin-left scale-x-0 bg-ember"
-  data-scroll-progress
->
-</div>
+<ScrollProgress client:load />
+
+{/* Sentinel: when it leaves the viewport the nav gains its solid backdrop. */}
+<div class="pointer-events-none absolute left-0 top-0 h-6 w-px" aria-hidden="true" data-nav-sentinel></div>
 
 <header
   class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500"
   data-nav
 >
   <div class="container-page flex h-16 items-center justify-between gap-4 sm:h-[4.5rem]">
-    <a href={home ? '#top' : '/'} class="group flex items-center gap-2.5 sm:gap-3" aria-label={`${person.name} — home`}>
+    <a href={home ? '#top' : '/'} class="group flex items-center gap-2.5 sm:gap-3" aria-label={`${person.name}, home`}>
       <span
         class="grid size-8 shrink-0 place-items-center rounded-[0.6rem] border border-ink-500 bg-ink-800 font-mono text-[0.7rem] font-semibold tracking-tight text-paper transition-colors duration-300 group-hover:border-ember group-hover:text-ember sm:size-9 sm:text-xs"
         >VS</span
@@ -57,11 +56,7 @@ const links = nav.map((item) => ({ ...item, href: home ? item.href : `/${item.hr
         class="hidden size-9 place-items-center rounded-full border border-ink-500 text-paper-dim transition-colors duration-200 hover:border-paper-faint hover:text-paper sm:grid"
         aria-label="Vineet Sharma on X"
       >
-        <svg viewBox="0 0 24 24" class="size-3.5" fill="currentColor" aria-hidden="true">
-          <path
-            d="M18.9 1.6h3.4l-7.4 8.5 8.7 11.5h-6.8l-5.3-7-6.1 7H1.9l7.9-9.1L1.5 1.6h7l4.8 6.4ZM17.7 19.5h1.9L7.3 3.6H5.3Z"
-          ></path>
-        </svg>
+        <span class="font-mono text-[0.78rem] font-semibold" aria-hidden="true">X</span>
       </a>
       <a
         href={`mailto:${person.email}`}
@@ -103,29 +98,14 @@ const links = nav.map((item) => ({ ...item, href: home ? item.href : `/${item.hr
 
 <script>
   const header = document.querySelector<HTMLElement>('[data-nav]');
-  const progress = document.querySelector<HTMLElement>('[data-scroll-progress]');
+  const sentinel = document.querySelector<HTMLElement>('[data-nav-sentinel]');
   const solid = ['bg-ink-900/92', 'backdrop-blur-xl', 'border-b', 'border-ink-600/70'];
 
-  let ticking = false;
-  const update = () => {
-    ticking = false;
-    const y = window.scrollY;
-    header?.classList.toggle('shadow-[0_1px_0_0_rgba(255,255,255,0.04)]', y > 24);
-    solid.forEach((c) => header?.classList.toggle(c, y > 24));
-
-    if (progress) {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
-    }
-  };
-
-  const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(update);
-  };
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
-  update();
+  // IntersectionObserver instead of a scroll listener: it fires once per crossing, not per frame.
+  if (header && sentinel) {
+    new IntersectionObserver(([entry]) => {
+      const scrolled = !entry!.isIntersecting;
+      solid.forEach((c) => header.classList.toggle(c, scrolled));
+    }).observe(sentinel);
+  }
 </script>

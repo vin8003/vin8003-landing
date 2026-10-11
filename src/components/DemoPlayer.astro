@@ -1,4 +1,5 @@
 ---
+import { ChevronLeft, ChevronRight, Play, Pause, ShieldCheck, X } from 'lucide-react';
 import { demos, demoMedia, demoSource } from '../data/demos';
 
 interface Props {
@@ -28,7 +29,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
           class="demo-tab glass group relative flex shrink-0 items-center gap-3 rounded-2xl px-4 py-3 text-left transition-[transform,background-color] duration-300 hover:-translate-y-0.5"
           style={`--accent: var(--color-${d.accent})`}
         >
-          <span class="grid size-8 place-items-center rounded-xl font-mono text-[0.7rem] font-bold text-ink-900" style="background: var(--accent)">
+          <span class="grid size-8 place-items-center rounded-lg font-mono text-[0.7rem] font-bold text-ink-900" style="background: var(--accent)">
             {d.product[0]}
           </span>
           <span class="flex flex-col leading-tight">
@@ -57,21 +58,10 @@ const pad = (n: number) => String(n).padStart(2, '0');
           {/* Stage */}
           <div class="min-w-0 lg:col-span-8">
             <div class="relative">
-              <span
-                class="pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] opacity-30 blur-3xl"
-                style="background: radial-gradient(60% 60% at 50% 40%, var(--accent), transparent 70%)"
-                aria-hidden="true"
-              />
-
               {d.device === 'browser' ? (
                 <figure class="ring-gradient relative overflow-hidden rounded-2xl bg-ink-850 shadow-frame">
                   <div class="flex items-center gap-3 border-b border-ink-600/80 bg-ink-800 px-3 py-2.5 sm:px-4">
-                    <div class="flex shrink-0 gap-1.5" aria-hidden="true">
-                      <span class="size-2.5 rounded-full bg-[#ff5f57]/80" />
-                      <span class="size-2.5 rounded-full bg-[#febc2e]/80" />
-                      <span class="size-2.5 rounded-full bg-[#28c840]/80" />
-                    </div>
-                    <span class="min-w-0 flex-1 truncate rounded-md bg-ink-900/70 px-2.5 py-1 text-center font-mono text-[0.62rem] text-paper-faint sm:text-[0.68rem]">
+                    <span class="min-w-0 flex-1 truncate rounded-lg bg-ink-900/70 px-2.5 py-1 text-center font-mono text-[0.62rem] text-paper-faint sm:text-[0.68rem]">
                       {d.host}
                     </span>
                     <span class="label-mono hidden shrink-0 text-[0.55rem] sm:inline">Seed data</span>
@@ -90,7 +80,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
                         <img
                           src={i === 0 ? demoMedia(d, s) : undefined}
                           data-src={demoMedia(d, s)}
-                          alt={`${d.product} ${d.journey.toLowerCase()} — ${s.title}`}
+                          alt={`${d.product} ${d.journey.toLowerCase()}: ${s.title}`}
                           class="size-full object-cover object-top"
                           loading="lazy"
                           decoding="async"
@@ -123,7 +113,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
                           <img
                             src={i === 0 ? demoMedia(d, s) : undefined}
                             data-src={demoMedia(d, s)}
-                            alt={`${d.product} ${d.journey.toLowerCase()} — ${s.title}`}
+                            alt={`${d.product} ${d.journey.toLowerCase()}: ${s.title}`}
                             class="size-full object-cover object-top"
                             loading="lazy"
                             decoding="async"
@@ -142,7 +132,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
               )}
             </div>
 
-            {/* Segmented progress — also a scrubber. */}
+            {/* Segmented progress - also a scrubber. */}
             <div class="mt-5 flex gap-1" aria-hidden="true">
               {d.steps.map((s, i) => (
                 <button
@@ -162,7 +152,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
           <div class="flex min-w-0 flex-col lg:col-span-4">
             <p class="label-mono" style="color: var(--accent)">
               {d.product} · {d.journey}
-              {d.seed && <span class="text-paper-faint"> · {d.seed}</span>}
+              {d.seed && <span class="text-paper-faint"> ({d.seed})</span>}
             </p>
 
             <div class="relative mt-4 min-h-[11rem] sm:min-h-[10rem]" aria-live="polite">
@@ -185,7 +175,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
                 data-prev
                 aria-label="Previous step"
               >
-                <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <ChevronLeft className="size-4" strokeWidth={1.7} aria-hidden="true" />
               </button>
               <button
                 type="button"
@@ -194,7 +184,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
                 data-next
               >
                 <span data-next-label>Next step</span>
-                <svg viewBox="0 0 16 16" class="size-3.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <ChevronRight className="size-3.5" strokeWidth={1.8} aria-hidden="true" />
               </button>
               <button
                 type="button"
@@ -202,8 +192,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
                 data-play
                 aria-pressed="false"
               >
-                <svg viewBox="0 0 16 16" class="size-3.5" fill="currentColor" aria-hidden="true" data-play-icon><path d="M5 3.2v9.6L12.5 8 5 3.2Z" /></svg>
-                <svg viewBox="0 0 16 16" class="hidden size-3.5" fill="currentColor" aria-hidden="true" data-pause-icon><path d="M4.5 3h2.4v10H4.5zM9.1 3h2.4v10H9.1z" /></svg>
+                <Play className="size-3.5" fill="currentColor" strokeWidth={1.5} aria-hidden="true" data-play-icon />
+                <Pause className="hidden size-3.5" fill="currentColor" strokeWidth={1.5} aria-hidden="true" data-pause-icon />
                 <span data-play-label>Autoplay</span>
               </button>
             </div>
@@ -214,7 +204,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
                 <li>
                   <button
                     type="button"
-                    class="demo-step flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left text-fine text-paper-dim transition-colors hover:bg-ink-800 hover:text-paper"
+                    class="demo-step flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-fine text-paper-dim transition-colors hover:bg-ink-800 hover:text-paper"
                     data-step={i}
                     aria-current={i === 0 ? 'step' : undefined}
                   >
@@ -233,9 +223,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
             <p class="font-display text-[1.25rem] leading-snug text-paper sm:text-[1.4rem]">{d.headline}</p>
             <p class="mt-2 text-fine text-paper-dim">{d.summary}</p>
             <p class="mt-3 flex items-start gap-2 text-fine text-paper">
-              <svg viewBox="0 0 16 16" class="mt-0.5 size-4 shrink-0" style="color: var(--accent)" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                <path d="M8 1.5 2.5 4v4c0 3.2 2.4 5.7 5.5 6.5 3.1-.8 5.5-3.3 5.5-6.5V4L8 1.5Z" stroke-linejoin="round" />
-              </svg>
+              <ShieldCheck className="mt-0.5 size-4 shrink-0" style={{ color: "var(--accent)" }} strokeWidth={1.5} aria-hidden="true" />
               <span>{d.guardrail}</span>
             </p>
           </div>
@@ -247,7 +235,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
                 rel="noopener noreferrer"
                 class="inline-flex items-center gap-2 rounded-full border border-ink-500 px-4 py-2.5 text-fine font-medium text-paper transition-colors hover:bg-ink-800"
               >
-                {d.live.label} ↗
+                {d.live.label}
               </a>
             )}
           </div>
@@ -261,7 +249,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <div class="flex items-center justify-between gap-3 border-b border-ink-600 px-4 py-3">
       <p class="truncate text-fine" data-zoom-title></p>
       <button type="button" class="glass grid size-9 shrink-0 place-items-center rounded-full" data-zoom-close aria-label="Close">
-        <svg viewBox="0 0 16 16" class="size-3.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8" stroke-linecap="round" /></svg>
+        <X className="size-3.5" strokeWidth={1.8} aria-hidden="true" />
       </button>
     </div>
     <div class="max-h-[calc(92svh-3.5rem)] overflow-auto">

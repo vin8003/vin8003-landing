@@ -143,6 +143,15 @@ const commit = (repo: string, sha: string) => ({ label: `${repo} @ ${sha}`, href
  */
 export const buildLog: LogEntry[] = [
   {
+    date: '2026-10-13',
+    label: '13 Oct 2026',
+    project: 'CiteBench',
+    accent: 'violet',
+    kind: 'open',
+    line: 'The chamber redesigned around live cases, with a new design system, a welcome flow and matter tabs, plus order text kept from a CNR fetch and a fixed chat layout. On a branch, not merged.',
+    link: commit('nyayasetu', 'ded7307'),
+  },
+  {
     date: '2026-10-11',
     label: '11 Oct 2026',
     project: 'vin8003.com',
@@ -159,6 +168,33 @@ export const buildLog: LogEntry[] = [
     kind: 'ship',
     line: 'The 10 Oct 2026 demo screens are now hosted on this site, so the walkthroughs load their captures from here.',
     link: pr('vin8003-landing', 20),
+  },
+  {
+    date: '2026-10-11',
+    label: '11 Oct 2026',
+    project: 'Musical Explainers',
+    accent: 'amber',
+    kind: 'ship',
+    line: 'Evidence-driven editorial pipeline optimised, so each script runs on fewer and better-targeted evidence passes.',
+    link: pr('musical-explainers', 4),
+  },
+  {
+    date: '2026-10-11',
+    label: '11 Oct 2026',
+    project: 'Musical Explainers',
+    accent: 'amber',
+    kind: 'ship',
+    line: 'Token-efficient repair for Claude calls, a usage ledger and budget guardrails so runs stay inside a set spend.',
+    link: pr('musical-explainers', 3),
+  },
+  {
+    date: '2026-10-11',
+    label: '11 Oct 2026',
+    project: 'Musical Explainers',
+    accent: 'amber',
+    kind: 'ship',
+    line: 'ChatGPT added as a switchable subscription provider, with the Node 18 sign-in crypto fixed and clearer request-error diagnostics.',
+    link: commit('musical-explainers', 'b744054'),
   },
   {
     date: '2026-10-11',

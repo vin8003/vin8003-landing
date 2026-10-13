@@ -1,7 +1,7 @@
 # Checkpoint — vin8003.com
 
 Status at this commit: **the site is complete and deployable.** It builds clean, has no type errors, no
-horizontal overflow from 320px to 2560px, and no WCAG AA contrast failures in either theme. What is
+horizontal overflow from 320px to 2560px, and no WCAG AA contrast failures. What is
 missing is the deploy itself, which needs Cloudflare credentials that only Vineet has.
 
 ## What the site is
@@ -24,8 +24,8 @@ A public command center, not a portfolio. The domain is the front door; the prod
 
 - Astro 7 static site, Tailwind CSS v4 via `@tailwindcss/vite`, no client-side UI framework.
 - Self-hosted Fraunces (soft optical size) / Instrument Sans / JetBrains Mono through Fontsource.
-- Dark and light themes, done by inverting the `ink` / `paper` ramps rather than adding `dark:` variants.
-  The stored choice is applied before first paint; with nothing stored the OS preference wins.
+- Dark only. A WebGL cloud layer sits behind every page and a lazy-loaded three.js constellation in the
+  hero; see "Visual system" in the README.
 - `npm run build` succeeds; `npx astro check` reports 0 errors, 0 warnings, 0 hints.
 
 **Content**
@@ -58,11 +58,11 @@ A public command center, not a portfolio. The domain is the front door; the prod
 
 **Accessibility and weight**
 
-- `npm run contrast` walks every text node in both themes against the actual computed colours: no AA
-  failures. Light-mode accents are darker than their dark-mode counterparts to earn that.
+- `npm run contrast` walks every text node against the actual computed colours: no AA failures.
 - Every mono link has a real tap target; masked headline reveals no longer clip descenders.
 - All motion is gated on `prefers-reduced-motion`; mock animations only run while on screen.
-- Fonts are latin-only subsets served from `public/fonts`, no JavaScript bundle.
+- Fonts are latin-only subsets served from `public/fonts`. three.js is only fetched for the hero scene,
+  after first paint, and only when WebGL exists and motion is allowed.
 
 **Deploy readiness**
 

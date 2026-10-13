@@ -7,7 +7,7 @@ It is a static site: the front page below, plus `/demo/`, which hosts the four g
 
 | #   | Section          | Anchor      | What it holds                                                          |
 | --- | ---------------- | ----------- | ---------------------------------------------------------------------- |
-| —   | **Hero**         | `#top`      | Wordmark, thesis line, "I build products with AI.", live product rail  |
+| —   | **Hero**         | `#top`      | "I build products with AI.", the 3D constellation, and an index of everything on the site |
 | 01  | **Building now** | `#building` | The active products, each with a `LIVE` / `BUILDING` status chip        |
 | 02  | **Demo**         | `#demo`     | The four guided journeys, played natively from the real captured screens |
 | 03  | **Build log**    | `#log`      | Scrollable, filterable timeline; each ship links to a PR or commit     |
@@ -29,23 +29,35 @@ step rail, autoplay, arrow keys and a full-size view, using the real screens cap
 | Framework  | [Astro](https://astro.build) 7, static output, zero UI framework |
 | Styling    | Tailwind CSS v4 via `@tailwindcss/vite`, tokens in `src/styles/global.css` |
 | Fonts      | Fraunces (soft) / Instrument Sans / JetBrains Mono, self-hosted from `public/fonts` |
-| Motion     | `IntersectionObserver` + CSS keyframes, fully gated on `prefers-reduced-motion` |
-| Theming    | Dark and light, by inverting the `ink` / `paper` ramps — no `dark:` variants |
+| Motion     | `IntersectionObserver`, CSS keyframes and native scroll timelines, fully gated on `prefers-reduced-motion` |
+| WebGL      | A raw-WebGL cloud layer behind every page, and a lazy-loaded three.js constellation in the hero |
+| Theming    | Dark only |
 | Hosting    | Cloudflare Workers static assets (Cloudflare Pages also works) |
 
-There is no client-side framework and no tracking. The only JavaScript is a few dozen lines for scroll
-reveals, the nav progress bar and scroll-spy, the theme toggle and the inline demo embeds.
+There is no tracking. The site is dark only: `ink` is the surface and `paper` the type, and there is no
+theme toggle.
 
-### How theming works
+### Visual system
 
-`ink` is always the surface and `paper` is always the type on it, so flipping those two ramps is the whole
-theme. `:root[data-theme='light']` in `src/styles/global.css` redefines the tokens, and every existing
-utility — `bg-ink-850`, `text-paper-dim`, the per-product accents — follows without a single `dark:`
-variant. A small inline script in `src/layouts/Base.astro` applies the stored choice before first paint;
-with nothing stored, the OS preference wins.
+- **Clouds** (`src/scripts/clouds.ts`): one fragment shader of domain-warped fbm noise behind every page,
+  drawn at a quarter of the viewport size and upscaled. Any element with `data-atmos="mint"` (or `violet`,
+  `amber`, `ember`) that crosses the middle of the screen tints it; `data-atmos-intensity` sets how strongly.
+  The pointer nudges the clouds and their light source.
+- **Hero index** (`src/components/Hero.astro`): the headline and the constellation on top; the active entry,
+  the index (OrderEasy, CiteBench, GSTSlip, the demos, the field note) and its real capture along the
+  bottom. Hovering an index line previews it, the dashes pick one, a swipe steps through on touch, and it
+  advances on its own while the hero is on screen. Content comes from `src/data/`.
+- **Constellation** (`src/scripts/hero-scene.ts`): three.js, fetched only when WebGL exists and motion is
+  allowed. The product labels are the real links, moved each frame to where their node projects. The
+  index lights the matching orbit. Without WebGL the static ring layout stays.
+- **Line wipe**: the transition used for captures, the demo player and page-to-page navigation (native
+  cross-document view transitions). Pure CSS masks driven by the registered `--lr` property.
+- **Pointer**: `data-parallax="20"` drifts an element with the mouse, `data-lean="6"` also leans it in 3D;
+  `data-tilt` cards follow the cursor with a glare. All in `src/scripts/motion.ts`.
+- **Intro**: a loading ring on the first visit of a session (`src/scripts/intro.ts`), capped at a few
+  seconds; click to skip. Never shown with reduced motion or without JavaScript.
 
-Light-mode accents are deliberately darker than their dark-mode counterparts so they still clear WCAG AA
-on a bone background. `npm run contrast` checks both themes against the actual computed colours.
+`npm run contrast` checks every text node against the actual computed colours.
 
 ## Running it locally
 
@@ -63,7 +75,7 @@ npm run check          # astro type + template check
 npm run og             # regenerate public/og.png and the app icons
 npm run fonts          # re-copy the latin woff2 subsets into public/fonts
 npm run audit          # responsive sweep across 11 viewports (needs a server running)
-npm run contrast       # WCAG AA sweep of every text node, in both themes
+npm run contrast       # WCAG AA sweep of every text node
 npm run shots          # screenshots each section at desktop and phone widths
 npm run deploy         # build, then wrangler deploy
 ```

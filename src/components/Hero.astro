@@ -1,142 +1,319 @@
 ---
-import { person, liveLinks } from '../data/site';
+import { person, ventures, liveLinks } from '../data/site';
+import { demos, demoMedia } from '../data/demos';
+import { agentMonth } from '../data/notes';
 import StatusChip from './StatusChip.astro';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import SplitText from './SplitText.astro';
+import { ArrowRight, ArrowUpRight, ArrowDown } from 'lucide-react';
 
-// The claim is split so each line can reveal from behind its own mask.
+/**
+ * The front door, laid out as an index: everything that exists on this site, one entry at a time.
+ * Each entry shows a real capture and tints the clouds behind the page with its product colour.
+ * Content comes straight from the existing data files, so the index and the sections below never
+ * disagree.
+ */
+
+const shot = (id: string, image: string) => {
+  const demo = demos.find((d) => d.id === id)!;
+  return demoMedia(demo, demo.steps.find((st) => st.image === image)!);
+};
+
+const totalSteps = demos.reduce((n, d) => n + d.steps.length, 0);
+const [orderEasy, citeBench, gstSlip] = ventures as [(typeof ventures)[number], (typeof ventures)[number], (typeof ventures)[number]];
+
+type Entry = {
+  id: string;
+  name: string;
+  kind: string;
+  line: string;
+  accent: 'mint' | 'violet' | 'amber' | 'ember';
+  href: string;
+  cta: string;
+  host: string;
+  image: string;
+  alt: string;
+  width: number;
+  height: number;
+  fit?: 'cover' | 'contain';
+  status?: (typeof ventures)[number]['status'];
+};
+
+const entries: Entry[] = [
+  {
+    id: orderEasy.id,
+    name: orderEasy.name,
+    kind: orderEasy.kind,
+    line: orderEasy.what,
+    accent: orderEasy.accent,
+    href: `#${orderEasy.id}`,
+    cta: 'View product',
+    host: 'retailer.ordereasy.win',
+    image: shot('retailer', 'retailer-overview.jpg'),
+    alt: 'OrderEasy retailer dashboard showing four shop KPIs for the selected range',
+    width: 1280,
+    height: 656,
+    status: orderEasy.status,
+  },
+  {
+    id: citeBench.id,
+    name: citeBench.name,
+    kind: citeBench.kind,
+    line: citeBench.what,
+    accent: citeBench.accent,
+    href: `#${citeBench.id}`,
+    cta: 'View product',
+    host: 'citebench.ordereasy.win',
+    image: shot('citebench', 'citebench-today.jpg'),
+    alt: "CiteBench Today screen showing a chamber's day",
+    width: 2160,
+    height: 1350,
+    status: citeBench.status,
+  },
+  {
+    id: gstSlip.id,
+    name: gstSlip.name,
+    kind: gstSlip.kind,
+    line: gstSlip.what,
+    accent: gstSlip.accent,
+    href: `#${gstSlip.id}`,
+    cta: 'View product',
+    host: 'gstslip.vin8003.com',
+    image: shot('gstslip', 'gstslip-extracted-fields.jpg'),
+    alt: 'GSTSlip showing fields extracted from a GST invoice',
+    width: 1280,
+    height: 800,
+    status: gstSlip.status,
+  },
+  {
+    id: 'demos',
+    name: liveLinks[0].label,
+    kind: `${demos.length} guided journeys, ${totalSteps} real screens`,
+    line: liveLinks[0].note + '. No sign-up, seed data only.',
+    accent: 'ember',
+    href: '/demo/',
+    cta: 'Walk the demos',
+    host: 'vin8003.com/demo',
+    image: shot('retailer', 'retailer-pos-bill.jpg'),
+    alt: 'OrderEasy point-of-sale bill from the retailer demo',
+    width: 1280,
+    height: 800,
+    status: liveLinks[0].status,
+  },
+  {
+    id: 'agent-month',
+    name: 'One month of AI agents',
+    kind: `Field note, ${agentMonth.label}`,
+    line: agentMonth.lesson.join(' '),
+    accent: 'violet',
+    href: agentMonth.href,
+    cta: 'Read the note',
+    host: 'vin8003.com/notes',
+    image: '/notes/agent-month/banner.webp',
+    alt: 'PRs opened per day across the month, with the 18 Sep spike',
+    width: 1500,
+    height: 600,
+    fit: 'contain',
+  },
+];
+
+/**
+ * The constellation: each product is an assistant on its own orbit around the builder, innermost
+ * first. `r` is the radius as a share of the box and `angle` (degrees clockwise from twelve o'clock)
+ * is where it sits when the scene is static. `entry` ties an orbit to its line in the index.
+ */
+const orbits = [
+  { name: 'GSTSlip', role: 'Accounts clerk', accent: 'amber', href: '#gstslip', r: 29, angle: 210, entry: 2 },
+  { name: 'CiteBench', role: 'Chamber clerk', accent: 'violet', href: '#citebench', r: 39, angle: 95, entry: 1 },
+  { name: 'OrderEasy', role: 'Shop assistant', accent: 'mint', href: '#ordereasy', r: 49, angle: -20, entry: 0 },
+] as const;
+const orbitAt = (o: (typeof orbits)[number]) => {
+  const rad = (o.angle * Math.PI) / 180;
+  return `left:${(50 + o.r * Math.sin(rad)).toFixed(2)}%; top:${(50 - o.r * Math.cos(rad)).toFixed(2)}%`;
+};
+
+const pad = (n: number) => String(n).padStart(2, '0');
 const claimLines = [
   { text: 'I build products', tint: '' },
   { text: 'with AI.', tint: 'text-ember' },
 ];
-
-/**
- * The constellation: each product is an assistant on its own orbit around the
- * builder. Radius is a share of the box, start angle spreads them out, and the
- * period sets the speed. The parked assistant sits on the outer ring, dimmed.
- */
-const orbits = [
-  { name: 'GSTSlip', role: 'Accounts clerk', accent: 'amber', href: '#gstslip', r: 29, start: 210, period: 46 },
-  { name: 'CiteBench', role: 'Chamber clerk', accent: 'violet', href: '#citebench', r: 39, start: 95, period: 64 },
-  { name: 'OrderEasy', role: 'Shop assistant', accent: 'mint', href: '#ordereasy', r: 49, start: -20, period: 86 },
-] as const;
 ---
 
 <section
   id="top"
-  class="relative isolate flex min-h-[100dvh] flex-col justify-center overflow-hidden pb-14 pt-24"
+  class="hero relative isolate overflow-clip"
   data-hero
+  data-atmos={entries[0]!.accent}
+  data-atmos-intensity="1"
+  style={`--accent: var(--color-${entries[0]!.accent})`}
 >
-  {/* Substrate + light */}
-  <div class="grid-substrate pointer-events-none absolute inset-0 -z-20 [mask-image:radial-gradient(ellipse_at_50%_35%,#000_30%,transparent_75%)]"></div>
+  {/* The 3D constellation draws here once WebGL is up; its product labels ride in the layer above. */}
+  <canvas class="hero-canvas pointer-events-none absolute inset-0 -z-10 size-full" aria-hidden="true" data-hero-canvas></canvas>
+  <div class="pointer-events-none absolute inset-0 z-10" data-label-layer></div>
 
-  <div class="container-page">
-    <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
-      <div class="min-w-0 lg:col-span-7">
-        <p class="font-mono text-[0.8rem] font-semibold tracking-[0.32em] text-paper-dim sm:text-[0.9rem]" data-reveal style="--reveal-delay:60ms">
-          VINEET SHARMA
-        </p>
-
-        <h1 class="mt-5 font-display text-hero" aria-label={person.claim} data-reveal style="--reveal-delay:120ms">
+  <div class="hero-exit container-page relative grid min-h-[100svh] grid-rows-[1fr_auto] gap-y-10 pb-24 pt-24 sm:pt-28 lg:gap-y-4 lg:pb-7 lg:pt-[5.5rem]">
+    {/* Top: the claim and the constellation. */}
+    <div class="grid items-center gap-x-8 gap-y-10 lg:grid-cols-12">
+      <div class="lg:col-span-6" data-parallax="-6">
+        <p class="hud-label" data-reveal style="--reveal-delay:40ms">{person.role} · {person.location}</p>
+        <h1 class="hero-claim mt-5 font-sans" data-reveal style="--reveal-delay:80ms">
+          <span class="sr-only">{person.claim}</span>
           {
             claimLines.map((line, i) => (
-              <span class="reveal-line" style={`--reveal-delay:${160 + i * 90}ms`}>
-                <span class={line.tint}>{line.text}</span>
+              <span class="block" aria-hidden="true">
+                <SplitText text={line.text} by="char" class={line.tint} delay={160 + i * 260} step={22} />
               </span>
             ))
           }
         </h1>
-
-        <p class="mt-7 max-w-[65ch] text-lead text-paper-dim sm:mt-8" data-reveal style="--reveal-delay:240ms">
+        <p class="mt-5 max-w-[34rem] text-lead text-paper-dim" data-reveal style="--reveal-delay:260ms">
           An army of narrow AI assistants: one runs a shop's counter, one works case law, one reads tax invoices.
         </p>
-
-        <div class="mt-8 flex flex-wrap gap-2.5 sm:mt-10 sm:gap-3" data-reveal style="--reveal-delay:300ms">
-          <a
-            href="#demo"
-            class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-paper px-5 py-3 text-body font-medium text-ink-900 transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98] sm:px-6"
-          >
-            Walk the demos
-            <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={1.75} aria-hidden="true" />
+        <div class="mt-6 flex flex-wrap gap-2" data-reveal style="--reveal-delay:320ms">
+          <a href="#demo" class="hud-btn hud-btn-solid" data-magnetic>
+            Walk the demos <ArrowRight className="size-3.5" strokeWidth={1.75} aria-hidden="true" />
           </a>
-          <a
-            href="#building"
-            class="glass inline-flex items-center gap-2 rounded-full px-5 py-3 text-body font-medium text-paper transition-[background-color,transform] duration-200 hover:bg-ink-700 active:scale-[0.98] sm:px-6"
-          >
-            What is building now
-          </a>
+          <a href="#building" class="hud-btn" data-magnetic>What is building now</a>
         </div>
       </div>
 
-      {/* Constellation - decorative for the eye, real links for the hand. */}
-      <div class="relative mx-auto w-full max-w-[19rem] sm:max-w-[26rem] lg:col-span-5 lg:max-w-[32rem]" data-reveal style="--reveal-delay:200ms">
-        <div class="group/const relative aspect-square" data-constellation>
-          {/* Rings */}
-          {
-            orbits.map((o) => (
-              <div
-                class="absolute rounded-full border border-dashed"
-                style={`inset:${50 - o.r}%; border-color: color-mix(in oklab, var(--color-${o.accent}) 28%, transparent);`}
-                aria-hidden="true"
-              />
-            ))
-          }
-          <div class="absolute inset-[22%] rounded-full border border-ink-500/50" aria-hidden="true"></div>
-
-          {/* Core */}
-          <div class="absolute inset-[38%] grid place-items-center" aria-hidden="true">
-            <span
-              class="relative grid size-full place-items-center rounded-full border border-ember/50 font-mono text-[0.95rem] font-semibold text-paper sm:text-[1.1rem]"
-              style="background: radial-gradient(circle at 35% 30%, color-mix(in oklab, var(--color-ember) 40%, var(--color-ink-800)), var(--color-ink-850) 70%);"
-            >
-              VS
-            </span>
+      <div class="const-box relative mx-auto w-full lg:col-span-6" data-reveal style="--reveal-delay:140ms">
+        <div class="relative aspect-square" data-constellation>
+          <div class="const-static absolute inset-0" aria-hidden="true">
+            {
+              orbits.map((o) => (
+                <div
+                  class="absolute rounded-full border border-dashed"
+                  style={`inset:${50 - o.r}%; border-color: color-mix(in oklab, var(--color-${o.accent}) 32%, transparent);`}
+                />
+              ))
+            }
+            <div class="absolute inset-[38%] rounded-full border border-ember/50" style="background: radial-gradient(circle at 35% 30%, color-mix(in oklab, var(--color-ember) 45%, var(--color-ink-800)), var(--color-ink-850) 70%);"></div>
           </div>
 
-          {/* Orbiting assistants */}
           {
             orbits.map((o) => (
-              <div class="pointer-events-none absolute" style={`inset:${50 - o.r}%; transform: rotate(${o.start}deg);`}>
-                <div
-                  class="absolute inset-0 group-hover/const:[animation-play-state:paused]"
-                  style={`animation: orbit ${o.period}s linear infinite;`}
-                  data-orbit
-                >
-                  <div class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
-                    <div style={`transform: rotate(${-o.start}deg)`}>
-                      <div
-                        class="group-hover/const:[animation-play-state:paused]"
-                        style={`animation: orbit-counter ${o.period}s linear infinite;`}
-                        data-orbit-label
-                      >
-                        <a
-                          href={o.href}
-                          class="glass pointer-events-auto flex items-center gap-2 whitespace-nowrap rounded-full py-1.5 pl-1.5 pr-3 shadow-frame transition-transform duration-300 hover:scale-105"
-                          style={`--accent: var(--color-${o.accent})`}
-                        >
-                          <span
-                            class="grid size-6 place-items-center rounded-full font-mono text-[0.6rem] font-bold text-ink-900"
-                            style="background: var(--accent);"
-                          >
-                            {o.name[0]}
-                          </span>
-                          <span class="flex flex-col leading-tight">
-                            <span class="text-[0.78rem] font-semibold text-paper">{o.name}</span>
-                            <span class="hidden font-mono text-[0.55rem] uppercase tracking-[0.12em] text-paper-faint sm:block">{o.role}</span>
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+              <a
+                href={o.href}
+                data-node-label={o.entry}
+                class="node-chip glass absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 whitespace-nowrap rounded-full py-1.5 pl-1.5 pr-3 shadow-frame"
+                style={`${orbitAt(o)}; --accent: var(--color-${o.accent})`}
+              >
+                <span class="grid size-6 place-items-center rounded-full font-mono text-[0.6rem] font-bold text-ink-900" style="background: var(--accent);">
+                  {o.name[0]}
+                </span>
+                <span class="flex flex-col leading-tight">
+                  <span class="text-[0.78rem] font-semibold text-paper">{o.name}</span>
+                  <span class="hidden font-mono text-[0.55rem] uppercase tracking-[0.12em] text-paper-faint sm:block">{o.role}</span>
+                </span>
+              </a>
+            ))
+          }
+
+          <span class="hud-label absolute bottom-[4%] left-[2%] border border-dashed border-ink-500 bg-ink-900/70 px-2.5 py-1 text-[0.55rem]" aria-hidden="true">
+            AI Secretary, parked
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    {/* Bottom: what is showing, the index that drives it, and its real screen. */}
+    <div class="grid items-end gap-x-8 gap-y-8 lg:grid-cols-12">
+      <div class="lg:col-span-4" data-reveal style="--reveal-delay:360ms">
+        <div class="relative grid" aria-live="off">
+          {
+            entries.map((e, i) => (
+              <div
+                class="hero-entry col-start-1 row-start-1"
+                data-entry={i}
+                data-active={i === 0 ? '' : undefined}
+                inert={i !== 0}
+                style={`--accent: var(--color-${e.accent})`}
+              >
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span class="hud-label">
+                    {pad(i + 1)} / {pad(entries.length)}
+                  </span>
+                  <span class="hud-label" style="color: var(--accent)">{e.kind}</span>
+                  {e.status && <StatusChip status={e.status} />}
                 </div>
+                <p class="mt-2 font-sans text-[clamp(1.75rem,1.2rem+1.6vw,2.6rem)] leading-[1.05] tracking-[-0.03em] text-paper">{e.name}</p>
+                <p class="mt-2 max-w-md text-fine text-paper-dim">{e.line}</p>
+                <a href={e.href} class="hud-view mt-4" target={e.href.startsWith('http') ? '_blank' : undefined}>
+                  <span class="px-4">{e.cta}</span>
+                  <span class="hud-view-icon" aria-hidden="true">
+                    {e.href.startsWith('#') ? <ArrowDown className="size-3.5" strokeWidth={1.7} /> : e.href.startsWith('http') ? <ArrowUpRight className="size-3.5" strokeWidth={1.7} /> : <ArrowRight className="size-3.5" strokeWidth={1.7} />}
+                  </span>
+                </a>
               </div>
             ))
           }
+        </div>
+      </div>
 
-          {/* The parked one, fixed on the outer ring. */}
-          <div class="absolute bottom-[6%] left-[2%] sm:left-[4%]" aria-hidden="true">
-            <span class="flex items-center gap-1.5 rounded-full border border-dashed border-ink-500 bg-ink-900/70 px-2.5 py-1 font-mono text-[0.55rem] uppercase tracking-[0.14em] text-paper-faint">
-              AI Secretary, parked
-            </span>
+      <div class="flex flex-col gap-3 lg:col-span-3" data-reveal style="--reveal-delay:420ms">
+        <nav class="mb-5 hidden lg:block" aria-label="Index">
+          <p class="hud-label">Index</p>
+          <ol class="mt-4" data-index-list>
+            {
+              entries.map((e, i) => (
+                <li>
+                  <a
+                    href={e.href}
+                    class="index-item group"
+                    data-index-item={i}
+                    aria-current={i === 0 ? 'true' : undefined}
+                    style={`--accent: var(--color-${e.accent})`}
+                  >
+                    <span class="index-mark" aria-hidden="true">▹</span>
+                    {e.name}
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+        <div class="flex items-center gap-3">
+          <div class="flex flex-1 gap-1" role="group" aria-label="Choose an entry">
+            {
+              entries.map((e, i) => (
+                <button type="button" class="hero-dash" data-dash={i} data-active={i === 0 ? '' : undefined} aria-label={`Show ${e.name}`}>
+                  <span class="hero-dash-fill" style={`background: var(--color-${e.accent})`} />
+                </button>
+              ))
+            }
+          </div>
+          <button type="button" class="hud-label min-h-8 shrink-0 px-1 hover:text-paper" data-hero-pause aria-pressed="false">Pause</button>
+        </div>
+        <p class="hud-label hidden lg:block">Hover the index to look, click to open</p>
+        <p class="hud-label lg:hidden">Swipe the screen or tap a line to change</p>
+      </div>
+
+      <div class="relative min-w-0 lg:col-span-5" data-reveal style="--reveal-delay:220ms">
+        <div class="hero-stage w-full min-w-0" data-parallax="18" data-lean="6">
+          <div class="mb-2.5 flex items-center justify-between gap-3">
+            <p class="hud-label truncate" data-hero-host>{entries[0]!.host}</p>
+            <p class="hud-label hidden sm:block">Real capture · seed data</p>
+          </div>
+          <div class="hero-media relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-ink-850" data-hero-media>
+            {
+              entries.map((e, i) => (
+                <img
+                  src={e.image}
+                  alt={e.alt}
+                  width={e.width}
+                  height={e.height}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={i === 0 ? 'high' : undefined}
+                  decoding="async"
+                  class:list={['hero-shot absolute inset-0 size-full', e.fit === 'contain' ? 'object-contain' : 'object-cover object-top']}
+                  data-shot={i}
+                  data-active={i === 0 ? '' : undefined}
+                  data-host={e.host}
+                />
+              ))
+            }
+            <span class="hud-corners pointer-events-none absolute inset-0" aria-hidden="true"></span>
           </div>
         </div>
       </div>
@@ -146,7 +323,7 @@ const orbits = [
 
 <section class="relative pb-16 sm:pb-24">
   <div class="container-page">
-    <nav class="grid gap-px overflow-hidden rounded-2xl border border-ink-600/70 bg-ink-600/70 sm:grid-cols-2 lg:grid-cols-4" aria-label="Open right now" data-reveal style="--reveal-delay:360ms">
+    <nav class="grid gap-px overflow-hidden rounded-2xl border border-dashed border-ink-500/80 bg-ink-600/50 sm:grid-cols-2 lg:grid-cols-4" aria-label="Open right now" data-reveal>
       {
         liveLinks.map((link) => {
           const internal = 'internal' in link && link.internal;
@@ -156,15 +333,13 @@ const orbits = [
               href={link.href}
               target={internal ? undefined : '_blank'}
               rel={internal ? undefined : 'noopener noreferrer'}
-              class="group relative flex items-center justify-between gap-3 bg-ink-900 px-4 py-4 transition-colors duration-300 hover:bg-ink-850"
+              class="live-link group relative flex items-center justify-between gap-3 overflow-hidden bg-ink-900/90 px-4 py-4 transition-colors duration-300 hover:bg-ink-850"
               style={`--accent: ${accent}`}
-              data-spot
+              data-pointer-light
             >
-              <span class="flex min-w-0 items-center gap-3">
-                <span class="min-w-0">
-                  <span class="block truncate text-body font-semibold text-paper">{link.label}</span>
-                  <span class="block truncate text-fine text-paper-faint">{link.note}</span>
-                </span>
+              <span class="min-w-0">
+                <span class="block truncate text-body font-semibold text-paper">{link.label}</span>
+                <span class="block truncate text-fine text-paper-faint">{link.note}</span>
               </span>
               <span class="flex shrink-0 items-center gap-2">
                 {internal ? (
@@ -181,3 +356,147 @@ const orbits = [
     </nav>
   </div>
 </section>
+
+<script>
+  import type { HeroScene } from '../scripts/hero-scene';
+
+  /**
+   * The index: one entry at a time. Hovering or focusing an index line previews it, the dashes pick
+   * one directly, a swipe on the screen steps through, and otherwise it advances on its own while the
+   * hero is on screen. Each change wipes the new capture in line by line and re-tints the clouds.
+   */
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (hero) {
+    const shots = [...hero.querySelectorAll<HTMLElement>('[data-shot]')];
+    const texts = [...hero.querySelectorAll<HTMLElement>('[data-entry]')];
+    const items = [...hero.querySelectorAll<HTMLAnchorElement>('[data-index-item]')];
+    const dashes = [...hero.querySelectorAll<HTMLButtonElement>('[data-dash]')];
+    const host = hero.querySelector<HTMLElement>('[data-hero-host]');
+    const pauseButton = hero.querySelector<HTMLButtonElement>('[data-hero-pause]');
+    const media = hero.querySelector<HTMLElement>('[data-hero-media]');
+    const accents = texts.map((t) => t.style.getPropertyValue('--accent'));
+    const atmos = accents.map((a) => a.match(/--color-(\w+)/)?.[1] ?? 'ember');
+    const DURATION = 6500;
+
+    let active = 0;
+    let progress = 0;
+    let scene: HeroScene | null = null;
+
+    // Index entry -> orbit (innermost first). Entries without an orbit light none of them.
+    const labels = [...hero.querySelectorAll<HTMLElement>('[data-node-label]')];
+    const orbitFor = (entry: number) => {
+      const at = labels.findIndex((l) => Number(l.dataset.nodeLabel) === entry);
+      return at === -1 ? null : at;
+    };
+    let hovering = false;
+    let userPaused = reduced;
+    let onScreen = true;
+    const leaving = new Map<HTMLElement, number>();
+
+    const show = (next: number) => {
+      next = (next + shots.length) % shots.length;
+      if (next === active) return;
+      const prev = shots[active];
+      if (prev) {
+        // The outgoing capture stays underneath until the wipe has covered it.
+        prev.setAttribute('data-leaving', '');
+        window.clearTimeout(leaving.get(prev));
+        leaving.set(prev, window.setTimeout(() => prev.removeAttribute('data-leaving'), 1300));
+      }
+      active = next;
+      progress = 0;
+      shots.forEach((s, i) => s.toggleAttribute('data-active', i === active));
+      texts.forEach((t, i) => {
+        t.toggleAttribute('data-active', i === active);
+        t.inert = i !== active;
+      });
+      items.forEach((a, i) => (i === active ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+      dashes.forEach((d, i) => {
+        d.toggleAttribute('data-active', i === active);
+        d.toggleAttribute('data-done', i < active);
+        d.style.setProperty('--fill', '0');
+      });
+      if (host) host.textContent = shots[active]?.dataset.host ?? '';
+      hero.dataset.atmos = atmos[active] ?? 'ember';
+      scene?.setActive(orbitFor(active));
+      hero.style.setProperty('--accent', accents[active] ?? '');
+    };
+
+    items.forEach((a, i) => {
+      a.addEventListener('pointerenter', () => show(i));
+      a.addEventListener('focus', () => show(i));
+    });
+    dashes.forEach((d, i) => d.addEventListener('click', () => show(i)));
+
+    const pausing = [hero.querySelector('[data-index-list]'), media, ...texts].filter(Boolean) as HTMLElement[];
+    pausing.forEach((el) => {
+      el.addEventListener('pointerenter', () => (hovering = true));
+      el.addEventListener('pointerleave', () => (hovering = false));
+    });
+
+    pauseButton?.addEventListener('click', () => {
+      userPaused = !userPaused;
+      pauseButton.setAttribute('aria-pressed', String(userPaused));
+      pauseButton.textContent = userPaused ? 'Play' : 'Pause';
+    });
+    if (reduced && pauseButton) {
+      pauseButton.textContent = 'Play';
+      pauseButton.setAttribute('aria-pressed', 'true');
+    }
+
+    // Swipe the screen to step through on touch.
+    let startX = 0;
+    media?.addEventListener('pointerdown', (e) => (startX = e.clientX), { passive: true });
+    media?.addEventListener(
+      'pointerup',
+      (e) => {
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 40) show(active + (dx < 0 ? 1 : -1));
+      },
+      { passive: true },
+    );
+
+    new IntersectionObserver(([entry]) => (onScreen = Boolean(entry?.isIntersecting)), { threshold: 0.35 }).observe(hero);
+
+    let last = performance.now();
+    const tick = (now: number) => {
+      requestAnimationFrame(tick);
+      const dt = now - last;
+      last = now;
+      const running = onScreen && !hovering && !userPaused && !document.hidden && !document.documentElement.hasAttribute('data-intro');
+      if (!running) return;
+      progress += dt / DURATION;
+      dashes[active]?.style.setProperty('--fill', String(Math.min(progress, 1)));
+      if (progress >= 1) show(active + 1);
+    };
+    requestAnimationFrame(tick);
+
+    // The constellation. three.js is only fetched for readers who will actually see it.
+    const canvas = hero.querySelector<HTMLCanvasElement>('[data-hero-canvas]');
+    const box = hero.querySelector<HTMLElement>('[data-constellation]');
+    const labelLayer = hero.querySelector<HTMLElement>('[data-label-layer]');
+    const hasWebGL = () => {
+      try {
+        const probe = document.createElement('canvas');
+        return Boolean(probe.getContext('webgl2') || probe.getContext('webgl'));
+      } catch {
+        return false;
+      }
+    };
+    if (canvas && box && labelLayer && labels.length && !reduced && hasWebGL()) {
+      const boot = async () => {
+        const { mountHeroScene } = await import('../scripts/hero-scene');
+        scene = mountHeroScene({ section: hero, canvas, box, labelLayer, labels });
+        if (!scene) return;
+        box.setAttribute('data-3d', '');
+        hero.setAttribute('data-3d', '');
+        scene.setActive(orbitFor(active));
+      };
+      const go = () => void boot().catch(() => {});
+      if ('requestIdleCallback' in window) window.requestIdleCallback(go, { timeout: 900 });
+      else setTimeout(go, 250);
+    }
+  }
+</script>

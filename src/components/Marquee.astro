@@ -2,10 +2,11 @@
 import { breadth } from '../data/site';
 ---
 
-<div class="relative flex overflow-hidden border-y border-ink-600/70 bg-ink-850 py-3.5 sm:py-4" aria-hidden="true" data-mock>
+<div class="relative flex overflow-hidden border-y border-dashed border-ink-500/70 bg-ink-850/60 py-3.5 sm:py-4" aria-hidden="true" data-mock data-marquee>
   <div
-    class="flex shrink-0 items-center gap-8 pr-8 sm:gap-12 sm:pr-12"
+    class="flex shrink-0 items-center gap-8 pr-8 will-change-transform sm:gap-12 sm:pr-12"
     data-anim
+    data-marquee-track
     style="animation: marquee-drift 46s linear infinite; min-width: 200%;"
   >
     {
@@ -16,8 +17,8 @@ import { breadth } from '../data/site';
       ))
     }
   </div>
-  <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ink-850 to-transparent sm:w-28"></div>
-  <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-ink-850 to-transparent sm:w-28"></div>
+  <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ink-900 to-transparent sm:w-28"></div>
+  <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-ink-900 to-transparent sm:w-28"></div>
 </div>
 
 <p class="sr-only">

@@ -5,7 +5,7 @@ import { about, person, socials } from '../data/site';
 const x = socials.find((s) => s.label === 'X')!;
 ---
 
-<section id="about" class="scroll-mt-20 border-t border-ink-600/70 py-16 sm:py-24 lg:py-28">
+<section id="about" class="scroll-mt-20 border-t border-dashed border-ink-500/70 py-16 sm:py-24 lg:py-28" data-atmos="amber" data-atmos-intensity="0.45">
   <div class="container-page">
     <SectionHead title="Short version." />
 
@@ -39,7 +39,7 @@ const x = socials.find((s) => s.label === 'X')!;
               { k: 'Writes', v: 'Python, Django, TypeScript' },
               { k: 'Ships to', v: 'Cloudflare' },
             ].map((row) => (
-              <div class="flex flex-col justify-between gap-4 bg-ink-900 p-4 sm:p-5">
+              <div class="relative flex flex-col justify-between gap-4 overflow-hidden bg-ink-900 p-4 sm:p-5" data-pointer-light>
                 <dt class="label-mono">{row.k}</dt>
                 <dd class="text-fine text-paper">{row.v}</dd>
               </div>

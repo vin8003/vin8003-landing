@@ -1,6 +1,5 @@
 ---
 import { nav, person } from '../data/site';
-import ThemeToggle from './ThemeToggle.astro';
 import ScrollProgress from './islands/ScrollProgress';
 
 interface Props {
@@ -22,47 +21,43 @@ const links = nav.map((item) => ({ ...item, href: home ? item.href : `/${item.hr
   data-nav
 >
   <div class="container-page flex h-16 items-center justify-between gap-4 sm:h-[4.5rem]">
-    <a href={home ? '#top' : '/'} class="group flex items-center gap-2.5 sm:gap-3" aria-label={`${person.name}, home`}>
-      <span
-        class="grid size-8 shrink-0 place-items-center rounded-[0.6rem] border border-ink-500 bg-ink-800 font-mono text-[0.7rem] font-semibold tracking-tight text-paper transition-colors duration-300 group-hover:border-ember group-hover:text-ember sm:size-9 sm:text-xs"
-        >VS</span
-      >
-      <span class="flex min-w-0 flex-col leading-none">
-        <span class="truncate font-mono text-[0.85rem] font-semibold tracking-tight sm:text-[0.9rem]">{person.name}</span>
-        <span class="label-mono mt-1 hidden text-[0.6rem] sm:block">{person.thesisLine}</span>
+    <a href={home ? '#top' : '/'} class="group flex min-w-0 items-center gap-3" aria-label={`${person.name}, home`}>
+      <span class="nav-logo grid size-9 shrink-0 place-items-center font-mono text-[0.7rem] font-semibold text-paper">VS</span>
+      <span class="flex min-w-0 flex-col gap-1 leading-none">
+        <span class="truncate font-mono text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-paper">{person.name}</span>
+        <span class="hud-label hidden truncate text-[0.58rem] sm:block">{person.thesisLine}</span>
       </span>
     </a>
 
-    <nav class="hidden items-center gap-1 lg:flex" aria-label="Sections">
+    <nav class="hidden items-center lg:flex" aria-label="Sections">
       {
-        links.map((item) => (
-          <a
-            href={item.href}
-            data-section-link
-            class="rounded-full px-3.5 py-2 text-fine text-paper-dim transition-colors duration-200 hover:bg-ink-700 hover:text-paper"
-          >
-            {item.label}
+        links.map((item, i) => (
+          <a href={item.href} data-section-link class="nav-link hud-label group relative flex items-baseline gap-1.5 px-3 py-2.5 hover:text-paper">
+            <span class="nav-mark" aria-hidden="true">▹</span>
+            <span class="nav-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="nav-text">{item.label}</span>
           </a>
         ))
       }
     </nav>
 
     <div class="flex items-center gap-2">
-      <ThemeToggle />
+      <p class="hud-label mr-2 hidden items-center gap-2 tabular-nums 2xl:flex">
+        <span class="nav-pulse" aria-hidden="true"></span>
+        Delhi <time data-nav-clock>--:--</time> IST
+      </p>
       <a
         href="https://x.com/vin8003"
         target="_blank"
         rel="noopener noreferrer"
-        class="hidden size-9 place-items-center rounded-full border border-ink-500 text-paper-dim transition-colors duration-200 hover:border-paper-faint hover:text-paper sm:grid"
+        class="nav-ctl hidden sm:grid"
         aria-label="Vineet Sharma on X"
       >
-        <span class="font-mono text-[0.78rem] font-semibold" aria-hidden="true">X</span>
+        <span class="font-mono text-[0.72rem] font-semibold" aria-hidden="true">X</span>
       </a>
-      <a
-        href={`mailto:${person.email}`}
-        class="rounded-full bg-paper px-4 py-2 text-fine font-medium text-ink-900 transition-transform duration-200 hover:-translate-y-px active:translate-y-0 sm:px-5"
-      >
-        Email
+      <a href={`mailto:${person.email}`} data-magnetic class="nav-email group">
+        <span>Email</span>
+        <span class="nav-email-arrow" aria-hidden="true">↗</span>
       </a>
     </div>
   </div>
@@ -79,7 +74,7 @@ const links = nav.map((item) => ({ ...item, href: home ? item.href : `/${item.hr
   >
   </div>
   <div
-    class="mx-auto flex max-w-sm items-center justify-between gap-1 rounded-full border border-ink-500/80 bg-ink-800/85 p-1 backdrop-blur-xl"
+    class="mx-auto flex max-w-sm items-center justify-between gap-1 rounded-full border border-dashed border-paper-faint/60 bg-ink-900/80 p-1 backdrop-blur-xl"
   >
     {
       links.map((item) => (
@@ -87,7 +82,7 @@ const links = nav.map((item) => ({ ...item, href: home ? item.href : `/${item.hr
           href={item.href}
           aria-label={item.label}
           data-section-link
-          class="flex-1 whitespace-nowrap rounded-full px-1.5 py-2.5 text-center text-[0.74rem] font-medium text-paper-dim transition-colors duration-200 active:bg-ink-600 active:text-paper"
+          class="thumb-link flex-1 whitespace-nowrap rounded-full px-1.5 py-2.5 text-center font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-paper-dim transition-colors duration-200 active:bg-ink-600 active:text-paper"
         >
           {item.short}
         </a>
@@ -99,7 +94,18 @@ const links = nav.map((item) => ({ ...item, href: home ? item.href : `/${item.hr
 <script>
   const header = document.querySelector<HTMLElement>('[data-nav]');
   const sentinel = document.querySelector<HTMLElement>('[data-nav-sentinel]');
-  const solid = ['bg-ink-900/92', 'backdrop-blur-xl', 'border-b', 'border-ink-600/70'];
+  const solid = ['bg-ink-900/75', 'backdrop-blur-xl', 'border-b', 'border-dashed', 'border-ink-500/70'];
+
+  // Local time in Delhi, to the minute. Updates on the minute boundary, not on a fast timer.
+  const clock = document.querySelector<HTMLElement>('[data-nav-clock]');
+  if (clock) {
+    const fmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' });
+    const tick = () => {
+      clock.textContent = fmt.format(new Date());
+      window.setTimeout(tick, 60_000 - (Date.now() % 60_000) + 50);
+    };
+    tick();
+  }
 
   // IntersectionObserver instead of a scroll listener: it fires once per crossing, not per frame.
   if (header && sentinel) {

@@ -50,7 +50,7 @@ for (const e of buildLog) {
 const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as const;
 ---
 
-<section id="log" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28">
+<section id="log" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28" data-atmos="mint" data-atmos-intensity="0.45">
   <div class="container-page relative">
     <SectionHead
       title="What actually shipped, in the order it shipped."
@@ -60,7 +60,7 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
     <div class="mt-10 grid gap-5 sm:mt-14 lg:grid-cols-12 lg:gap-8">
       {/* Left: activity + filters */}
       <aside class="flex flex-col gap-5 lg:col-span-4" data-reveal>
-        <div class="ring-gradient relative rounded-2xl bg-ink-850/70 p-5" style="--accent: var(--color-mint)">
+        <div class="ring-gradient relative overflow-hidden rounded-2xl bg-ink-850/70 p-5" style="--accent: var(--color-mint)" data-tilt="5">
           <div class="flex items-baseline justify-between gap-3">
             <p class="label-mono text-paper-dim">Ships per day</p>
             <p class="label-mono text-[0.55rem]">{fmt(days[0]!.iso)} to {fmt(days.at(-1)!.iso)}</p>
@@ -161,7 +161,7 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
                   <ol class="relative ml-1.5 border-l border-ink-500/70 pb-4">
                     {g.entries.map((e) => (
                       <li
-                        class="group relative py-3.5 pl-6 sm:pl-8"
+                        class="sd-swing group relative py-3.5 pl-6 sm:pl-8"
                         style={`--accent: ${accentVar(e.accent)}`}
                         data-log-entry
                         data-group={groupOf(e)}

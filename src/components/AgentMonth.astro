@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react';
 const spikeMax = Math.max(...m.spike.map((s) => s.value));
 ---
 
-<section id="notes" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28">
+<section id="notes" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28" data-atmos="violet" data-atmos-intensity="0.55">
   <div class="container-page relative">
     <SectionHead
       title="One month of AI agents: 414 PRs, 92 merged."
@@ -23,10 +23,12 @@ const spikeMax = Math.max(...m.spike.map((s) => s.value));
             style={`--accent: ${i === 1 ? 'var(--color-mint)' : i === 4 ? 'var(--color-ember)' : 'var(--color-violet)'}; --reveal-delay:${i * 60}ms`}
             data-reveal
             data-spot
+            data-tilt="9"
           >
             <dt class="label-mono text-[0.6rem]">{s.label}</dt>
             <dd>
-              <span class="block font-display text-[clamp(2rem,1.4rem+2vw,3rem)] leading-none text-paper">{s.value}</span>
+              <span class="sr-only">{s.value}</span>
+              <span class="block font-display text-[clamp(2rem,1.4rem+2vw,3rem)] leading-none text-paper tabular-nums" aria-hidden="true" data-count>{s.value}</span>
               <span class="mt-2 block font-mono text-[0.62rem] text-paper-faint">{s.note}</span>
             </dd>
           </div>
@@ -66,6 +68,8 @@ const spikeMax = Math.max(...m.spike.map((s) => s.value));
         class="ring-gradient relative flex flex-col justify-between gap-8 overflow-hidden rounded-2xl bg-ink-850/70 p-6 sm:p-8 lg:col-span-5"
         style="--accent: var(--color-ember); --reveal-delay:120ms"
         data-reveal
+        data-tilt="4"
+        data-pointer-light
       >
         <div>
           <p class="font-display text-sub text-paper">
@@ -80,6 +84,7 @@ const spikeMax = Math.max(...m.spike.map((s) => s.value));
         <div class="flex flex-col gap-4">
           <a
             href={m.href}
+            data-magnetic
             class="group inline-flex w-fit items-center gap-2 rounded-full bg-paper px-5 py-3 text-fine font-semibold text-ink-900 transition-transform duration-200 hover:-translate-y-0.5"
           >
             Read the full note

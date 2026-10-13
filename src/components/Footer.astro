@@ -1,15 +1,17 @@
 ---
 import { person, socials } from '../data/site';
 import { ArrowRight } from 'lucide-react';
+import SplitText from './SplitText.astro';
 
 const year = new Date().getFullYear();
+const mark = [...'vin8003'];
 ---
 
-<section id="contact" class="relative scroll-mt-20 overflow-hidden border-t border-ink-600/70 pt-16 sm:pt-24 lg:pt-28">
+<section id="contact" class="relative scroll-mt-20 overflow-hidden border-t border-dashed border-ink-500/70 pt-16 sm:pt-24 lg:pt-28" data-atmos="ember" data-atmos-intensity="0.85">
   <div class="container-page relative">
     <div class="flex flex-col items-start" data-reveal>
-      <h2 class="font-display text-title" aria-label="Reach out.">
-        <span class="reveal-line"><span>Reach out.</span></span>
+      <h2 class="font-display text-title">
+        <SplitText text="Reach out." by="char" step={45} />
       </h2>
     </div>
 
@@ -21,7 +23,8 @@ const year = new Date().getFullYear();
         </p>
         <a
           href={`mailto:${person.email}`}
-          class="group mt-7 inline-flex max-w-full items-center gap-3 rounded-full bg-paper px-5 py-3.5 text-ink-900 transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98] sm:mt-8 sm:px-7 sm:py-4"
+          data-magnetic
+          class="hud-btn hud-btn-solid group mt-7 max-w-full gap-3 px-5 py-3.5 normal-case tracking-normal sm:mt-8 sm:px-7 sm:py-4"
         >
           <span class="truncate font-mono text-[0.85rem] font-medium sm:text-[0.95rem]">{person.email}</span>
           <ArrowRight className="size-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={1.8} aria-hidden="true" />
@@ -36,7 +39,8 @@ const year = new Date().getFullYear();
                 href={link.href}
                 target={link.href.startsWith('mailto:') ? undefined : '_blank'}
                 rel="noopener noreferrer"
-                class="group flex h-full flex-col justify-between gap-5 bg-ink-900 p-4 transition-colors duration-300 hover:bg-ink-850 sm:p-5"
+                class="group relative flex h-full flex-col justify-between gap-5 overflow-hidden bg-ink-900 p-4 transition-colors duration-300 hover:bg-ink-850 sm:p-5"
+                data-pointer-light
               >
                 <span class="label-mono transition-colors duration-300 group-hover:text-ember">{link.label}</span>
                 <span class="break-all font-mono text-[0.72rem] text-paper sm:text-fine">{link.handle}</span>
@@ -48,7 +52,14 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
-  <footer class="container-page relative mt-16 border-t border-ink-600/70 py-8 sm:mt-24">
+  {/* The handle as a wordmark: each letter stands up as the footer scrolls in. */}
+  <div class="container-page relative mt-16 overflow-hidden sm:mt-24" aria-hidden="true">
+    <p data-parallax="14" class="footer-mark select-none whitespace-nowrap text-center font-display leading-[0.8] tracking-[-0.04em]">
+      {mark.map((ch, i) => <span class="mark-letter" style={`--i:${i}`}>{ch}</span>)}
+    </p>
+  </div>
+
+  <footer class="container-page relative border-t border-ink-600/70 py-8">
     <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
       <div>
         <p class="text-fine text-paper">{person.name}</p>

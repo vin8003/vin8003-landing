@@ -1,6 +1,6 @@
 /**
  * Walks every text node on the built page and reports WCAG AA failures against
- * the actual computed colours, in both themes. Dev-only helper.
+ * the actual computed colours. The site is dark only. Dev-only helper.
  *
  *   node scripts/audit-contrast.mjs [url]
  */
@@ -11,9 +11,8 @@ const url = process.argv[2] ?? 'http://127.0.0.1:43117/';
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? '/usr/local/bin/google-chrome' });
 let failures = 0;
 
-for (const theme of ['dark', 'light']) {
+for (const theme of ['dark']) {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-  await page.addInitScript((t) => localStorage.setItem('vin8003-theme', t), theme);
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.evaluate(() => {
     document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-revealed'));

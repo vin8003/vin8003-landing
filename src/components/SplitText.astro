@@ -1,0 +1,44 @@
+---
+/**
+ * Splits a line into words (and optionally characters) that flip up in 3D when an ancestor with
+ * `data-reveal` is revealed. Screen readers get the plain text once; the split copy is hidden.
+ * Splitting by word keeps the typeface's kerning intact, so long headlines use `by="word"`.
+ */
+interface Props {
+  text: string;
+  by?: 'char' | 'word';
+  class?: string;
+  /** Added to every piece's delay, in ms. */
+  delay?: number;
+  /** Delay between pieces, in ms. */
+  step?: number;
+}
+
+const { text, by = 'word', class: className = '', delay = 0, step = by === 'char' ? 26 : 55 } = Astro.props;
+const words = text.split(' ');
+let i = 0;
+const pieces = words.map((word) => ({
+  word,
+  parts: by === 'char' ? [...word].map((ch) => ({ ch, i: i++ })) : [{ ch: word, i: i++ }],
+}));
+---
+
+<span class={className}>
+  <span class="sr-only">{text}</span>
+  <span class="split" aria-hidden="true" style={`--split-delay:${delay}ms; --split-step:${step}ms`}>
+    {
+      pieces.map((w, wi) => (
+        <>
+          <span class="split-word">
+            {w.parts.map((p) => (
+              <span class="split-piece" style={`--i:${p.i}`}>
+                {p.ch}
+              </span>
+            ))}
+          </span>
+          {wi < pieces.length - 1 && ' '}
+        </>
+      ))
+    }
+  </span>
+</span>

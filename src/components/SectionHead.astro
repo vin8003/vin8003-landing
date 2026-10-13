@@ -1,4 +1,6 @@
 ---
+import SplitText from './SplitText.astro';
+
 interface Props {
   title: string;
   note?: string;
@@ -10,7 +12,7 @@ const { title, note, class: className = '' } = Astro.props;
 
 <div class={`flex flex-col gap-5 sm:gap-6 ${className}`} data-reveal>
   <h2 class="max-w-4xl font-display text-title">
-    <span class="reveal-line"><span>{title}</span></span>
+    <SplitText text={title} />
   </h2>
   {note && <p class="max-w-[65ch] text-lead text-paper-dim">{note}</p>}
 </div>

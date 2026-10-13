@@ -17,7 +17,7 @@ const shot = (id: string, image: string) => {
 };
 ---
 
-<section id="building" class="relative scroll-mt-20 py-16 sm:py-24 lg:py-28">
+<section id="building" class="relative scroll-mt-20 py-16 sm:py-24 lg:py-28" data-atmos="ember" data-atmos-intensity="0.5">
   <div class="container-page">
     <SectionHead
       title="Three products, and what each one refuses to be."
@@ -38,6 +38,9 @@ const shot = (id: string, image: string) => {
               style={`--accent: var(--color-${v.accent}); --reveal-delay:${i * 90}ms`}
               data-reveal
               data-spot
+              data-tilt={wide ? '2.5' : '5'}
+              data-atmos={v.accent}
+              data-atmos-intensity="0.75"
             >
               <div class:list={['relative flex flex-col p-6 sm:p-8', wide && 'lg:col-span-5 lg:p-10']}>
                 <div class="flex items-start justify-between gap-3">
@@ -95,7 +98,7 @@ const shot = (id: string, image: string) => {
                 ]}
               >
                 {v.id === 'ordereasy' && (
-                  <div class="relative">
+                  <div class="line-reveal relative">
                     <Frame variant="browser" url="retailer.ordereasy.win">
                       <img
                         src={shot('retailer', 'retailer-overview.jpg')}
@@ -123,7 +126,7 @@ const shot = (id: string, image: string) => {
                   </div>
                 )}
                 {v.id === 'citebench' && (
-                  <div class="max-h-[22rem] overflow-hidden rounded-2xl [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]">
+                  <div class="line-reveal max-h-[22rem] overflow-hidden rounded-2xl [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]">
                     <Frame variant="browser" url="citebench.ordereasy.win">
                       <img
                         src={shot('citebench', 'citebench-today.jpg')}
@@ -138,7 +141,7 @@ const shot = (id: string, image: string) => {
                   </div>
                 )}
                 {v.id === 'gstslip' && (
-                  <div class="max-h-[22rem] overflow-hidden rounded-2xl [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]">
+                  <div class="line-reveal max-h-[22rem] overflow-hidden rounded-2xl [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]">
                     <Frame variant="browser" url="gstslip.vin8003.com">
                       <img
                         src={shot('gstslip', 'gstslip-extracted-fields.jpg')}

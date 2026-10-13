@@ -13,7 +13,14 @@ const { syncHash = false, initial = 'retailer' } = Astro.props;
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<div class="demo-player" data-demo-player data-sync-hash={syncHash ? '' : undefined} data-initial={initial}>
+<div
+  class="demo-player"
+  data-demo-player
+  data-sync-hash={syncHash ? '' : undefined}
+  data-initial={initial}
+  data-atmos={demos.find((d) => d.id === initial)?.accent ?? 'ember'}
+  data-atmos-intensity="0.6"
+>
   {/* Journey tabs */}
   <div class="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:px-0" role="tablist" aria-label="Product demos">
     {
@@ -57,9 +64,44 @@ const pad = (n: number) => String(n).padStart(2, '0');
         <div class="grid gap-6 lg:grid-cols-12 lg:gap-8">
           {/* Stage */}
           <div class="min-w-0 lg:col-span-8">
+            {/* Step controls sit on top of the screen at a fixed height, so they never move as the
+                narration changes length, and on phones they stay pinned while the screen scrolls by. */}
+            <div class="demo-bar sticky top-[4.75rem] z-20 mb-4 flex items-center gap-2 rounded-full border border-ink-600/70 bg-ink-900/85 p-1.5 backdrop-blur-xl sm:top-[5.25rem] lg:static lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+              <button
+                type="button"
+                class="glass grid size-11 shrink-0 place-items-center rounded-full text-paper transition-colors hover:bg-ink-700 disabled:opacity-35"
+                data-prev
+                aria-label="Previous step"
+              >
+                <ChevronLeft className="size-4" strokeWidth={1.7} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                class="inline-flex h-11 min-w-[9.5rem] shrink-0 items-center justify-center gap-2 rounded-full px-5 text-fine font-semibold text-ink-900 transition-transform duration-200 hover:-translate-y-0.5"
+                style="background: var(--accent)"
+                data-next
+              >
+                <span data-next-label>Next step</span>
+                <ChevronRight className="size-3.5" strokeWidth={1.8} aria-hidden="true" />
+              </button>
+              <p class="hidden font-mono text-[0.7rem] tabular-nums text-paper-faint sm:block" aria-hidden="true">
+                <span class="text-paper" data-bar-step>01</span> / {pad(d.steps.length)}
+              </p>
+              <button
+                type="button"
+                class="glass ml-auto inline-flex h-11 shrink-0 items-center gap-2 rounded-full px-4 text-fine text-paper-dim transition-colors hover:text-paper"
+                data-play
+                aria-pressed="false"
+              >
+                <Play className="size-3.5" fill="currentColor" strokeWidth={1.5} aria-hidden="true" data-play-icon />
+                <Pause className="hidden size-3.5" fill="currentColor" strokeWidth={1.5} aria-hidden="true" data-pause-icon />
+                <span data-play-label>Autoplay</span>
+              </button>
+            </div>
+
             <div class="relative">
               {d.device === 'browser' ? (
-                <figure class="ring-gradient relative overflow-hidden rounded-2xl bg-ink-850 shadow-frame">
+                <figure class="ring-gradient relative overflow-hidden rounded-2xl bg-ink-850 shadow-frame" data-tilt="3">
                   <div class="flex items-center gap-3 border-b border-ink-600/80 bg-ink-800 px-3 py-2.5 sm:px-4">
                     <span class="min-w-0 flex-1 truncate rounded-lg bg-ink-900/70 px-2.5 py-1 text-center font-mono text-[0.62rem] text-paper-faint sm:text-[0.68rem]">
                       {d.host}
@@ -97,7 +139,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
                 </figure>
               ) : (
                 <figure class="relative mx-auto w-full max-w-[18.5rem]">
-                  <div class="ring-gradient relative rounded-[2.4rem] bg-ink-850 p-2 shadow-frame">
+                  <div class="ring-gradient relative rounded-[2.4rem] bg-ink-850 p-2 shadow-frame" data-tilt="8">
                     <div class="demo-stage relative aspect-[390/844] overflow-hidden rounded-[1.9rem] bg-ink-900" data-stage>
                       <div class="demo-placeholder absolute inset-0" aria-hidden="true" />
                       <div class="absolute left-1/2 top-2 z-20 h-5 w-20 -translate-x-1/2 rounded-full bg-black" aria-hidden="true" />
@@ -168,36 +210,6 @@ const pad = (n: number) => String(n).padStart(2, '0');
               ))}
             </div>
 
-            <div class="mt-5 flex items-center gap-2">
-              <button
-                type="button"
-                class="glass grid size-11 place-items-center rounded-full text-paper transition-colors hover:bg-ink-700 disabled:opacity-35"
-                data-prev
-                aria-label="Previous step"
-              >
-                <ChevronLeft className="size-4" strokeWidth={1.7} aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                class="inline-flex h-11 items-center gap-2 rounded-full px-5 text-fine font-semibold text-ink-900 transition-transform duration-200 hover:-translate-y-0.5"
-                style="background: var(--accent)"
-                data-next
-              >
-                <span data-next-label>Next step</span>
-                <ChevronRight className="size-3.5" strokeWidth={1.8} aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                class="glass ml-auto inline-flex h-11 items-center gap-2 rounded-full px-4 text-fine text-paper-dim transition-colors hover:text-paper"
-                data-play
-                aria-pressed="false"
-              >
-                <Play className="size-3.5" fill="currentColor" strokeWidth={1.5} aria-hidden="true" data-play-icon />
-                <Pause className="hidden size-3.5" fill="currentColor" strokeWidth={1.5} aria-hidden="true" data-pause-icon />
-                <span data-play-label>Autoplay</span>
-              </button>
-            </div>
-
             {/* Step rail */}
             <ol class="scroll-pane mt-4 max-h-[17rem] space-y-0.5 py-3 pr-1 lg:max-h-[19rem]">
               {d.steps.map((s, i) => (
@@ -259,24 +271,20 @@ const pad = (n: number) => String(n).padStart(2, '0');
 </div>
 
 <style>
+  /* Screens change with the line wipe (global.css): the new one sweeps in over the old. */
   .demo-shot {
-    opacity: 0;
     visibility: hidden;
-    transform: scale(1.015);
-    transition:
-      opacity 0.55s var(--ease-out-expo),
-      transform 0.9s var(--ease-out-expo),
-      visibility 0s linear 0.55s;
+    z-index: 0;
+  }
+
+  .demo-shot[data-leaving] {
+    visibility: visible;
+    z-index: 1;
   }
 
   .demo-shot[data-active] {
-    opacity: 1;
     visibility: visible;
-    transform: none;
-    transition:
-      opacity 0.55s var(--ease-out-expo),
-      transform 0.9s var(--ease-out-expo),
-      visibility 0s;
+    z-index: 2;
   }
 
   /* Full-page captures pan down slowly while you look at them. */
@@ -419,10 +427,20 @@ const pad = (n: number) => String(n).padStart(2, '0');
       const stage = panel.querySelector('[data-stage]');
       const current = panel.querySelector<HTMLImageElement>(`[data-shot="${state.step}"] img`);
       stage?.toggleAttribute('data-failed', Boolean(current?.complete && current.getAttribute('src') && !current.naturalWidth));
-      panel.querySelectorAll<HTMLElement>('[data-shot]').forEach((el, i) => {
+      // The outgoing screen stays underneath while the new one wipes in over it.
+      const shotEls = [...panel.querySelectorAll<HTMLElement>('[data-shot]')];
+      const outgoing = shotEls.find((el) => el.hasAttribute('data-active'));
+      if (outgoing && outgoing !== shotEls[state.step]) {
+        outgoing.setAttribute('data-leaving', '');
+        window.setTimeout(() => outgoing.removeAttribute('data-leaving'), 1300);
+      }
+      shotEls.forEach((el, i) => {
         el.toggleAttribute('data-active', i === state.step);
         el.tabIndex = i === state.step ? 0 : -1;
       });
+      // Tint the clouds behind the player with the journey's product colour.
+      const accent = panel.style.getPropertyValue('--accent').match(/--color-(\w+)/)?.[1];
+      if (accent) root.dataset.atmos = accent;
       panel.querySelectorAll<HTMLElement>('[data-copy]').forEach((el, i) => {
         el.hidden = i !== state.step;
         el.toggleAttribute('data-active', i === state.step);
@@ -452,6 +470,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
       const nextLabel = panel.querySelector<HTMLElement>('[data-next-label]');
       if (prev) prev.disabled = state.step === 0;
       if (nextLabel) nextLabel.textContent = state.step === total - 1 ? 'Next journey' : 'Next step';
+      const barStep = panel.querySelector<HTMLElement>('[data-bar-step]');
+      if (barStep) barStep.textContent = String(state.step + 1).padStart(2, '0');
 
       if (syncHash && opts.writeHash) {
         history.replaceState(null, '', `#${state.demo}${state.step ? `-${state.step + 1}` : ''}`);

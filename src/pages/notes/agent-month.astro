@@ -12,7 +12,7 @@ import { person } from '../../data/site';
   <Nav home={false} />
 
   <main>
-    <article id="note" class="relative isolate overflow-hidden pb-16 pt-28 sm:pb-24 sm:pt-36">
+    <article id="note" class="relative isolate overflow-hidden pb-16 pt-28 sm:pb-24 sm:pt-36" data-atmos="violet" data-atmos-intensity="0.55">
       <div class="container-page">
         <div class="mx-auto max-w-3xl">
           <a href="/#notes" class="label-mono gap-1.5 transition-colors hover:text-paper"><ArrowLeft className="size-3.5" strokeWidth={1.7} aria-hidden="true" />vin8003.com</a>
@@ -24,7 +24,7 @@ import { person } from '../../data/site';
           <p class="label-mono mt-6">{person.name} · {m.period}</p>
         </div>
 
-        <figure class="mx-auto mt-10 max-w-5xl overflow-hidden rounded-2xl shadow-frame sm:mt-14">
+        <figure class="line-reveal mx-auto mt-10 max-w-5xl overflow-hidden rounded-2xl shadow-frame sm:mt-14" data-reveal>
           <img src="/notes/agent-month/banner.webp" width="1500" height="600" alt="PRs opened per day across the month, with the 18 Sep spike: 414 PRs, 1,144 commits, 92 merged." class="w-full" />
         </figure>
 

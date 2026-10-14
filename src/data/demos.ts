@@ -36,7 +36,7 @@ export type Demo = {
   steps: DemoStep[];
 };
 
-/** Screens captured on 10 Oct 2026 and served from this site (public/demo/<id>/media/).
+/** Screens captured on 10 Oct 2026 (CiteBench recaptured 13 Oct after its redesign) and served from this site (public/demo/<id>/media/).
  *  Anything not listed here still loads from the demo hub. */
 const localMedia: Record<string, readonly string[]> = {
   customer: [
@@ -58,8 +58,10 @@ const localMedia: Record<string, readonly string[]> = {
     'citebench-matters.jpg',
     'citebench-inside-matter.jpg',
     'citebench-research.jpg',
+    'citebench-authorities-retrieved.jpg',
     'citebench-directions-vs-suggestions.jpg',
     'citebench-inbox.jpg',
+    'citebench-ask.jpg',
     'citebench-hi-en.jpg',
   ],
 };
@@ -305,6 +307,12 @@ export const demos: Demo[] = [
         title: 'Messages and items waiting for you',
         body: 'Skim the inbox when something new lands on a matter.',
         image: 'citebench-inbox.jpg',
+      },
+      {
+        name: 'Ask',
+        title: 'Ask a quick question on the case',
+        body: 'Saved chats sit under each matter. Answers cite only authorities that were retrieved, with the source linked beneath.',
+        image: 'citebench-ask.jpg',
       },
       {
         name: 'हि / EN',

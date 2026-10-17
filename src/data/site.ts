@@ -122,7 +122,7 @@ export type LogEntry = {
   date: string;
   /** Human date shown in the log. */
   label: string;
-  project: 'OrderEasy' | 'CiteBench' | 'GSTSlip' | 'vin8003.com' | 'Demos' | 'AI Secretary' | 'Musical Explainers';
+  project: 'OrderEasy' | 'CiteBench' | 'GSTSlip' | 'vin8003.com' | 'Demos' | 'AI Secretary' | 'Musical Explainers' | 'ArziDesk';
   accent: 'mint' | 'violet' | 'amber' | 'ember';
   /** ship = landed or deployed · open = a PR that has not merged · decision = no link, a call made. */
   kind: 'ship' | 'open' | 'decision';
@@ -142,6 +142,51 @@ const commit = (repo: string, sha: string) => ({ label: `${repo} @ ${sha}`, href
  * no link because nothing shipped. Newest first.
  */
 export const buildLog: LogEntry[] = [
+  {
+    date: '2026-10-17',
+    label: '17 Oct 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    line: 'Unit tests now run on every pull request to the backend and to the retailer and customer web apps, and the customer app picks the right field when a retailer chip uses an alias.',
+    link: pr('RetailerCustomerPlatform', 189),
+  },
+  {
+    date: '2026-10-16',
+    label: '16 Oct 2026',
+    project: 'ArziDesk',
+    accent: 'violet',
+    kind: 'ship',
+    line: 'ArziDesk started: an assisted filing desk for advocates and e-Mitra and CSC operators, drafting stuck-payment grievances, RTI requests and appeals with deadlines on a timer, and consumer complaints, paid from a prepaid wallet. Built on the CiteBench and GSTSlip stack.',
+    link: commit('arzidesk', 'e6878c6'),
+  },
+  {
+    date: '2026-10-15',
+    label: '15 Oct 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    line: 'Retailer sign-up opened without an access code. New shops see a verification banner and stay hidden from customers until an admin approves them from a new verification queue.',
+    link: commit('retailer_ordereasy_njs', '17ceb91'),
+  },
+  {
+    date: '2026-10-14',
+    label: '14 Oct 2026',
+    project: 'Demos',
+    accent: 'ember',
+    kind: 'ship',
+    line: 'CiteBench demo screens recaptured on richer seed data, with a new Ask step in the walkthrough.',
+    link: pr('vin8003-landing', 32),
+  },
+  {
+    date: '2026-10-13',
+    label: '13 Oct 2026',
+    project: 'GSTSlip',
+    accent: 'amber',
+    kind: 'ship',
+    line: 'GSTSlip restyled as a tax desk instead of a template: a cool sheet, one ballpoint accent and a new typeface, with the framework pinned to its patched release.',
+    link: commit('gstslip', '98a7173'),
+  },
   {
     date: '2026-10-13',
     label: '13 Oct 2026',

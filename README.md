@@ -10,8 +10,9 @@ It is a static site: the front page below, plus `/demo/`, which hosts the four g
 | —   | **Hero**         | `#top`      | "I build products with AI.", the 3D constellation, and an index of everything on the site |
 | 01  | **Building now** | `#building` | The active products, each with a `LIVE` / `BUILDING` status chip        |
 | 02  | **Demo**         | `#demo`     | The four guided journeys, played natively from the real captured screens |
-| 03  | **Build log**    | `#log`      | Scrollable, filterable timeline; each ship links to a PR or commit     |
+| 03  | **Build log**    | `#log`      | Latest 10 entries, linking to the full log at `/log/`; each links to a PR or commit |
 | 04  | **Field notes**  | `#notes`    | One month of AI agents in numbers, linking to `/notes/agent-month/`    |
+| —   | **Writing**      | `#writing`  | Newest 3 of the 7 X Articles in `src/data/articles.ts`. `/writing/` lists all, `/writing/<slug>/` holds each, canonical to its X post |
 | 05  | **Thesis**       | `#thesis`   | An army of AI assistants, one job each — plus what is parked           |
 | 06  | **About**        | `#about`    | Short and personal                                                     |
 | 07  | **Contact**      | `#contact`  | Email and socials. No hire-me pitch.                                   |
@@ -159,6 +160,9 @@ Every entry in `buildLog` maps to a real dated commit, pull request or repo on `
 live URL, and carries the link. Dates are merge or commit dates, not estimates. A pull request that has not
 merged yet says so in the line and is never described as live. If a line cannot be linked, it does not go
 in the log.
+
+The home section shows the 10 newest entries (sorted by date, so file order only matters within a day)
+and links to `/log/`, which lists every entry with the same filters.
 
 ### Where the product links point
 

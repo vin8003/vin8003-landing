@@ -1,0 +1,40 @@
+---
+import { ArrowLeft } from 'lucide-react';
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { articles, xArticlesUrl } from '../../data/articles';
+---
+
+<Base title="Writing - vin8003.com" description="Articles by Vineet Sharma, first posted on X: building products with AI, agents and shipping." skipTo="#writing">
+  <Nav home={false} />
+
+  <main>
+    <section id="writing" class="relative isolate overflow-hidden pb-16 pt-28 sm:pb-24 sm:pt-36" data-atmos="amber" data-atmos-intensity="0.45">
+      <div class="container-page">
+        <a href="/#writing" class="label-mono gap-1.5 transition-colors hover:text-paper"><ArrowLeft className="size-3.5" strokeWidth={1.7} aria-hidden="true" />vin8003.com</a>
+        <div class="mt-6 flex flex-col gap-5" data-reveal>
+          <h1 class="max-w-4xl font-display text-title">
+            <span class="reveal-line"><span>Writing.</span></span>
+          </h1>
+          <p class="max-w-2xl text-lead text-paper-dim">
+            Articles I first posted on <a href={xArticlesUrl} target="_blank" rel="noopener noreferrer" class="text-paper underline decoration-dashed underline-offset-4 hover:text-amber">X</a>, newest first. Each one links back to the original post.
+          </p>
+        </div>
+
+        {
+          articles.length > 0 ? (
+            <ul class="mt-10 grid gap-4 sm:mt-14 md:grid-cols-2 lg:grid-cols-3">
+              {articles.map((a, i) => <ArticleCard article={a} i={i} />)}
+            </ul>
+          ) : (
+            <p class="mt-10 font-mono text-fine text-paper-faint">Nothing here yet. The articles live on X for now.</p>
+          )
+        }
+      </div>
+    </section>
+
+    <Footer />
+  </main>
+</Base>

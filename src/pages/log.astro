@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import BuildLog from '../components/BuildLog.astro';
+import Footer from '../components/Footer.astro';
+import { buildLog } from '../data/site';
+import { ArrowLeft } from 'lucide-react';
+---
+
+<Base
+  title="Build log - vin8003.com"
+  description={`Every entry in the build log, newest first: ${buildLog.length} dated ships and decisions across OrderEasy, CiteBench, GSTSlip and more, each linked to the pull request or commit behind it.`}
+  skipTo="#log"
+>
+  <Nav home={false} />
+
+  <main>
+    <section class="relative isolate overflow-clip pb-10 pt-28 sm:pb-14 sm:pt-36" data-atmos="mint" data-atmos-intensity="0.45">
+      <div class="container-page">
+        <a href="/#log" class="label-mono gap-1.5 transition-colors hover:text-paper"><ArrowLeft className="size-3.5" strokeWidth={1.7} aria-hidden="true" />vin8003.com</a>
+        <div class="mt-6 flex flex-col gap-5" data-reveal>
+          <h1 class="max-w-4xl font-display text-title">
+            <span class="reveal-line"><span>The whole build log. <span class="text-ember">{buildLog.length} entries.</span></span></span>
+          </h1>
+          <p class="max-w-[65ch] text-lead text-paper-dim">
+            Pulled from the public repos on GitHub. Every line links to the merged pull request, the commit or the
+            deploy behind it. Open pull requests say so, and a line without a link is a decision, not a ship.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <BuildLog page />
+
+    <Footer />
+  </main>
+</Base>

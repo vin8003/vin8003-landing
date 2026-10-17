@@ -9,6 +9,8 @@ interface Props {
   skipTo?: string;
   /** Play the loading ring on the first visit of a session. */
   intro?: boolean;
+  /** Where the page first appeared, when that is not here (articles first posted on X). */
+  canonical?: string;
 }
 
 const {
@@ -16,9 +18,11 @@ const {
   description = `${person.name}, builder and founder in Delhi NCR. ${person.thesisLine} Building OrderEasy, CiteBench and GSTSlip.`,
   skipTo = '#building',
   intro = false,
+  canonical: canonicalProp,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com').href;
+const pageUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com').href;
+const canonical = canonicalProp ?? pageUrl;
 ---
 
 <!doctype html>
@@ -59,7 +63,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://vin8003.com
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={pageUrl} />
     <meta property="og:image" content={new URL('/og.png', Astro.site ?? 'https://vin8003.com').href} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />

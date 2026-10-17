@@ -1,0 +1,31 @@
+---
+import { ArrowUpRight } from 'lucide-react';
+import { articleHref, readingMinutes, type Article } from '../data/articles';
+
+interface Props {
+  article: Article;
+  i?: number;
+}
+
+const { article: a, i = 0 } = Astro.props;
+---
+
+<li
+  class="spot ring-gradient relative flex flex-col overflow-hidden rounded-2xl bg-ink-850 p-5 sm:p-6"
+  style={`--accent: var(--color-amber); --reveal-delay:${i * 60}ms`}
+  data-reveal
+  data-spot
+>
+  <p class="label-mono flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.62rem]">
+    <time datetime={a.date} class="text-ember">{a.label}</time>
+    <span>{readingMinutes(a)} min read</span>
+  </p>
+  <h3 class="mt-4 font-display text-sub text-paper">
+    <a href={articleHref(a)} class="after:absolute after:inset-0 hover:text-amber">{a.title}</a>
+  </h3>
+  <p class="mt-3 text-body text-paper-dim">{a.dek}</p>
+  <span class="label-mono mt-auto inline-flex items-center gap-1.5 pt-6 text-paper">
+    Read
+    <ArrowUpRight className="size-3.5" strokeWidth={1.7} aria-hidden="true" />
+  </span>
+</li>

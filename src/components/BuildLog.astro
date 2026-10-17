@@ -2,6 +2,20 @@
 import SectionHead from './SectionHead.astro';
 import { buildLog, socials, type LogEntry } from '../data/site';
 
+interface Props {
+  /** Show only the newest entries and link to the full log page. */
+  limit?: number;
+  /** Rendered on /log/: no section heading (the page has its own) and a taller pane. */
+  page?: boolean;
+}
+
+const { limit, page = false } = Astro.props;
+
+// Newest first. The sort is stable, so entries on the same day keep their order in site.ts.
+const all = [...buildLog].sort((a, b) => b.date.localeCompare(a.date));
+const entries = limit ? all.slice(0, limit) : all;
+const trimmed = entries.length < all.length;
+
 const github = socials.find((s) => s.label === 'GitHub')!;
 const x = socials.find((s) => s.label === 'X')!;
 
@@ -15,22 +29,25 @@ const filters = [
   { id: 'all', label: 'Everything', accent: 'var(--color-paper)' },
   { id: 'ordereasy', label: 'OrderEasy', accent: 'var(--color-mint)' },
   { id: 'citebench', label: 'CiteBench', accent: 'var(--color-violet)' },
+  { id: 'arzidesk', label: 'ArziDesk', accent: 'var(--color-violet)' },
   { id: 'gstslip', label: 'GSTSlip', accent: 'var(--color-amber)' },
   { id: 'musical explainers', label: 'Musical Explainers', accent: 'var(--color-amber)' },
   { id: 'site', label: 'Site & demos', accent: 'var(--color-ember)' },
   { id: 'decisions', label: 'Decisions', accent: 'var(--color-paper-faint)' },
-].map((f) => ({ ...f, count: f.id === 'all' ? buildLog.length : buildLog.filter((e) => groupOf(e) === f.id).length }));
+]
+  .map((f) => ({ ...f, count: f.id === 'all' ? entries.length : entries.filter((e) => groupOf(e) === f.id).length }))
+  .filter((f) => f.count > 0);
 
 // Activity strip: one column per day from the first entry to the last, with a
 // block for every entry on that day. Purely a picture of the list below.
 const DAY = 86_400_000;
-const dates = buildLog.map((e) => Date.parse(e.date));
+const dates = entries.map((e) => Date.parse(e.date));
 const first = Math.min(...dates);
 const last = Math.max(...dates);
 const days = Array.from({ length: Math.round((last - first) / DAY) + 1 }, (_, i) => {
   const t = first + i * DAY;
   const iso = new Date(t).toISOString().slice(0, 10);
-  return { iso, entries: buildLog.filter((e) => e.date === iso) };
+  return { iso, entries: entries.filter((e) => e.date === iso) };
 });
 const peak = Math.max(...days.map((d) => d.entries.length));
 const fmt = (iso: string) =>
@@ -40,7 +57,7 @@ const fmt = (iso: string) =>
 const month = (iso: string) =>
   new Date(iso).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const groups: { month: string; entries: LogEntry[] }[] = [];
-for (const e of buildLog) {
+for (const e of entries) {
   const m = month(e.date);
   const g = groups.at(-1);
   if (g && g.month === m) g.entries.push(e);
@@ -50,14 +67,23 @@ for (const e of buildLog) {
 const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as const;
 ---
 
-<section id="log" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28" data-atmos="mint" data-atmos-intensity="0.45">
+<section
+  id="log"
+  class:list={['relative scroll-mt-20 overflow-hidden', page ? 'pb-16 sm:pb-24' : 'py-16 sm:py-24 lg:py-28']}
+  data-atmos={page ? undefined : 'mint'}
+  data-atmos-intensity={page ? undefined : '0.45'}
+>
   <div class="container-page relative">
-    <SectionHead
-      title="What actually shipped, in the order it shipped."
-      note="Pulled from the public repos on GitHub. Every line links to the merged pull request, the commit or the deploy behind it. Open pull requests say so, and a line without a link is a decision, not a ship."
-    />
+    {
+      !page && (
+        <SectionHead
+          title="What actually shipped, in the order it shipped."
+          note="Pulled from the public repos on GitHub. Every line links to the merged pull request, the commit or the deploy behind it. Open pull requests say so, and a line without a link is a decision, not a ship."
+        />
+      )
+    }
 
-    <div class="mt-10 grid gap-5 sm:mt-14 lg:grid-cols-12 lg:gap-8">
+    <div class:list={['grid gap-5 lg:grid-cols-12 lg:gap-8', !page && 'mt-10 sm:mt-14']}>
       {/* Left: activity + filters */}
       <aside class="flex flex-col gap-5 lg:col-span-4" data-reveal>
         <div class="ring-gradient relative overflow-hidden rounded-2xl bg-ink-850/70 p-5" style="--accent: var(--color-mint)" data-tilt="5">
@@ -88,7 +114,7 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
             {
               [
                 { c: 'mint', l: 'OrderEasy' },
-                { c: 'violet', l: 'CiteBench' },
+                { c: 'violet', l: 'CiteBench, ArziDesk' },
                 { c: 'amber', l: 'GSTSlip' },
                 { c: 'ember', l: 'Site, demos, decisions' },
               ].map((k) => (
@@ -140,13 +166,22 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
         <div class="ring-gradient relative overflow-hidden rounded-2xl bg-ink-850/60" style="--accent: var(--color-ember)">
           <div class="flex items-center justify-between gap-3 border-b border-ink-600/70 px-5 py-3.5 sm:px-6">
             <p class="label-mono text-paper-dim">
-              <span data-log-count>{buildLog.length}</span> entries, newest first
+              {trimmed ? 'Latest ' : ''}<span data-log-count>{entries.length}</span>{trimmed ? ` of ${all.length}` : ' entries'}, newest first
             </p>
-            
+            {
+              trimmed && (
+                <a href="/log/" class="label-mono text-paper-dim transition-colors hover:text-paper">
+                  See all →
+                </a>
+              )
+            }
           </div>
 
           <div
-            class="scroll-pane scroll-pane-end relative max-h-[34rem] px-5 sm:max-h-[38rem] sm:px-6"
+            class:list={[
+              'scroll-pane scroll-pane-end relative px-5 sm:px-6',
+              page ? 'max-h-[calc(100svh-9rem)]' : 'max-h-[34rem] sm:max-h-[38rem]',
+            ]}
             tabindex="0"
             role="region"
             aria-label="Build log entries"
@@ -212,6 +247,17 @@ const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as 
             <div class="h-6" aria-hidden="true"></div>
           </div>
         </div>
+
+        {
+          trimmed && (
+            <a
+              href="/log/"
+              class="glass mt-4 inline-flex items-center rounded-full px-4 py-2 text-fine font-medium text-paper transition-colors hover:bg-ink-700"
+            >
+              See all {all.length} build log entries →
+            </a>
+          )
+        }
 
         <div class="mt-4 flex flex-wrap gap-2 lg:hidden">
           <a href={github.href} target="_blank" rel="noopener noreferrer" class="glass inline-flex items-center rounded-full px-4 py-2 text-fine font-medium text-paper">

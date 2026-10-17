@@ -1,0 +1,37 @@
+---
+import SectionHead from './SectionHead.astro';
+import ArticleCard from './ArticleCard.astro';
+import { articles } from '../data/articles';
+import { ArrowRight } from 'lucide-react';
+
+interface Props {
+  /** How many of the newest articles the front page shows. */
+  limit?: number;
+}
+
+const { limit = 3 } = Astro.props;
+const latest = articles.slice(0, limit);
+---
+
+{
+  latest.length > 0 && (
+    <section id="writing" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28" data-atmos="amber" data-atmos-intensity="0.45">
+      <div class="container-page relative">
+        <SectionHead title="Writing." note="Articles I first posted on X, kept here in one place. Each links back to the original." />
+
+        <ul class="mt-10 grid gap-4 sm:mt-14 md:grid-cols-2 lg:grid-cols-3">
+          {latest.map((a, i) => <ArticleCard article={a} i={i} />)}
+        </ul>
+
+        <a
+          href="/writing/"
+          data-magnetic
+          class="group mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-paper px-5 py-3 text-fine font-semibold text-ink-900 transition-transform duration-200 hover:-translate-y-0.5"
+        >
+          All articles ({articles.length})
+          <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={1.8} aria-hidden="true" />
+        </a>
+      </div>
+    </section>
+  )
+}

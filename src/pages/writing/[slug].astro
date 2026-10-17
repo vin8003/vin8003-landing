@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
-import { articles, articleHref, readingMinutes, type Article } from '../../data/articles';
+import { articles, articleHref, linkify, readingMinutes, type Article } from '../../data/articles';
 import { person } from '../../data/site';
 
 export function getStaticPaths() {
@@ -18,6 +18,9 @@ const { article: a } = Astro.props;
 const img = (src: string) => (/^https?:\/\//.test(src) ? src : `/writing/${a.slug}/${src}`);
 const i = articles.indexOf(a);
 const newer = articles[i - 1];
+// The dek is often the article's own opening line; don't print it twice.
+const body = a.body[0] && 'text' in a.body[0] && a.body[0].text === a.dek ? a.body.slice(1) : a.body;
+const external = (href: string) => /^https?:\/\//.test(href);
 const older = articles[i + 1];
 ---
 
@@ -38,7 +41,7 @@ const older = articles[i + 1];
           </h1>
           <p class="mt-5 text-lead text-paper-dim">{a.dek}</p>
           <p class="label-mono mt-6">
-            {person.name} ·
+            {person.name} ·{' '}
             <a href={a.xUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-paper">
               Originally on X<ArrowUpRight className="size-3" strokeWidth={1.7} aria-hidden="true" />
             </a>
@@ -56,21 +59,56 @@ const older = articles[i + 1];
         <div class="mx-auto mt-12 max-w-3xl">
           <div class="flex flex-col">
             {
-              a.body.map((b) =>
+              body.map((b) =>
                 b.t === 'h' ? (
                   <h2 class="mt-12 font-display text-sub text-paper">{b.text}</h2>
                 ) : b.t === 'img' ? (
                   <figure class="my-8 overflow-hidden rounded-2xl border border-ink-600/70 shadow-frame">
                     <img src={img(b.src)} alt={b.alt} loading="lazy" decoding="async" class="w-full" />
                   </figure>
+                ) : b.t === 'table' ? (
+                  <div class="mt-6 overflow-x-auto rounded-2xl border border-ink-600/70">
+                    <table class="w-full text-left text-body">
+                      <thead class="label-mono text-[0.62rem]">
+                        <tr>{b.head.map((cell) => <th scope="col" class="border-b border-ink-600/70 px-4 py-3 font-normal">{cell}</th>)}</tr>
+                      </thead>
+                      <tbody class="text-paper-dim">
+                        {b.rows.map((row) => (
+                          <tr class="border-b border-ink-600/40 last:border-0">{row.map((cell) => <td class="px-4 py-3 align-top">{cell}</td>)}</tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : b.t === 'code' ? (
+                  <pre class="mt-6 overflow-x-auto rounded-2xl border border-ink-600/70 bg-ink-850 p-5 font-mono text-fine leading-relaxed text-paper-dim"><code>{b.text}</code></pre>
+                ) : b.t === 'hr' ? (
+                  <hr class="mx-auto my-10 w-16 border-dashed border-ink-500" />
                 ) : b.t === 'quote' ? (
                   <blockquote class="mt-6 border-l-2 border-amber pl-5 font-display text-sub text-paper">{b.text}</blockquote>
                 ) : b.t === 'list' ? (
                   <ul class="mt-5 flex list-disc flex-col gap-2 pl-6 text-lead text-paper-dim marker:text-amber">
-                    {b.items.map((item) => <li>{item}</li>)}
+                    {b.items.map((item) => (
+                      <li>
+                        {linkify(item, b.links).map((r) =>
+                          r.href ? (
+                            <a href={r.href} {...(external(r.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})} class="text-paper underline decoration-dashed underline-offset-4 hover:text-amber">{r.text}</a>
+                          ) : (
+                            r.text
+                          ),
+                        )}
+                      </li>
+                    ))}
                   </ul>
                 ) : (
-                  <p class="mt-5 whitespace-pre-line text-lead text-paper-dim">{b.text}</p>
+                  <p class="mt-5 whitespace-pre-line text-lead text-paper-dim">
+                    {linkify(b.text, b.links).map((r) =>
+                      r.href ? (
+                        <a href={r.href} {...(external(r.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})} class="text-paper underline decoration-dashed underline-offset-4 hover:text-amber">{r.text}</a>
+                      ) : (
+                        r.text
+                      ),
+                    )}
+                  </p>
                 ),
               )
             }

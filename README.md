@@ -12,6 +12,7 @@ It is a static site: the front page below, plus `/demo/`, which hosts the four g
 | 02  | **Demo**         | `#demo`     | The four guided journeys, played natively from the real captured screens |
 | 03  | **Build log**    | `#log`      | Latest 10 entries, linking to the full log at `/log/`; each links to a PR or commit |
 | 04  | **Field notes**  | `#notes`    | One month of AI agents in numbers, linking to `/notes/agent-month/`    |
+| —   | **Writing**      | `#writing`  | Newest 3 articles from `src/data/articles.ts`; hidden until there is one. `/writing/` lists all, `/writing/<slug>/` holds each, canonical to its X post |
 | 05  | **Thesis**       | `#thesis`   | An army of AI assistants, one job each — plus what is parked           |
 | 06  | **About**        | `#about`    | Short and personal                                                     |
 | 07  | **Contact**      | `#contact`  | Email and socials. No hire-me pitch.                                   |

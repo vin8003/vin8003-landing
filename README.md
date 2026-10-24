@@ -164,6 +164,10 @@ in the log.
 The home section shows the 10 newest entries (sorted by date, so file order only matters within a day)
 and links to `/log/`, which lists every entry with the same filters.
 
+Each entry also carries a `category` (`feature`, `design`, `fix`, `infra`, `content` or `decision`; headings
+in `logCategories`). Both views group the entries by category by default, newest first inside each group,
+and a "By date" toggle switches back to month headings. The product filters work in either view.
+
 ### Where the product links point
 
 | Surface                    | URL                                                             |

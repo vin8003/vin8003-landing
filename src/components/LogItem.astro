@@ -1,0 +1,59 @@
+---
+import type { LogEntry } from '../data/site';
+
+interface Props {
+  entry: LogEntry;
+  /** Product filter the entry belongs to. */
+  group: string;
+}
+
+const { entry: e, group } = Astro.props;
+
+const kindLabel = { ship: 'Shipped', open: 'Open PR', decision: 'Decision' } as const;
+---
+
+<li
+  class="sd-swing group relative py-3.5 pl-6 sm:pl-8"
+  style={`--accent: var(--color-${e.accent})`}
+  data-log-entry
+  data-group={group}
+>
+  <span
+    class:list={[
+      'absolute -left-[5px] top-[1.35rem] size-[9px] rounded-full ring-4 ring-ink-850',
+      e.kind === 'ship' ? '' : 'border border-dashed bg-ink-850',
+    ]}
+    style={e.kind === 'ship' ? 'background: var(--accent)' : 'border-color: var(--accent)'}
+    aria-hidden="true"
+  />
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+    <time datetime={e.date} class="font-mono text-[0.68rem] text-paper-faint">
+      {e.label}
+    </time>
+    <span class="font-mono text-[0.72rem] font-semibold" style="color: var(--accent)">
+      {e.project}
+    </span>
+    <span
+      class:list={[
+        'rounded-full px-2 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.12em]',
+        e.kind === 'ship' ? 'text-paper-dim' : 'border border-dashed border-ink-500 text-paper-faint',
+      ]}
+      style={e.kind === 'ship' ? 'background: color-mix(in oklab, var(--accent) 14%, transparent)' : undefined}
+    >
+      {kindLabel[e.kind]}
+    </span>
+  </div>
+  <p class="mt-1.5 max-w-2xl text-body text-paper">{e.line}</p>
+  {
+    e.link && (
+      <a
+        href={e.link.href}
+        target={e.link.href.startsWith('/') ? undefined : '_blank'}
+        rel={e.link.href.startsWith('/') ? undefined : 'noopener noreferrer'}
+        class="label-mono mt-1 text-paper-faint transition-colors duration-200 hover:text-[var(--accent)]"
+      >
+        {e.link.label} {e.link.href.startsWith('/') ? '→' : '↗'}
+      </a>
+    )
+  }
+</li>

@@ -17,7 +17,7 @@ const latest = articles.slice(0, limit);
   latest.length > 0 && (
     <section id="writing" class="relative scroll-mt-20 overflow-hidden py-16 sm:py-24 lg:py-28" data-atmos="amber" data-atmos-intensity="0.45">
       <div class="container-page relative">
-        <SectionHead title="Writing." note="Articles I first posted on X, kept here in one place. Each links back to the original." />
+        <SectionHead title="Writing." note="Articles I first posted on X or on a product site, kept here in one place. Each links back to the original." />
 
         <ul class="mt-10 grid gap-4 sm:mt-14 md:grid-cols-2 lg:grid-cols-3">
           {latest.map((a, i) => <ArticleCard article={a} i={i} />)}

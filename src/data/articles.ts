@@ -1,9 +1,11 @@
 /**
  * WRITING - Vineet's articles, first published as X Articles.
  *
- * Each entry is copied from the original post on x.com/vin8003/articles and
- * links back to it; the X post stays the canonical source. Text is Vineet's
- * own, unedited apart from layout. Add new ones at the top.
+ * Most entries are copied from the original post on x.com/vin8003/articles and
+ * link back to it; the X post stays the canonical source. Text is Vineet's
+ * own, unedited apart from layout. An entry first published elsewhere (say a
+ * product blog) sets `source` instead of `xUrl`; the page then links to and
+ * canonicalises to that source. Add new ones at the top.
  */
 
 /** A link inside a block: `text` is the exact words in the block that link out. */
@@ -30,7 +32,9 @@ export type Article = {
   /** One or two lines shown on cards and in the meta description. */
   dek: string;
   /** The original X post: x.com/vin8003/status/... or the /article/ URL. */
-  xUrl: string;
+  xUrl?: string;
+  /** Set instead of `xUrl` when the piece first appeared on another site. */
+  source?: { label: string; url: string };
   /** Optional cover under public/writing/<slug>/. */
   cover?: { src: string; alt: string };
   body: ArticleBlock[];
@@ -38,7 +42,165 @@ export type Article = {
 
 export const xArticlesUrl = 'https://x.com/vin8003/articles';
 
+/** Where an article first appeared, and the canonical URL for it. */
+export const articleOrigin = (a: Article) => a.source ?? { label: 'X', url: a.xUrl ?? xArticlesUrl };
+
 const entries: Article[] = [
+  {
+    slug: 'ordereasy-retailer-registrations-open',
+    date: '2026-10-24',
+    label: '24 Oct 2026',
+    title: 'Retailer registrations are open on OrderEasy: mobile POS, free for a limited period',
+    dek: 'Any shop in India can now register on OrderEasy. Bill from your phone, scan barcodes with the camera, and keep stock and khata in one place. Free for a limited period.',
+    source: {
+      label: 'ordereasy.win',
+      url: 'https://ordereasy.win/blog/retailer-registration-open-free-mobile-pos/'
+    },
+    body: [
+      {
+        t: 'p',
+        text: 'OrderEasy is now open for retailers across India. Register your shop, bill customers from the phone in your pocket, and keep stock, khata and orders in one place. No card, no setup fee, no marketplace in between.',
+        links: [ { text: 'OrderEasy', href: 'https://ordereasy.win/' } ]
+      },
+      {
+        t: 'quote',
+        text: 'The short version: any shop in India can now sign up at retailer.ordereasy.win/signup. The full POS works on a phone, including barcode scanning with the camera. It is free for a limited period, and if that changes we will tell you well in advance.'
+      },
+      { t: 'h', text: 'Why we opened registrations' },
+      {
+        t: 'p',
+        text: 'Most local shops still run on a mix of a paper khata, a calculator, a UPI sticker and WhatsApp. It works until the end of the month, when nobody is sure what is in stock, who owes what, or which supplier bill is still unpaid.'
+      },
+      {
+        t: 'p',
+        text: 'OrderEasy puts the counter, the stock book, the khata and your regular customers’ orders in one app built for one shop. Until now, shop accounts were set up by invitation. Today any retailer can register on their own and start billing the same day.'
+      },
+      { t: 'h', text: 'Mobile POS: the whole counter on your phone' },
+      {
+        t: 'p',
+        text: 'You do not need a computer or a billing machine to start. Open retailer.ordereasy.win in your phone’s browser and the POS switches to a layout made for one hand at a busy counter.',
+        links: [ { text: 'retailer.ordereasy.win', href: 'https://retailer.ordereasy.win' } ]
+      },
+      { t: 'p', text: 'Add items fast' },
+      {
+        t: 'list',
+        items: [
+          'Big add and quantity buttons on every product, with stock shown next to the price.',
+          'Search or scan from the same box. Type a few letters of the product name, or tap the camera button.',
+          'Camera barcode scanning. The back camera opens full screen and stays open, so you can scan item after item. A code held in front of the camera is counted once, not five times.',
+          'Unknown barcode? Quick add. If a scanned code is not in your catalogue yet, the POS offers to add the product on the spot.'
+        ]
+      },
+      { t: 'p', text: 'Close the bill the way your customer pays' },
+      {
+        t: 'list',
+        items: [
+          'Cash, UPI, credit (khata) or split on a single bill.',
+          'UPI QR for the exact amount. Save your UPI ID once and the POS shows a QR code for the bill total, or for the UPI part of a split bill.',
+          'Several bills open at once. Keep one customer’s bill aside while you serve the next.',
+          'Manual discount on the bill, and your active offers are calculated on the cart automatically.',
+          'Customer mobile number is optional. Add it when you want the sale on that customer’s record or khata.',
+          'A sticky “Complete bill” bar so the total and the button are always under your thumb.'
+        ]
+      },
+      { t: 'p', text: 'The details that save you at month end' },
+      {
+        t: 'list',
+        items: [
+          'Stock updates after every sale, so the next customer sees the real count.',
+          'Expired batches are never picked for a sale when you track batches and expiry.',
+          'Returns and barcode labels are one tap away from the POS screen.',
+          'GST-inclusive receipts formatted for 58 mm and 80 mm thermal printers.'
+        ]
+      },
+      {
+        t: 'p',
+        text: 'Already have a counter computer, a USB barcode scanner or a receipt printer? The same POS runs on a laptop or desktop with the full-width layout and keyboard shortcuts. Use the phone at the counter on a busy evening and the computer when you sit down to do the books.'
+      },
+      { t: 'h', text: 'More than billing' },
+      {
+        t: 'p',
+        text: 'The POS is the part you touch most, but registration gives you the whole shop OS:',
+        links: [ { text: 'shop OS', href: 'https://ordereasy.win/retailer.html' } ]
+      },
+      {
+        t: 'list',
+        items: [
+          'Stock: product catalogue, pack sizes, batches with expiry, write-offs, and reports for low stock and batches close to expiry.',
+          'Khata: customer khata with a credit limit, so you see what is owed before you hand over the bag.',
+          'Buying: supplier ledger, purchase entries and purchase returns, so every distributor bill has a home.',
+          'Orders: customers who already buy from you can order from your shop in the customer app. You choose pickup or your own delivery.'
+        ],
+        links: [ { text: 'customer app', href: 'https://ordereasy.win/customers.html' } ]
+      },
+      {
+        t: 'p',
+        text: 'Add offers and check your sales and stock reports when you are ready. The platform page lists every module.',
+        links: [ { text: 'platform page', href: 'https://ordereasy.win/platform.html' } ]
+      },
+      { t: 'h', text: 'Your shop, your customers' },
+      {
+        t: 'p',
+        text: 'OrderEasy is not a marketplace and not a delivery company. Your customers pick your shop, not a feed of other stores. There is no rider network between you and the people who already know you, and delivery, pickup and timings stay your decision.'
+      },
+      { t: 'h', text: 'Free for a limited period' },
+      {
+        t: 'p',
+        text: 'Retailers who register now can use OrderEasy without paying anything for a limited period. There is no card to enter and no setup fee on the sign-up form. If a fee is introduced later, we will tell registered shops well in advance, and you can decide then whether it is worth it for your shop.'
+      },
+      { t: 'h', text: 'How to register your shop' },
+      {
+        t: 'list',
+        items: [
+          'Open the sign-up page. Go to retailer.ordereasy.win/signup on your phone or computer.',
+          'Create your account. Enter a username, email, your 10-digit mobile number and a password.',
+          'Set up your store. Add your shop details and your products. Start with your top sellers; you can add the rest while you bill.',
+          'Start billing. Open the POS and make your first bill.',
+          'Go live for customers. Once the OrderEasy team verifies your shop, it shows up in the customer app for your regulars.'
+        ],
+        links: [ { text: 'retailer.ordereasy.win/signup', href: 'https://retailer.ordereasy.win/signup' } ]
+      },
+      {
+        t: 'p',
+        text: 'Register your shop free at retailer.ordereasy.win/signup, or read the full post on ordereasy.win.',
+        links: [
+          { text: 'retailer.ordereasy.win/signup', href: 'https://retailer.ordereasy.win/signup' },
+          { text: 'the full post on ordereasy.win', href: 'https://ordereasy.win/blog/retailer-registration-open-free-mobile-pos/' }
+        ]
+      },
+      { t: 'h', text: 'Questions retailers ask' },
+      { t: 'p', text: 'Is OrderEasy really free?' },
+      {
+        t: 'p',
+        text: 'Yes, for a limited period. Shops that register now pay nothing to use OrderEasy. If a fee is introduced later, registered shops will be told well in advance.'
+      },
+      { t: 'p', text: 'Do I need a computer or a barcode scanner?' },
+      {
+        t: 'p',
+        text: 'No. The POS works in the browser on your phone, and the phone camera can scan barcodes. A computer, a USB barcode scanner and a thermal receipt printer also work if you already have them.'
+      },
+      { t: 'p', text: 'Which payment modes can I record on a bill?' },
+      {
+        t: 'p',
+        text: 'Cash, UPI, credit (khata) and split payments. For UPI, the POS can show a QR code for the exact bill amount once your UPI ID is saved in settings.'
+      },
+      { t: 'p', text: 'Is OrderEasy a marketplace? Do you take a commission on orders?' },
+      {
+        t: 'p',
+        text: 'No. OrderEasy is software for your own shop. Your regular customers order from your shop only, and delivery or pickup stays with you.'
+      },
+      { t: 'p', text: 'Which shops can register?' },
+      {
+        t: 'p',
+        text: 'Any retailer in India: kirana and general stores, departmental stores, dairy, bakery and sweet shops, fruit and vegetable sellers and other local shops that bill at a counter.'
+      },
+      { t: 'p', text: 'How long does registration take?' },
+      {
+        t: 'p',
+        text: 'The sign-up form asks for a username, email, 10-digit mobile number and password. After that you can add your store details and products. Your shop appears in the customer app after the OrderEasy team verifies it.'
+      }
+    ]
+  },
   {
     slug: 'one-evening-with-a-hundred-agents',
     date: '2026-09-18',

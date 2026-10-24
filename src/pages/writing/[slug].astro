@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
-import { articles, articleHref, linkify, readingMinutes, type Article } from '../../data/articles';
+import { articles, articleHref, articleOrigin, linkify, readingMinutes, type Article } from '../../data/articles';
 import { person } from '../../data/site';
 
 export function getStaticPaths() {
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const { article: a } = Astro.props;
+const origin = articleOrigin(a);
 const img = (src: string) => (/^https?:\/\//.test(src) ? src : `/writing/${a.slug}/${src}`);
 const i = articles.indexOf(a);
 const newer = articles[i - 1];
@@ -24,7 +25,7 @@ const external = (href: string) => /^https?:\/\//.test(href);
 const older = articles[i + 1];
 ---
 
-<Base title={`${a.title} - vin8003.com`} description={a.dek} skipTo="#article" canonical={a.xUrl}>
+<Base title={`${a.title} - vin8003.com`} description={a.dek} skipTo="#article" canonical={origin.url}>
   <Nav home={false} />
 
   <main>
@@ -42,8 +43,8 @@ const older = articles[i + 1];
           <p class="mt-5 text-lead text-paper-dim">{a.dek}</p>
           <p class="label-mono mt-6">
             {person.name} ·{' '}
-            <a href={a.xUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-paper">
-              Originally on X<ArrowUpRight className="size-3" strokeWidth={1.7} aria-hidden="true" />
+            <a href={origin.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-paper">
+              Originally on {origin.label}<ArrowUpRight className="size-3" strokeWidth={1.7} aria-hidden="true" />
             </a>
           </p>
         </div>
@@ -115,8 +116,8 @@ const older = articles[i + 1];
           </div>
 
           <p class="mt-14 border-t border-ink-600/70 pt-6 font-mono text-[0.68rem] leading-relaxed text-paper-faint">
-            First published on X on {a.label}.
-            <a href={a.xUrl} target="_blank" rel="noopener noreferrer" class="text-paper-dim underline decoration-dashed underline-offset-4 hover:text-paper">Read and reply there</a>.
+            First published on {origin.label} on {a.label}.
+            <a href={origin.url} target="_blank" rel="noopener noreferrer" class="text-paper-dim underline decoration-dashed underline-offset-4 hover:text-paper">{a.source ? 'Read it there' : 'Read and reply there'}</a>.
           </p>
 
           {

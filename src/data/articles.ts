@@ -20,7 +20,9 @@ export type ArticleBlock =
   | { t: 'table'; head: string[]; rows: string[][] }
   | { t: 'list'; items: string[]; links?: InlineLink[] }
   /** `src` is a path under public/writing/<slug>/ or a full URL. */
-  | { t: 'img'; src: string; alt: string };
+  | { t: 'img'; src: string; alt: string }
+  /** A YouTube video by id, embedded from youtube-nocookie.com. */
+  | { t: 'video'; youtube: string; title: string };
 
 export type Article = {
   slug: string;
@@ -46,6 +48,116 @@ export const xArticlesUrl = 'https://x.com/vin8003/articles';
 export const articleOrigin = (a: Article) => a.source ?? { label: 'X', url: a.xUrl ?? xArticlesUrl };
 
 const entries: Article[] = [
+  {
+    slug: 'ordereasy-video-tutorials',
+    date: '2026-10-27',
+    label: '27 Oct 2026',
+    title: 'OrderEasy video tutorials: set up and run your shop, step by step',
+    dek: 'Ten short videos in Hinglish that take a shop owner from signup to products, POS billing, offers, delivery charges, online orders, khata and UPI QR payments.',
+    source: {
+      label: 'ordereasy.win',
+      url: 'https://ordereasy.win/tutorials.html'
+    },
+    body: [
+      {
+        t: 'p',
+        text: 'OrderEasy now has video tutorials. There are ten of them, short and in Hinglish, and together they walk a shop owner through the whole setup: signing up, adding products, billing at the counter, offers, delivery, online orders, khata and UPI. They live on the OrderEasy tutorials page and on the OrderEasy YouTube channel.',
+        links: [
+          { text: 'OrderEasy tutorials page', href: 'https://ordereasy.win/tutorials.html' },
+          { text: 'OrderEasy YouTube channel', href: 'https://www.youtube.com/@ordereasyapp' }
+        ]
+      },
+      {
+        t: 'quote',
+        text: 'Watch them in order the first time, or jump to the one you need. All ten add up to about 23 minutes.'
+      },
+      {
+        t: 'p',
+        text: 'Registration is free to start at retailer.ordereasy.win/signup. Here is each tutorial with its video.',
+        links: [ { text: 'retailer.ordereasy.win/signup', href: 'https://retailer.ordereasy.win/signup' } ]
+      },
+      { t: 'h', text: '01. Dukaan ka signup (3:34)' },
+      {
+        t: 'p',
+        text: 'Create your shop on OrderEasy: the account, shop details, payment, delivery and shop timings. Watch it on ordereasy.win.',
+        links: [ { text: 'Watch it on ordereasy.win', href: 'https://ordereasy.win/tutorials.html#tutorial-01' } ]
+      },
+      { t: 'video', youtube: 'BE0rCRm6SzA', title: 'OrderEasy tutorial 01: Dukaan ka signup' },
+      { t: 'h', text: '02. Products add karna (3:40)' },
+      {
+        t: 'p',
+        text: 'Add a product with its photo, name, price, stock and category, and use the scanner to add many products in one go. Watch it on ordereasy.win.',
+        links: [ { text: 'Watch it on ordereasy.win', href: 'https://ordereasy.win/tutorials.html#tutorial-02' } ]
+      },
+      { t: 'video', youtube: 'Fb0i1P4pFY4', title: 'OrderEasy tutorial 02: Products add karna' },
+      { t: 'h', text: '03. POS se billing (2:16)' },
+      {
+        t: 'p',
+        text: 'Add items to the bill, let offers apply on their own, choose Cash, UPI or Credit, and print the receipt. Watch it on ordereasy.win.',
+        links: [ { text: 'Watch it on ordereasy.win', href: 'https://ordereasy.win/tutorials.html#tutorial-03' } ]
+      },
+      { t: 'video', youtube: 'Z-zuOGLnWKw', title: 'OrderEasy tutorial 03: POS se billing' },
+      { t: 'h', text: '04. Offers aur coupons (4:10)' },
+      {
+        t: 'p',
+        text: 'Create a coupon, set up an automatic offer, and see how it shows up in the customer app. Watch it on ordereasy.win.',
+        links: [ { text: 'Watch it on ordereasy.win', href: 'https://ordereasy.win/tutorials.html#tutorial-04' } ]
+      },
+      { t: 'video', youtube: 'NzWReoR9mG8', title: 'OrderEasy tutorial 04: Offers aur coupons' },
+      { t: 'h', text: '05. Delivery charges (2:28)' },
+      {
+        t: 'p',
+        text: 'Set a delivery fee by distance, a free-delivery limit and a delivery radius. The shop does its own delivery or pickup; there is no rider network. Watch it on ordereasy.win.',
+        links: [ { text: 'Watch it on ordereasy.win', href: 'https://ordereasy.win/tutorials.html#tutorial-05' } ]
+      },
+      { t: 'video', youtube: 'v1y4OW4ENcQ', title: 'OrderEasy tutorial 05: Delivery charges' },
+      { t: 'h', text: '06. Online orders sambhaliye (1:22)' },
+      {
+        t: 'p',
+        text: 'Find new orders with the Pending filter, change an order, mark it Packed, add the delivery person’s name and number, and take the order through to Delivered. Watch it on ordereasy.win.',
+        links: [ { text: 'Watch it on ordereasy.win', href: 'https://ordereasy.win/tutorials.html#tutorial-06' } ]
+      },
+      { t: 'video', youtube: 'TpVUcmFtAGc', title: 'OrderEasy tutorial 06: Online orders sambhaliye' },
+      { t: 'h', text: '07. Customer ka khata (1:17)' },
+      {
+        t: 'p',
+        text: 'See customers who owe money with Due Only, open their khata, log money received with Record Payment, and see how the customer checks their balance and limit in the customer app. Watch it on ordereasy.win.',
+        links: [ { text: 'Watch it on ordereasy.win', href: 'https://ordereasy.win/tutorials.html#tutorial-07' } ]
+      },
+      { t: 'video', youtube: 'CBo5FdDvzNA', title: 'OrderEasy tutorial 07: Customer ka khata' },
+      { t: 'h', text: '08. Supplier ka khata (1:27)' },
+      {
+        t: 'p',
+        text: 'On the Khata and Suppliers page, see what you owe each supplier, log incoming stock with its bill using Record Inward Stock, and log what you paid the supplier with Record Payment. Watch it on ordereasy.win.',
+        links: [ { text: 'Watch it on ordereasy.win', href: 'https://ordereasy.win/tutorials.html#tutorial-08' } ]
+      },
+      { t: 'video', youtube: 'oTxUFDhaeR4', title: 'OrderEasy tutorial 08: Supplier ka khata' },
+      { t: 'h', text: '09. UPI QR se payment (0:55)' },
+      {
+        t: 'p',
+        text: 'Add your UPI ID in Profile and turn on Print UPI QR Code. The POS bill and the printed slip then carry the shop’s own UPI QR, which the customer can scan to pay. Watch it on ordereasy.win.',
+        links: [ { text: 'Watch it on ordereasy.win', href: 'https://ordereasy.win/tutorials.html#tutorial-09' } ]
+      },
+      { t: 'video', youtube: 'jkG0Xcro4kc', title: 'OrderEasy tutorial 09: UPI QR se payment' },
+      { t: 'h', text: '10. Customer app se order (1:47)' },
+      {
+        t: 'p',
+        text: 'The customer logs in with their phone number and password, picks a nearby shop, adds items to the cart, chooses Cash on Delivery or UPI at checkout, and follows each step in My Orders. Watch it on ordereasy.win.',
+        links: [ { text: 'Watch it on ordereasy.win', href: 'https://ordereasy.win/tutorials.html#tutorial-10' } ]
+      },
+      { t: 'video', youtube: 'y-bGTSyU8VQ', title: 'OrderEasy tutorial 10: Customer app se order' },
+      { t: 'hr' },
+      {
+        t: 'p',
+        text: 'Register your shop free at retailer.ordereasy.win/signup, see all the tutorials on ordereasy.win, or subscribe on YouTube for new ones.',
+        links: [
+          { text: 'retailer.ordereasy.win/signup', href: 'https://retailer.ordereasy.win/signup' },
+          { text: 'all the tutorials on ordereasy.win', href: 'https://ordereasy.win/tutorials.html' },
+          { text: 'subscribe on YouTube', href: 'https://www.youtube.com/@ordereasyapp' }
+        ]
+      }
+    ]
+  },
   {
     slug: 'ordereasy-retailer-registrations-open',
     date: '2026-10-24',
@@ -1529,7 +1641,7 @@ export const articleHref = (a: Article) => `/writing/${a.slug}/`;
 
 export const readingMinutes = (a: Article) => {
   const words = a.body
-    .map((b) => (b.t === 'list' ? b.items.join(' ') : b.t === 'table' ? b.rows.flat().join(' ') : b.t === 'img' || b.t === 'hr' ? '' : b.text))
+    .map((b) => (b.t === 'list' ? b.items.join(' ') : b.t === 'table' ? b.rows.flat().join(' ') : b.t === 'img' || b.t === 'hr' || b.t === 'video' ? '' : b.text))
     .join(' ')
     .split(/\s+/)
     .filter(Boolean).length;

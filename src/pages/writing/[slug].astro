@@ -67,6 +67,18 @@ const older = articles[i + 1];
                   <figure class="my-8 overflow-hidden rounded-2xl border border-ink-600/70 shadow-frame">
                     <img src={img(b.src)} alt={b.alt} loading="lazy" decoding="async" class="w-full" />
                   </figure>
+                ) : b.t === 'video' ? (
+                  <figure class="my-8 aspect-video overflow-hidden rounded-2xl border border-ink-600/70 bg-ink-850 shadow-frame">
+                    <iframe
+                      src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(b.youtube)}?rel=0`}
+                      title={b.title}
+                      loading="lazy"
+                      allow="accelerometer; encrypted-media; picture-in-picture; fullscreen"
+                      allowfullscreen
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      class="size-full"
+                    />
+                  </figure>
                 ) : b.t === 'table' ? (
                   <div class="mt-6 overflow-x-auto rounded-2xl border border-ink-600/70">
                     <table class="w-full text-left text-body">

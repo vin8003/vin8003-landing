@@ -4,7 +4,7 @@ import StatusChip from './StatusChip.astro';
 import Frame from './Frame.astro';
 import { ventures, type Venture } from '../data/site';
 import { demos, demoMedia } from '../data/demos';
-import { ArrowUpRight, ShieldCheck } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, Sparkles } from 'lucide-react';
 
 const [orderEasy, citeBench, gstSlip] = ventures as [Venture, Venture, Venture];
 
@@ -20,7 +20,7 @@ const shot = (id: string, image: string) => {
 <section id="building" class="relative scroll-mt-20 py-16 sm:py-24 lg:py-28" data-atmos="ember" data-atmos-intensity="0.5">
   <div class="container-page">
     <SectionHead
-      title="Three products, and what each one refuses to be."
+      title="Three products, led by OrderEasy, and what each one refuses to be."
       note="Every product here is live, a URL you can open today, and each carries its own line saying what it is not. The previews are real screens captured on seed data."
     />
 
@@ -44,9 +44,17 @@ const shot = (id: string, image: string) => {
             >
               <div class:list={['relative flex flex-col p-6 sm:p-8', wide && 'lg:col-span-5 lg:p-10']}>
                 <div class="flex items-start justify-between gap-3">
-                  <h3 class="font-display text-title" style="color: var(--accent)">
-                    {v.name}
-                  </h3>
+                  <div>
+                    {v.featured && (
+                      <p class="label-mono mb-2 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.6rem]" style="color: var(--accent); border-color: color-mix(in oklab, var(--accent) 40%, transparent);">
+                        <Sparkles className="size-3" strokeWidth={1.8} aria-hidden="true" />
+                        Featured
+                      </p>
+                    )}
+                    <h3 class="font-display text-title" style="color: var(--accent)">
+                      {v.name}
+                    </h3>
+                  </div>
                   <StatusChip status={v.status} class="mt-3" />
                 </div>
 
@@ -88,6 +96,28 @@ const shot = (id: string, image: string) => {
                 </ul>
 
                 {v.note && <p class="label-mono mt-4 text-[0.6rem]">{v.note}</p>}
+
+                {v.highlights && v.highlights.length > 0 && (
+                  <div class="mt-7 border-t border-white/10 pt-5">
+                    <p class="label-mono text-[0.6rem]" style="color: var(--accent)">What shipped lately</p>
+                    <ol class="mt-3 space-y-2.5">
+                      {v.highlights.map((h) => (
+                        <li class="flex gap-3 text-fine leading-snug">
+                          <span class="label-mono w-12 shrink-0 pt-0.5 text-[0.6rem]">{h.label}</span>
+                          <a
+                            href={h.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-paper-dim transition-colors duration-200 hover:text-paper"
+                          >
+                            {h.line}
+                          </a>
+                        </li>
+                      ))}
+                    </ol>
+                    <a href="/log/" class="label-mono mt-4 inline-block text-[0.6rem] text-paper-dim transition-colors hover:text-paper">Full build log →</a>
+                  </div>
+                )}
               </div>
 
               {/* Visual: real captures only. */}
@@ -101,10 +131,10 @@ const shot = (id: string, image: string) => {
                   <div class="line-reveal relative">
                     <Frame variant="browser" url="retailer.ordereasy.win">
                       <img
-                        src={shot('retailer', 'retailer-overview.jpg')}
-                        alt="OrderEasy retailer dashboard showing four shop KPIs for the selected range"
-                        width="1280"
-                        height="656"
+                        src={shot('retailer', 'retailer-pos-bill.jpg')}
+                        alt="OrderEasy retailer POS with a server search for amul and a running bill"
+                        width="2160"
+                        height="1350"
                         loading="lazy"
                         decoding="async"
                         class="block h-auto w-full"

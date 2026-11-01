@@ -62,6 +62,10 @@ export type Venture = {
   surfaces: { label: string; href: string }[];
   /** Shown as a small mono note under the links. Facts only. */
   note?: string;
+  /** Marks the product the section leads with. */
+  featured?: boolean;
+  /** Recent shipped changes shown on the featured card, newest first. Each links to its merged PR. */
+  highlights?: { label: string; line: string; href: string }[];
 };
 
 /** BUILDING NOW - the active products, front and centre. */
@@ -73,14 +77,44 @@ export const ventures: Venture[] = [
     status: 'LIVE',
     kind: 'Retailer + customer shop SaaS',
     accent: 'mint',
-    what: 'One shop, two surfaces: the counter that bills and the customer who orders from it.',
+    what: 'One shop, two surfaces: the counter that bills and the customer who orders from it. Shops sign up on their own and go live after one verification.',
     guardrail: 'Not a marketplace. Not a delivery company.',
     primary: { label: 'ordereasy.win, product home', href: ORDEREASY_HOME },
     surfaces: [
-      { label: 'Retailer portal', href: ORDEREASY_RETAILER },
+      { label: 'Shop sign-up', href: `${ORDEREASY_RETAILER}/signup` },
       { label: 'Customer portal', href: ORDEREASY_CUSTOMER },
       { label: 'Retailer demo', href: '/demo/#retailer' },
       { label: 'Customer demo', href: '/demo/#customer' },
+      { label: 'Video tutorials', href: '/writing/ordereasy-video-tutorials/' },
+    ],
+    note: 'Free for shops for a limited period',
+    featured: true,
+    highlights: [
+      {
+        label: '1 Nov',
+        line: 'Shop verification: five guided steps, then one approval before customers see the shop.',
+        href: 'https://github.com/vin8003/retailer_ordereasy_njs/pull/158',
+      },
+      {
+        label: '1 Nov',
+        line: 'Customers can report a product or a shop. The team reviews every report; nothing hides on its own.',
+        href: 'https://github.com/vin8003/customer_ordereasy_njs/pull/103',
+      },
+      {
+        label: '29 Oct',
+        line: 'Orders open on an Active Inbox, and the POS searches the whole catalogue on the server.',
+        href: 'https://github.com/vin8003/retailer_ordereasy_njs/pull/156',
+      },
+      {
+        label: '24 Oct',
+        line: 'The POS works on a phone and scans barcodes with the camera.',
+        href: 'https://github.com/vin8003/retailer_ordereasy_njs/pull/145',
+      },
+      {
+        label: '24 Oct',
+        line: 'Delivery priced by distance, with tiers and a per-km rate.',
+        href: 'https://github.com/vin8003/RetailerCustomerPlatform/pull/200',
+      },
     ],
   },
   {
@@ -113,7 +147,7 @@ export const ventures: Venture[] = [
 /** Surfaced in the hero rail. The demo lives on this site; the apps live on their own domains. */
 export const liveLinks = [
   { label: 'Product demos', href: '/demo/', note: 'Four guided walkthroughs, right here', status: 'LIVE' as Status, internal: true },
-  { label: 'OrderEasy', href: ORDEREASY_HOME, note: 'Shop SaaS for retailer and customer', status: 'LIVE' as Status, accent: 'mint' },
+  { label: 'OrderEasy', href: ORDEREASY_HOME, note: 'Shop SaaS · shop sign-up open', status: 'LIVE' as Status, accent: 'mint' },
   { label: 'CiteBench', href: 'https://citebench.ordereasy.win', note: 'Case-law research desk', status: 'LIVE' as Status, accent: 'violet' },
   { label: 'GSTSlip', href: 'https://gstslip.vin8003.com', note: 'GST invoice capture', status: 'LIVE' as Status, accent: 'amber' },
 ] as const;
@@ -156,6 +190,86 @@ const commit = (repo: string, sha: string) => ({ label: `${repo} @ ${sha}`, href
  * no link because nothing shipped. Newest first.
  */
 export const buildLog: LogEntry[] = [
+  {
+    date: '2026-11-01',
+    label: '1 Nov 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    category: 'feature',
+    line: 'Shop verification: a five-step checklist (phone, shop name and photo, address and map pin, one business proof with GST optional, owner ID) with a status card on the dashboard, private document uploads, and an admin review dialog with automated checks and full history. Customers see a shop after one approval.',
+    link: pr('retailer_ordereasy_njs', 158),
+  },
+  {
+    date: '2026-11-01',
+    label: '1 Nov 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    category: 'feature',
+    line: 'Customers can report a product or a shop from its page. Admins get a report inbox and a product review queue, and retailers see why a product is held and how to fix it. Reports and strikes only flag for review; they never hide a product or suspend a shop on their own.',
+    link: pr('customer_ordereasy_njs', 103),
+  },
+  {
+    date: '2026-11-01',
+    label: '1 Nov 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    category: 'design',
+    line: 'Retailer forms use the full screen width on phones: profile and operating hours drop the extra padding.',
+    link: pr('retailer_ordereasy_njs', 160),
+  },
+  {
+    date: '2026-10-29',
+    label: '29 Oct 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    category: 'feature',
+    line: 'Retailer orders open on an Active Inbox for what still needs the shop, with All Orders (store and online history) and Delivered one tap away.',
+    link: pr('retailer_ordereasy_njs', 156),
+  },
+  {
+    date: '2026-10-29',
+    label: '29 Oct 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    category: 'infra',
+    line: 'The POS and product pickers search on the server instead of loading every product, and scanned barcodes are looked up exactly. Search results are cached per shop and cleared on every stock or price change.',
+    link: pr('retailer_ordereasy_njs', 157),
+  },
+  {
+    date: '2026-10-29',
+    label: '29 Oct 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    category: 'infra',
+    line: 'End-to-end Playwright journeys now cover POS bills, the customer order lifecycle, khata, reports, settings, catalogue, offers, inventory, delivery fees and bundles, against a local stack that blocks every live host.',
+    link: pr('RetailerCustomerPlatform', 217),
+  },
+  {
+    date: '2026-10-28',
+    label: '28 Oct 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    category: 'fix',
+    line: 'Fixes found by the new end-to-end suite: renaming a product onto a name the shop already uses is refused with a clear message, and an order can move from Confirmed straight to Packed.',
+    link: pr('RetailerCustomerPlatform', 207),
+  },
+  {
+    date: '2026-10-28',
+    label: '28 Oct 2026',
+    project: 'vin8003.com',
+    accent: 'ember',
+    kind: 'ship',
+    category: 'content',
+    line: 'The ten OrderEasy video tutorials are cross-posted under Writing, each embedded from YouTube.',
+    link: pr('vin8003-landing', 40),
+  },
   {
     date: '2026-10-24',
     label: '24 Oct 2026',

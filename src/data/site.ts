@@ -956,23 +956,33 @@ export const nav = [
 ];
 
 /**
- * CAREER - from Vineet's LinkedIn Experience section (screenshots, 5 Nov 2026).
- * The current employer stays unnamed, as in `about.dayRole`. No metrics yet.
+ * CAREER - from Vineet's LinkedIn Experience and Skills (screenshots, 5 Nov
+ * 2026) and his CV (Feb 2026, private, not published or linked). The current
+ * employer stays unnamed, as in `about.dayRole`. No metrics yet.
  */
-export const career: { years: string; role: string; org: string; place: string; work: string[] }[] = [
+export type CareerRole = { years: string; role: string; org: string; place: string; work: string[]; tools: string[] };
+
+export const career: CareerRole[] = [
   {
     years: '2026 – now',
     role: 'Lead Software Engineer',
     org: 'A publicly listed Indian NBFC',
     place: 'Gurugram · hybrid',
     work: ['Flagship product development.'],
+    tools: ['Python', 'Django'],
   },
   {
     years: '2025 – 2026',
     role: 'Senior Game Developer',
     org: 'Ingenuity Gaming',
     place: 'Jaipur · hybrid',
-    work: ['Casino gaming.'],
+    work: [
+      'Shipped production casino game engines (slots, table and crash games) on the Oddsworks RGS with the LEGA framework.',
+      'Turned the maths models behind each game into configurable engine parameters.',
+      'Built simulation pipelines that run millions of spins to prove RTP compliance, then made them faster with parallel processing and had them write the RTP reports directly.',
+      'Standardised the team’s development workflow and tooling, with unit tests and validation for regulatory sign-off.',
+    ],
+    tools: ['Python', 'Parallel simulation', 'Unit testing'],
   },
   {
     years: '2022 – 2025',
@@ -980,23 +990,25 @@ export const career: { years: string; role: string; org: string; place: string; 
     org: 'MERNPLUS Technologies, for an NBFC client',
     place: 'Remote',
     work: [
-      'Built features across a Loan Origination System: loan creation, checker, disbursement.',
+      'Built core features of a Loan Origination System: loan creation, checker and disbursement.',
       'Led its integrations with Flexcube and partner bank systems: API mapping, data transformation and testing.',
-      'Wrote the unit tests for LOS components and worked on its performance.',
+      'Wrote the unit test suite for LOS components, and sped up its database with caching and query tuning.',
+      'Worked day to day with product, QA and frontend teams.',
     ],
+    tools: ['Django REST Framework', 'Kafka', 'Redis', 'MongoDB', 'AWS'],
   },
   {
     years: '2018 – 2022',
-    role: 'Product Development Engineer',
+    role: 'Product Development Engineer, then Senior',
     org: 'MEDdelivery',
     place: 'Jaipur',
     work: [
-      'Built a central product catalogue from scraped sources, cleaned and enriched.',
+      'Built a central product catalogue from scraped sources, cleaned, normalised and enriched.',
       'Designed cart-less ordering with per-order cutoff times, and mapped vendor product groups to the catalogue.',
-      'Core developer of a dispatch centre built from scratch: a banking-like ledger for end-to-end supply-chain cash flow, collections and cash distribution.',
-      'Integrated BNPL providers and payment gateways, automated bank-statement reconciliation, and exported financial records straight to Tally.',
-      'Built responsibility management so cash liabilities across the field workforce were visible and tracked.',
+      'Core developer of a dispatch centre built from scratch: automated rack assignment and a banking-like ledger for supply-chain cash flow, collections and cash distribution.',
+      'As senior: led a plug-and-play module for BNPL providers and payment gateways, automated bank-statement reconciliation with direct Tally export, and built real-time tracking of cash liabilities across the field workforce.',
     ],
+    tools: ['Django REST Framework', 'PostgreSQL', 'Pandas', 'Redis', 'GCP', 'Angular'],
   },
   {
     years: '2017 – 2018',
@@ -1005,14 +1017,33 @@ export const career: { years: string; role: string; org: string; place: string; 
     place: 'Jaipur',
     work: [
       'Built analytics and visualisation for a collision detection system for automobiles.',
-      'Machine-to-machine and IoT work on Raspberry Pi and Arduino.',
+      'Machine-to-machine and IoT communication on Raspberry Pi and Arduino, for real-time data and control.',
     ],
+    tools: ['Django', 'Django Channels', 'MongoDB', 'IoT'],
   },
   {
     years: '2016',
     role: 'Python Developer',
     org: 'Bit22 Designs',
     place: 'Jaipur',
-    work: ['Built features for Khabree, a newspaper app, with RabbitMQ, ZeroMQ, MQTT and Redis queues.'],
+    work: [
+      'Built features for Khabree, a newspaper app: message handling on RabbitMQ, ZeroMQ, MQTT and Redis, and faster image handling.',
+    ],
+    tools: ['Django', 'Flask', 'RabbitMQ', 'MongoDB', 'MySQL'],
   },
+];
+
+export const education = 'B.Tech in Computer Science Engineering, Jaipur, 2016.';
+
+/** Grouped skills: the career plus what the products on this site run on. */
+export const skills: { group: string; items: string[] }[] = [
+  { group: 'Languages', items: ['Python', 'TypeScript', 'SQL'] },
+  { group: 'Backend', items: ['Django', 'Django REST Framework', 'Flask', 'Django Channels', 'REST APIs', 'JWT, OAuth and session auth', 'Microservices'] },
+  { group: 'Data', items: ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis', 'Pandas', 'Query tuning and caching'] },
+  { group: 'Messaging', items: ['Kafka', 'RabbitMQ', 'ZeroMQ', 'MQTT'] },
+  { group: 'Frontend', items: ['React', 'TanStack Start', 'Angular', 'Astro', 'Tailwind CSS', 'Capacitor (Android)'] },
+  { group: 'Cloud and delivery', items: ['AWS', 'GCP', 'Cloudflare Workers', 'Docker', 'GitHub Actions CI/CD', 'Linux', 'Git'] },
+  { group: 'Testing', items: ['Unit testing', 'Playwright end-to-end', 'Simulation-based validation'] },
+  { group: 'Integrations', items: ['Flexcube and bank APIs', 'Payment gateways and BNPL', 'UPI', 'Razorpay', 'Tally export', 'Meta Conversions API'] },
+  { group: 'Domains', items: ['Lending and loan origination', 'Payments and reconciliation', 'Retail POS and inventory', 'Supply chain', 'Casino gaming and RTP', 'IoT', 'Legal research', 'GST'] },
 ];

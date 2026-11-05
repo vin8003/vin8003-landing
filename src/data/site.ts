@@ -954,3 +954,65 @@ export const nav = [
   { label: 'Thesis', short: 'Thesis', href: '#thesis' },
   { label: 'About', short: 'About', href: '#about' },
 ];
+
+/**
+ * CAREER - from Vineet's LinkedIn Experience section (screenshots, 5 Nov 2026).
+ * The current employer stays unnamed, as in `about.dayRole`. No metrics yet.
+ */
+export const career: { years: string; role: string; org: string; place: string; work: string[] }[] = [
+  {
+    years: '2026 – now',
+    role: 'Lead Software Engineer',
+    org: 'A publicly listed Indian NBFC',
+    place: 'Gurugram · hybrid',
+    work: ['Flagship product development.'],
+  },
+  {
+    years: '2025 – 2026',
+    role: 'Senior Game Developer',
+    org: 'Ingenuity Gaming',
+    place: 'Jaipur · hybrid',
+    work: ['Casino gaming.'],
+  },
+  {
+    years: '2022 – 2025',
+    role: 'Senior Software Engineer',
+    org: 'MERNPLUS Technologies, for an NBFC client',
+    place: 'Remote',
+    work: [
+      'Built features across a Loan Origination System: loan creation, checker, disbursement.',
+      'Led its integrations with Flexcube and partner bank systems: API mapping, data transformation and testing.',
+      'Wrote the unit tests for LOS components and worked on its performance.',
+    ],
+  },
+  {
+    years: '2018 – 2022',
+    role: 'Product Development Engineer',
+    org: 'MEDdelivery',
+    place: 'Jaipur',
+    work: [
+      'Built a central product catalogue from scraped sources, cleaned and enriched.',
+      'Designed cart-less ordering with per-order cutoff times, and mapped vendor product groups to the catalogue.',
+      'Core developer of a dispatch centre built from scratch: a banking-like ledger for end-to-end supply-chain cash flow, collections and cash distribution.',
+      'Integrated BNPL providers and payment gateways, automated bank-statement reconciliation, and exported financial records straight to Tally.',
+      'Built responsibility management so cash liabilities across the field workforce were visible and tracked.',
+    ],
+  },
+  {
+    years: '2017 – 2018',
+    role: 'Django Developer',
+    org: 'Zoimate',
+    place: 'Jaipur',
+    work: [
+      'Built analytics and visualisation for a collision detection system for automobiles.',
+      'Machine-to-machine and IoT work on Raspberry Pi and Arduino.',
+    ],
+  },
+  {
+    years: '2016',
+    role: 'Python Developer',
+    org: 'Bit22 Designs',
+    place: 'Jaipur',
+    work: ['Built features for Khabree, a newspaper app, with RabbitMQ, ZeroMQ, MQTT and Redis queues.'],
+  },
+];

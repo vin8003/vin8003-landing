@@ -1,0 +1,39 @@
+---
+import SectionHead from './SectionHead.astro';
+import { career } from '../data/site';
+---
+
+<section id="career" class="scroll-mt-20 border-t border-dashed border-ink-500/70 py-16 sm:py-24 lg:py-28" data-atmos="mint" data-atmos-intensity="0.35">
+  <div class="container-page">
+    <SectionHead
+      title="Ten years before this."
+      note="Python and Django the whole way, across lending, payments and supply chain, IoT, media and gaming."
+    />
+
+    <ol class="mt-10 sm:mt-14" data-reveal>
+      {
+        career.map((c) => (
+          <li class="grid gap-x-8 gap-y-2 border-t border-ink-600/70 py-6 first:border-t-0 md:grid-cols-[minmax(0,9rem)_minmax(0,17rem)_1fr] md:items-baseline">
+            <p class="label-mono">{c.years}</p>
+            <div>
+              <p class="font-display text-lead text-paper">{c.role}</p>
+              <p class="mt-1 text-fine text-paper-dim">{c.org}</p>
+              <p class="label-mono mt-1 text-[0.6rem]">{c.place}</p>
+            </div>
+            <ul class="max-w-[65ch] space-y-1.5 text-body text-paper-dim">
+              {c.work.map((w) => <li>{w}</li>)}
+            </ul>
+          </li>
+        ))
+      }
+    </ol>
+
+    <ul class="mt-8 flex flex-wrap gap-2" data-reveal>
+      {
+        ['Django REST Framework', 'JWT, OAuth and session auth', 'Microservices', 'Kafka', 'Redis', 'PostgreSQL', 'MongoDB', 'AWS', 'GCP', 'Docker', 'GitHub Actions CI/CD', 'IoT'].map((s) => (
+          <li class="label-mono rounded-full border border-ink-600/80 px-3 py-1.5 text-[0.62rem] text-paper-dim">{s}</li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -14,7 +14,7 @@ const W = 1200;
 const H = 630;
 
 const products = [
-  { name: 'OrderEasy', note: 'retailer SaaS', status: 'BUILDING', color: '#3DDC97' },
+  { name: 'OrderEasy', note: 'retailer SaaS', status: 'LIVE', color: '#3DDC97' },
   { name: 'CiteBench', note: 'legal desk', status: 'LIVE', color: '#8A7CFF' },
   { name: 'GSTSlip', note: 'GST capture', status: 'LIVE', color: '#FFB020' },
 ];
@@ -55,8 +55,8 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
   <text x="80" y="176" font-family="JetBrains Mono" font-size="40" font-weight="600" letter-spacing="2" fill="#EFEAE1">VINEET SHARMA</text>
   <line x1="80" y1="204" x2="1120" y2="204" stroke="#2A2A35"/>
 
-  <text x="80" y="288" font-family="Fraunces" font-size="76" fill="#EFEAE1">I build products <tspan fill="#FF4D1C">with AI.</tspan></text>
-  <text x="80" y="362" font-family="JetBrains Mono" font-size="22" letter-spacing="2.4" fill="#FF7A52">BUILDING AN ARMY OF AI ASSISTANTS.</text>
+  <text x="80" y="288" font-family="Fraunces" font-size="76" fill="#EFEAE1">I build for <tspan fill="#FF4D1C">shopkeepers,</tspan></text>
+  <text x="80" y="362" font-family="JetBrains Mono" font-size="22" letter-spacing="2.4" fill="#FF7A52">LAWYERS AND ACCOUNTANTS. ONE PRODUCT PER JOB.</text>
 
   ${chips}
 

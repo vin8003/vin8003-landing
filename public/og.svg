@@ -20,8 +20,8 @@
   <text x="80" y="176" font-family="JetBrains Mono" font-size="40" font-weight="600" letter-spacing="2" fill="#EFEAE1">VINEET SHARMA</text>
   <line x1="80" y1="204" x2="1120" y2="204" stroke="#2A2A35"/>
 
-  <text x="80" y="288" font-family="Fraunces" font-size="76" fill="#EFEAE1">I build products <tspan fill="#FF4D1C">with AI.</tspan></text>
-  <text x="80" y="362" font-family="JetBrains Mono" font-size="22" letter-spacing="2.4" fill="#FF7A52">BUILDING AN ARMY OF AI ASSISTANTS.</text>
+  <text x="80" y="288" font-family="Fraunces" font-size="76" fill="#EFEAE1">I build for <tspan fill="#FF4D1C">shopkeepers,</tspan></text>
+  <text x="80" y="362" font-family="JetBrains Mono" font-size="22" letter-spacing="2.4" fill="#FF7A52">LAWYERS AND ACCOUNTANTS. ONE PRODUCT PER JOB.</text>
 
   
       <g transform="translate(80, 452)">
@@ -29,7 +29,7 @@
         <circle cx="26" cy="34" r="5" fill="#3DDC97"/>
         <text x="44" y="40" font-family="Instrument Sans" font-size="25" font-weight="600" fill="#EFEAE1">OrderEasy</text>
         <text x="26" y="72" font-family="JetBrains Mono" font-size="15" letter-spacing="1.6" fill="#7D7970">RETAILER SAAS</text>
-        <text x="290" y="40" text-anchor="end" font-family="JetBrains Mono" font-size="13" letter-spacing="1.8" fill="#3DDC97">BUILDING</text>
+        <text x="290" y="40" text-anchor="end" font-family="JetBrains Mono" font-size="13" letter-spacing="1.8" fill="#3DDC97">LIVE</text>
       </g>
       <g transform="translate(436, 452)">
         <rect width="316" height="98" rx="16" fill="#101014" stroke="#2A2A35"/>

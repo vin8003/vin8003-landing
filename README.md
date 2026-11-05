@@ -7,7 +7,7 @@ It is a static site: the front page below, plus `/demo/`, which hosts the four g
 
 | #   | Section          | Anchor      | What it holds                                                          |
 | --- | ---------------- | ----------- | ---------------------------------------------------------------------- |
-| —   | **Hero**         | `#top`      | "I build products with AI.", the 3D constellation, and an index of everything on the site |
+| —   | **Hero**         | `#top`      | "I build for shopkeepers, lawyers and accountants.", the 3D constellation, and an index of everything on the site |
 | 01  | **Building now** | `#building` | The active products, each with a `LIVE` / `BUILDING` status chip        |
 | 02  | **Demo**         | `#demo`     | The four guided journeys, played natively from the real captured screens |
 | 03  | **Build log**    | `#log`      | Latest 10 entries, linking to the full log at `/log/`; each links to a PR or commit |

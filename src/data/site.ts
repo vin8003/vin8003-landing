@@ -12,11 +12,11 @@ export const person = {
   location: 'Delhi NCR, India',
   email: 'vin8003@gmail.com',
   /** The line the whole site hangs off. */
-  claim: 'I build products with AI.',
+  claim: 'I build for shopkeepers, lawyers and accountants.',
   /** Banner thesis - the wordmark's other half. */
-  thesisLine: 'Building an army of AI assistants.',
+  thesisLine: 'One product per job, done properly.',
   identity: 'Builder and founder. Dad of two. Delhi NCR, India.',
-  tagline: 'Builder and founder. I build products with AI: an army of assistants, each handling one job.',
+  tagline: 'Builder and founder. I build software for people who still run their work by hand: the shop counter, the lawyer’s diary, the pile of GST invoices.',
 } as const;
 
 export const socials = [
@@ -905,7 +905,7 @@ export const thesis = {
 /** ABOUT - short and personal. Not a résumé. */
 export const about = {
   lines: [
-    'I build products with AI. I write the backend, the surface and the copy, then sit with the support mail. That whole loop is the job I actually wanted.',
+    'I build software for people whose work still runs on registers and memory: a shop counter, a chamber’s diary, a month of GST invoices. I write the backend, the surface and the copy, then sit with the support mail. That whole loop is the job I actually wanted.',
     'Ten years of Python and Django before this, across embedded electronics and sensors, fintech and banking, medical systems, casino gaming, image pipelines and AI data work. Different industries, same habit: get the thing into somebody’s hands and watch what breaks.',
     'Dad of two, in Delhi NCR. That is most of the reason the tooling has to be fast and the scope has to stay honest.',
   ],

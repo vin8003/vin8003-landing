@@ -36,9 +36,18 @@ export type Demo = {
   steps: DemoStep[];
 };
 
-/** Screens captured on 10 Oct 2026 (CiteBench recaptured 13 Oct after its redesign) and served from this site (public/demo/<id>/media/).
+/** Screens captured on 10 Oct 2026 (CiteBench recaptured 13 Oct after its redesign; retailer sign-up, verification, POS,
+ *  orders inbox and delivery fees plus the customer shop list and report sheet captured 1 Nov 2026) and served from this
+ *  site (public/demo/<id>/media/).
  *  Anything not listed here still loads from the demo hub. */
 const localMedia: Record<string, readonly string[]> = {
+  retailer: [
+    'retailer-sign-up.jpg',
+    'retailer-verification.jpg',
+    'retailer-pos-bill.jpg',
+    'retailer-orders-inbox.jpg',
+    'retailer-delivery-fees.jpg',
+  ],
   customer: [
     'customer-area.jpg',
     'customer-shop-list.jpg',
@@ -49,6 +58,7 @@ const localMedia: Record<string, readonly string[]> = {
     'customer-place-order.jpg',
     'customer-my-orders.jpg',
     'customer-message-shop.jpg',
+    'customer-report.jpg',
     'customer-help.jpg',
   ],
   citebench: [
@@ -80,19 +90,26 @@ export const demos: Demo[] = [
     accent: 'mint',
     device: 'browser',
     host: 'retailer.ordereasy.win',
-    headline: 'Run one shop: counter, stock, suppliers and incoming orders.',
+    headline: 'Sign up, get verified, then run the shop: counter, stock, suppliers and incoming orders.',
     summary:
-      'The surface for the person behind the counter. Bill at POS, book the distributor bill, keep the supplier khata straight, take the orders customers send in, and set the hours the shop takes them.',
+      'The surface for the person behind the counter. Sign up on your own, finish five verification steps, bill at POS, book the distributor bill, keep the supplier khata straight, work the orders inbox, and set what delivery costs by distance.',
     guardrail: 'Small shop is fine. Start with a few products and the first bill.',
     seed: 'GreenCart Mini Mart',
     live: { label: 'Retailer portal', href: 'https://retailer.ordereasy.win' },
     steps: [
       {
-        name: 'Sign in',
+        name: 'Sign up',
         stage: 'Open the shop',
-        title: 'One shop, one login',
-        body: 'A plain username-and-password card: no store picker, no workspace chooser. The account is the shop, so signing in lands straight on that shop’s dashboard.',
-        image: 'retailer-sign-in.jpg',
+        title: 'A shop signs itself up',
+        body: 'No access code: username, email, a 10-digit mobile number and a password. The account is the shop, so signing up lands straight on that shop’s dashboard.',
+        image: 'retailer-sign-up.jpg',
+      },
+      {
+        name: 'Verification',
+        stage: 'Open the shop',
+        title: 'Five steps before customers see the shop',
+        body: 'Phone, shop name and photo, address with a map pin, one business proof (GST is optional; FSSAI, a licence or a board photo also count) and the owner’s ID. Each step is labelled in Hindi and English and says what is missing. The POS works meanwhile; the shop goes live after the team approves it once.',
+        image: 'retailer-verification.jpg',
       },
       {
         name: 'Overview',
@@ -105,7 +122,7 @@ export const demos: Demo[] = [
         name: 'POS billing',
         stage: 'The counter',
         title: 'Bill a walk-in without touching the mouse',
-        body: 'The counter screen is a scan box, a product grid and a running cart. Cash, UPI, credit or a split, all from the same panel.',
+        body: 'The counter screen is a scan box, a product grid and a running cart. Typing searches the whole catalogue on the server, a scanned barcode is looked up exactly, and Enter adds the best match. Cash, UPI, credit or a split, all from the same panel. On a phone the same POS goes single-column and scans with the camera.',
         image: 'retailer-pos-bill.jpg',
       },
       {
@@ -132,9 +149,16 @@ export const demos: Demo[] = [
       {
         name: 'Orders',
         stage: 'The storefront',
-        title: 'Online and store orders in one queue',
-        body: 'Every order sits in one list, tagged Online or Store and filterable by stage from Pending through Delivered. The sidebar badge counts what still needs the shop.',
-        image: 'retailer-incoming-customer-order.jpg',
+        title: 'An inbox for what still needs the shop',
+        body: 'The Active Inbox holds every online order still in progress, from Pending to Packed. All Orders holds the full store-and-online history and Delivered the completed ones, with stage filters underneath.',
+        image: 'retailer-orders-inbox.jpg',
+      },
+      {
+        name: 'Delivery fees',
+        stage: 'The storefront',
+        title: 'Delivery priced by distance',
+        body: 'A flat fee, or distance tiers with a per-km rate beyond the last one. A preview shows what customers pay at each distance, free delivery above a cart value still applies, and checkout refuses an address outside the radius.',
+        image: 'retailer-delivery-fees.jpg',
       },
       {
         name: 'Offers',
@@ -188,7 +212,7 @@ export const demos: Demo[] = [
       {
         name: 'Shops',
         title: 'See the shops in your city',
-        body: 'Every shop is listed with its delivery and pickup badges. It is a directory of shops, not one merged storefront: you order from one shop at a time.',
+        body: 'Every approved shop is listed with its delivery and pickup badges, minimum order and delivery fee, or "Delivery fee by distance" when the shop prices by km. It is a directory of shops, not one merged storefront: you order from one shop at a time.',
         image: 'customer-shop-list.jpg',
       },
       {
@@ -232,6 +256,12 @@ export const demos: Demo[] = [
         title: 'Message the shop',
         body: 'Chat is attached to the order, so the shop already knows which one you mean. Quick replies cover the questions people actually ask.',
         image: 'customer-message-shop.jpg',
+      },
+      {
+        name: 'Report',
+        title: 'Report a product or a shop',
+        body: 'Product and shop pages carry a small Report link: pick a reason, add details if you like. The shop does not see who sent it, and nothing is hidden automatically: the OrderEasy team reviews every report.',
+        image: 'customer-report.jpg',
       },
       {
         name: 'Help',

@@ -81,6 +81,7 @@ export const ventures: Venture[] = [
     guardrail: 'Not a marketplace. Not a delivery company.',
     primary: { label: 'ordereasy.win, product home', href: ORDEREASY_HOME },
     surfaces: [
+      { label: 'Case study', href: '/work/ordereasy/' },
       { label: 'Shop sign-up', href: `${ORDEREASY_RETAILER}/signup` },
       { label: 'Customer portal', href: ORDEREASY_CUSTOMER },
       { label: 'Retailer demo', href: '/demo/#retailer' },
@@ -127,7 +128,10 @@ export const ventures: Venture[] = [
     what: 'A research desk for Indian practice: diary, matters, and authorities in one place.',
     guardrail: 'Suggestions are not court directions.',
     primary: { label: 'citebench.ordereasy.win', href: 'https://citebench.ordereasy.win' },
-    surfaces: [{ label: 'Walk the demo', href: '/demo/#citebench' }],
+    surfaces: [
+      { label: 'Case study', href: '/work/citebench/' },
+      { label: 'Walk the demo', href: '/demo/#citebench' },
+    ],
   },
   {
     id: 'gstslip',
@@ -139,7 +143,10 @@ export const ventures: Venture[] = [
     what: 'Photograph a tax invoice, get a clean register row you can export.',
     guardrail: 'Fields stay on the device until you export.',
     primary: { label: 'gstslip.vin8003.com', href: 'https://gstslip.vin8003.com' },
-    surfaces: [{ label: 'Walk the demo', href: '/demo/#gstslip' }],
+    surfaces: [
+      { label: 'Case study', href: '/work/gstslip/' },
+      { label: 'Walk the demo', href: '/demo/#gstslip' },
+    ],
     note: '10 free documents, then ₹499/month Pro',
   },
 ];
@@ -885,9 +892,9 @@ export const buildLog: LogEntry[] = [
 export const thesis = {
   line: 'I want to build many narrow products, each doing one specific piece of work properly.',
   body: [
-    'Not one assistant that claims to do everything. A set of narrow ones, each with its own surface, its own guardrail and its own definition of done. A general assistant is a demo. A narrow one is a colleague.',
+    'Not one app that claims to do everything. A set of narrow ones, each with its own surface, its own guardrail and its own definition of done. Software that does everything is a demo. Software that does one job is a colleague.',
     'The products are the first recruits, and each one says plainly what it is not. None of them pretends to do another one’s job.',
-    'The build loop is the same shape every time: cloud agents work branches in parallel, an AI planner reviews, and I decide what merges. Django on the backend, TypeScript on the surfaces, everything deployed to Cloudflare. When an assistant can hold a whole job end to end, it stops being a tool and starts being staff.',
+    'The build loop is the same shape every time: work runs on branches in parallel, every change is reviewed and tested end to end, and I decide what merges. Django on the backend, TypeScript on the surfaces, everything deployed to Cloudflare.',
   ],
   /** The roster - each product framed as the job it does. */
   roster: [
@@ -946,4 +953,97 @@ export const nav = [
   { label: 'Build log', short: 'Log', href: '#log' },
   { label: 'Thesis', short: 'Thesis', href: '#thesis' },
   { label: 'About', short: 'About', href: '#about' },
+];
+
+/**
+ * CAREER - from Vineet's LinkedIn Experience and Skills (screenshots, 5 Nov
+ * 2026) and his CV (Feb 2026, private, not published or linked). The current
+ * employer stays unnamed, as in `about.dayRole`. No metrics yet.
+ */
+export type CareerRole = { years: string; role: string; org: string; place: string; work: string[]; tools: string[] };
+
+export const career: CareerRole[] = [
+  {
+    years: '2026 – now',
+    role: 'Lead Software Engineer',
+    org: 'A publicly listed Indian NBFC',
+    place: 'Gurugram · hybrid',
+    work: ['Flagship product development.'],
+    tools: ['Python', 'Django'],
+  },
+  {
+    years: '2025 – 2026',
+    role: 'Senior Game Developer',
+    org: 'Ingenuity Gaming',
+    place: 'Jaipur · hybrid',
+    work: [
+      'Shipped production casino game engines (slots, table and crash games) on the Oddsworks RGS with the LEGA framework.',
+      'Turned the maths models behind each game into configurable engine parameters.',
+      'Built simulation pipelines that run millions of spins to prove RTP compliance, then made them faster with parallel processing and had them write the RTP reports directly.',
+      'Standardised the team’s development workflow and tooling, with unit tests and validation for regulatory sign-off.',
+    ],
+    tools: ['Python', 'Parallel simulation', 'Unit testing'],
+  },
+  {
+    years: '2022 – 2025',
+    role: 'Senior Software Engineer',
+    org: 'MERNPLUS Technologies, for an NBFC client',
+    place: 'Remote',
+    work: [
+      'Built core features of a Loan Origination System: loan creation, checker and disbursement.',
+      'Led its integrations with Flexcube and partner bank systems: API mapping, data transformation and testing.',
+      'Wrote the unit test suite for LOS components, and sped up its database with caching and query tuning.',
+      'Worked day to day with product, QA and frontend teams.',
+    ],
+    tools: ['Django REST Framework', 'Kafka', 'Redis', 'MongoDB', 'AWS'],
+  },
+  {
+    years: '2018 – 2022',
+    role: 'Product Development Engineer, then Senior',
+    org: 'MEDdelivery',
+    place: 'Jaipur',
+    work: [
+      'Built a central product catalogue from scraped sources, cleaned, normalised and enriched.',
+      'Designed cart-less ordering with per-order cutoff times, and mapped vendor product groups to the catalogue.',
+      'Core developer of a dispatch centre built from scratch: automated rack assignment and a banking-like ledger for supply-chain cash flow, collections and cash distribution.',
+      'As senior: led a plug-and-play module for BNPL providers and payment gateways, automated bank-statement reconciliation with direct Tally export, and built real-time tracking of cash liabilities across the field workforce.',
+    ],
+    tools: ['Django REST Framework', 'PostgreSQL', 'Pandas', 'Redis', 'GCP', 'Angular'],
+  },
+  {
+    years: '2017 – 2018',
+    role: 'Django Developer',
+    org: 'Zoimate',
+    place: 'Jaipur',
+    work: [
+      'Built analytics and visualisation for a collision detection system for automobiles.',
+      'Machine-to-machine and IoT communication on Raspberry Pi and Arduino, for real-time data and control.',
+    ],
+    tools: ['Django', 'Django Channels', 'MongoDB', 'IoT'],
+  },
+  {
+    years: '2016',
+    role: 'Python Developer',
+    org: 'Bit22 Designs',
+    place: 'Jaipur',
+    work: [
+      'Built features for Khabree, a newspaper app: message handling on RabbitMQ, ZeroMQ, MQTT and Redis, and faster image handling.',
+    ],
+    tools: ['Django', 'Flask', 'RabbitMQ', 'MongoDB', 'MySQL'],
+  },
+];
+
+export const education = 'B.Tech in Computer Science Engineering, Jaipur, 2016.';
+
+/** Grouped skills: the career plus what the products on this site run on. */
+export const skills: { group: string; items: string[] }[] = [
+  { group: 'Languages', items: ['Python', 'TypeScript', 'SQL'] },
+  { group: 'Backend', items: ['Django', 'Django REST Framework', 'Flask', 'Django Channels', 'REST APIs', 'JWT, OAuth and session auth', 'Microservices'] },
+  { group: 'Data', items: ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis', 'Pandas', 'Query tuning and caching'] },
+  { group: 'Messaging', items: ['Kafka', 'RabbitMQ', 'ZeroMQ', 'MQTT'] },
+  { group: 'Frontend', items: ['React', 'TanStack Start', 'Angular', 'Astro', 'Tailwind CSS', 'Capacitor (Android)'] },
+  { group: 'Cloud and delivery', items: ['AWS', 'GCP', 'Cloudflare Workers', 'Docker', 'GitHub Actions CI/CD', 'Linux', 'Git'] },
+  { group: 'Testing', items: ['Unit testing', 'Playwright end-to-end', 'Simulation-based validation'] },
+  { group: 'Integrations', items: ['Flexcube and bank APIs', 'Payment gateways and BNPL', 'UPI', 'Razorpay', 'Tally export', 'Meta Conversions API'] },
+  { group: 'Domains', items: ['Lending and loan origination', 'Payments and reconciliation', 'Retail POS and inventory', 'Supply chain', 'Casino gaming and RTP', 'IoT', 'Legal research', 'GST'] },
 ];

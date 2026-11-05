@@ -5,6 +5,10 @@ front door; the products live underneath it.
 
 It is a static site: the front page below, plus `/demo/`, which hosts the four guided product walkthroughs.
 
+Each product also has a case study at `/work/<id>/` (`ordereasy`, `citebench`, `gstslip`), built from
+`src/data/cases.ts`: the problem, my part, what was built (each line linked to its PR or commit), the calls made,
+and real captures. Outcomes stay empty until there are measured numbers to show.
+
 | #   | Section          | Anchor      | What it holds                                                          |
 | --- | ---------------- | ----------- | ---------------------------------------------------------------------- |
 | —   | **Hero**         | `#top`      | "I make boring software that works.", the 3D constellation, and an index of everything on the site |

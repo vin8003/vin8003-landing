@@ -1,0 +1,54 @@
+---
+import SectionHead from './SectionHead.astro';
+import { career, education, skills } from '../data/site';
+---
+
+<section id="career" class="scroll-mt-20 border-t border-dashed border-ink-500/70 py-16 sm:py-24 lg:py-28" data-atmos="mint" data-atmos-intensity="0.35">
+  <div class="container-page">
+    <SectionHead
+      title="Ten years before this."
+      note="Python and Django the whole way, across lending, payments and supply chain, IoT, media and gaming."
+    />
+
+    <ol class="mt-10 sm:mt-14" data-reveal>
+      {
+        career.map((c) => (
+          <li class="grid gap-x-8 gap-y-2 border-t border-ink-600/70 py-6 first:border-t-0 md:grid-cols-[minmax(0,9rem)_minmax(0,17rem)_1fr] md:items-baseline">
+            <p class="label-mono">{c.years}</p>
+            <div>
+              <p class="font-display text-lead text-paper">{c.role}</p>
+              <p class="mt-1 text-fine text-paper-dim">{c.org}</p>
+              <p class="label-mono mt-1 text-[0.6rem]">{c.place}</p>
+            </div>
+            <div class="max-w-[65ch]">
+              <ul class="space-y-1.5 text-body text-paper-dim">
+                {c.work.map((w) => <li>{w}</li>)}
+              </ul>
+              <p class="label-mono mt-3 text-[0.6rem]">{c.tools.join(' · ')}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="label-mono mt-6 border-t border-ink-600/70 pt-6">{education}</p>
+
+    <div class="mt-14 sm:mt-20" data-reveal>
+      <h3 class="font-display text-sub text-paper">Tech I work with</h3>
+      <dl class="mt-6 grid gap-px overflow-hidden rounded-2xl border border-ink-600/70 bg-ink-600/70 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          skills.map((g) => (
+            <div class="bg-ink-900 p-5 sm:p-6">
+              <dt class="label-mono">{g.group}</dt>
+              <dd class="mt-3 flex flex-wrap gap-1.5">
+                {g.items.map((s) => (
+                  <span class="rounded-full border border-ink-600/80 px-2.5 py-1 text-[0.72rem] text-paper-dim">{s}</span>
+                ))}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>

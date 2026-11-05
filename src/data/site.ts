@@ -91,6 +91,11 @@ export const ventures: Venture[] = [
     featured: true,
     highlights: [
       {
+        label: '3 Nov',
+        line: 'Sign-up photos taken on a phone now upload: big images shrink before they leave the phone.',
+        href: 'https://github.com/vin8003/retailer_ordereasy_njs/pull/161',
+      },
+      {
         label: '1 Nov',
         line: 'Shop verification: five guided steps, then one approval before customers see the shop.',
         href: 'https://github.com/vin8003/retailer_ordereasy_njs/pull/158',
@@ -109,11 +114,6 @@ export const ventures: Venture[] = [
         label: '24 Oct',
         line: 'The POS works on a phone and scans barcodes with the camera.',
         href: 'https://github.com/vin8003/retailer_ordereasy_njs/pull/145',
-      },
-      {
-        label: '24 Oct',
-        line: 'Delivery priced by distance, with tiers and a per-km rate.',
-        href: 'https://github.com/vin8003/RetailerCustomerPlatform/pull/200',
       },
     ],
   },
@@ -190,6 +190,26 @@ const commit = (repo: string, sha: string) => ({ label: `${repo} @ ${sha}`, href
  * no link because nothing shipped. Newest first.
  */
 export const buildLog: LogEntry[] = [
+  {
+    date: '2026-11-03',
+    label: '3 Nov 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    category: 'fix',
+    line: 'Shop sign-up uploads from a phone camera no longer fail silently: large photos are re-encoded on the phone to fit the 5 MB document limit, and a refused or dropped upload now says what went wrong.',
+    link: pr('retailer_ordereasy_njs', 161),
+  },
+  {
+    date: '2026-11-03',
+    label: '3 Nov 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    category: 'infra',
+    line: 'The end-to-end gate got stricter: a smoke subset runs on every change, and new order checks fill the cart through the real storefront, drop stock at checkout and assert the error each failure returns.',
+    link: pr('RetailerCustomerPlatform', 226),
+  },
   {
     date: '2026-11-01',
     label: '1 Nov 2026',

@@ -12,11 +12,11 @@ export const person = {
   location: 'Delhi NCR, India',
   email: 'vin8003@gmail.com',
   /** The line the whole site hangs off. */
-  claim: 'I build for shopkeepers, lawyers and accountants.',
+  claim: 'I build the whole thing.',
   /** Banner thesis - the wordmark's other half. */
   thesisLine: 'One product per job, done properly.',
   identity: 'Builder and founder. Dad of two. Delhi NCR, India.',
-  tagline: 'Builder and founder. I build software for people who still run their work by hand: the shop counter, the lawyer’s diary, the pile of GST invoices.',
+  tagline: 'Builder and founder in Delhi NCR. I build the whole thing, backend to support inbox, and keep every product to one job.',
 } as const;
 
 export const socials = [
@@ -883,7 +883,7 @@ export const buildLog: LogEntry[] = [
 
 /** THESIS - the founder line, then the working detail. */
 export const thesis = {
-  line: 'I want to build an army of AI assistants, each handling one specific piece of work.',
+  line: 'I want to build many narrow products, each doing one specific piece of work properly.',
   body: [
     'Not one assistant that claims to do everything. A set of narrow ones, each with its own surface, its own guardrail and its own definition of done. A general assistant is a demo. A narrow one is a colleague.',
     'The products are the first recruits, and each one says plainly what it is not. None of them pretends to do another one’s job.',
@@ -905,7 +905,7 @@ export const thesis = {
 /** ABOUT - short and personal. Not a résumé. */
 export const about = {
   lines: [
-    'I build software for people whose work still runs on registers and memory: a shop counter, a chamber’s diary, a month of GST invoices. I write the backend, the surface and the copy, then sit with the support mail. That whole loop is the job I actually wanted.',
+    'I write the backend, the surface and the copy, then sit with the support mail. That whole loop is the job I actually wanted.',
     'Ten years of Python and Django before this, across embedded electronics and sensors, fintech and banking, medical systems, casino gaming, image pipelines and AI data work. Different industries, same habit: get the thing into somebody’s hands and watch what breaks.',
     'Dad of two, in Delhi NCR. That is most of the reason the tooling has to be fast and the scope has to stay honest.',
   ],

@@ -7,13 +7,13 @@ It is a static site: the front page below, plus `/demo/`, which hosts the four g
 
 | #   | Section          | Anchor      | What it holds                                                          |
 | --- | ---------------- | ----------- | ---------------------------------------------------------------------- |
-| —   | **Hero**         | `#top`      | "I build for shopkeepers, lawyers and accountants.", the 3D constellation, and an index of everything on the site |
+| —   | **Hero**         | `#top`      | "I build the whole thing.", the 3D constellation, and an index of everything on the site |
 | 01  | **Building now** | `#building` | The active products, each with a `LIVE` / `BUILDING` status chip        |
 | 02  | **Demo**         | `#demo`     | The four guided journeys, played natively from the real captured screens |
 | 03  | **Build log**    | `#log`      | Latest 10 entries, linking to the full log at `/log/`; each links to a PR or commit |
 | 04  | **Field notes**  | `#notes`    | One month of AI agents in numbers, linking to `/notes/agent-month/`    |
 | —   | **Writing**      | `#writing`  | Newest 3 of the 7 X Articles in `src/data/articles.ts`. `/writing/` lists all, `/writing/<slug>/` holds each, canonical to its X post |
-| 05  | **Thesis**       | `#thesis`   | An army of AI assistants, one job each — plus what is parked           |
+| 05  | **Thesis**       | `#thesis`   | Narrow products, one job each — plus what is parked                    |
 | 06  | **About**        | `#about`    | Short and personal                                                     |
 | 07  | **Contact**      | `#contact`  | Email and socials. No hire-me pitch.                                   |
 

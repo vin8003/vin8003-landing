@@ -20,8 +20,8 @@
   <text x="80" y="176" font-family="JetBrains Mono" font-size="40" font-weight="600" letter-spacing="2" fill="#EFEAE1">VINEET SHARMA</text>
   <line x1="80" y1="204" x2="1120" y2="204" stroke="#2A2A35"/>
 
-  <text x="80" y="288" font-family="Fraunces" font-size="76" fill="#EFEAE1">I build for <tspan fill="#FF4D1C">shopkeepers,</tspan></text>
-  <text x="80" y="362" font-family="JetBrains Mono" font-size="22" letter-spacing="2.4" fill="#FF7A52">LAWYERS AND ACCOUNTANTS. ONE PRODUCT PER JOB.</text>
+  <text x="80" y="288" font-family="Fraunces" font-size="76" fill="#EFEAE1">I build the <tspan fill="#FF4D1C">whole thing.</tspan></text>
+  <text x="80" y="362" font-family="JetBrains Mono" font-size="22" letter-spacing="2.4" fill="#FF7A52">BACKEND, SCREENS, COPY, SUPPORT MAIL.</text>
 
   
       <g transform="translate(80, 452)">

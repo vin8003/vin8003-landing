@@ -81,6 +81,7 @@ export const ventures: Venture[] = [
     guardrail: 'Not a marketplace. Not a delivery company.',
     primary: { label: 'ordereasy.win, product home', href: ORDEREASY_HOME },
     surfaces: [
+      { label: 'Case study', href: '/work/ordereasy/' },
       { label: 'Shop sign-up', href: `${ORDEREASY_RETAILER}/signup` },
       { label: 'Customer portal', href: ORDEREASY_CUSTOMER },
       { label: 'Retailer demo', href: '/demo/#retailer' },
@@ -127,7 +128,10 @@ export const ventures: Venture[] = [
     what: 'A research desk for Indian practice: diary, matters, and authorities in one place.',
     guardrail: 'Suggestions are not court directions.',
     primary: { label: 'citebench.ordereasy.win', href: 'https://citebench.ordereasy.win' },
-    surfaces: [{ label: 'Walk the demo', href: '/demo/#citebench' }],
+    surfaces: [
+      { label: 'Case study', href: '/work/citebench/' },
+      { label: 'Walk the demo', href: '/demo/#citebench' },
+    ],
   },
   {
     id: 'gstslip',
@@ -139,7 +143,10 @@ export const ventures: Venture[] = [
     what: 'Photograph a tax invoice, get a clean register row you can export.',
     guardrail: 'Fields stay on the device until you export.',
     primary: { label: 'gstslip.vin8003.com', href: 'https://gstslip.vin8003.com' },
-    surfaces: [{ label: 'Walk the demo', href: '/demo/#gstslip' }],
+    surfaces: [
+      { label: 'Case study', href: '/work/gstslip/' },
+      { label: 'Walk the demo', href: '/demo/#gstslip' },
+    ],
     note: '10 free documents, then ₹499/month Pro',
   },
 ];
@@ -885,9 +892,9 @@ export const buildLog: LogEntry[] = [
 export const thesis = {
   line: 'I want to build many narrow products, each doing one specific piece of work properly.',
   body: [
-    'Not one assistant that claims to do everything. A set of narrow ones, each with its own surface, its own guardrail and its own definition of done. A general assistant is a demo. A narrow one is a colleague.',
+    'Not one app that claims to do everything. A set of narrow ones, each with its own surface, its own guardrail and its own definition of done. Software that does everything is a demo. Software that does one job is a colleague.',
     'The products are the first recruits, and each one says plainly what it is not. None of them pretends to do another one’s job.',
-    'The build loop is the same shape every time: cloud agents work branches in parallel, an AI planner reviews, and I decide what merges. Django on the backend, TypeScript on the surfaces, everything deployed to Cloudflare. When an assistant can hold a whole job end to end, it stops being a tool and starts being staff.',
+    'The build loop is the same shape every time: work runs on branches in parallel, every change is reviewed and tested end to end, and I decide what merges. Django on the backend, TypeScript on the surfaces, everything deployed to Cloudflare.',
   ],
   /** The roster - each product framed as the job it does. */
   roster: [

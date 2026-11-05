@@ -12,11 +12,11 @@ export const person = {
   location: 'Delhi NCR, India',
   email: 'vin8003@gmail.com',
   /** The line the whole site hangs off. */
-  claim: 'I build the whole thing.',
+  claim: 'I make boring software that works.',
   /** Banner thesis - the wordmark's other half. */
   thesisLine: 'One product per job, done properly.',
   identity: 'Builder and founder. Dad of two. Delhi NCR, India.',
-  tagline: 'Builder and founder in Delhi NCR. I build the whole thing, backend to support inbox, and keep every product to one job.',
+  tagline: 'Builder and founder in Delhi NCR. I make boring software that works, one product per job, from backend to support inbox.',
 } as const;
 
 export const socials = [

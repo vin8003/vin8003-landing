@@ -92,6 +92,11 @@ export const ventures: Venture[] = [
     featured: true,
     highlights: [
       {
+        label: '10 Nov',
+        line: 'Customers pick a shop on a map: who is open, how far each shop is and what delivery costs.',
+        href: 'https://github.com/vin8003/customer_web_build/pull/12',
+      },
+      {
         label: '3 Nov',
         line: 'Sign-up photos taken on a phone now upload: big images shrink before they leave the phone.',
         href: 'https://github.com/vin8003/retailer_ordereasy_njs/pull/161',
@@ -110,11 +115,6 @@ export const ventures: Venture[] = [
         label: '29 Oct',
         line: 'Orders open on an Active Inbox, and the POS searches the whole catalogue on the server.',
         href: 'https://github.com/vin8003/retailer_ordereasy_njs/pull/156',
-      },
-      {
-        label: '24 Oct',
-        line: 'The POS works on a phone and scans barcodes with the camera.',
-        href: 'https://github.com/vin8003/retailer_ordereasy_njs/pull/145',
       },
     ],
   },
@@ -197,6 +197,46 @@ const commit = (repo: string, sha: string) => ({ label: `${repo} @ ${sha}`, href
  * no link because nothing shipped. Newest first.
  */
 export const buildLog: LogEntry[] = [
+  {
+    date: '2026-11-16',
+    label: '16 Nov 2026',
+    project: 'vin8003.com',
+    accent: 'ember',
+    kind: 'ship',
+    category: 'content',
+    line: 'The OrderEasy post on the new shop map is cross-posted under Writing.',
+    link: { label: 'Read the post', href: '/writing/ordereasy-shop-map/' },
+  },
+  {
+    date: '2026-11-10',
+    label: '10 Nov 2026',
+    project: 'OrderEasy',
+    accent: 'mint',
+    kind: 'ship',
+    category: 'design',
+    line: 'The customer shop picker is now a full-screen map: shops as pins, swipeable previews, a draggable list sorted by distance, filters for open now, delivery, pickup, free delivery and rated 4+, and a location sheet for GPS, a dropped pin, a saved address or another city. Without the map it falls back to the full list.',
+    link: pr('customer_web_build', 12),
+  },
+  {
+    date: '2026-11-05',
+    label: '5 Nov 2026',
+    project: 'vin8003.com',
+    accent: 'ember',
+    kind: 'ship',
+    category: 'content',
+    line: 'A case study for each product (the problem, what was built, the hard calls, each claim linked to its PR) and a career section with roles and skills.',
+    link: pr('vin8003-landing', 46),
+  },
+  {
+    date: '2026-11-05',
+    label: '5 Nov 2026',
+    project: 'vin8003.com',
+    accent: 'ember',
+    kind: 'ship',
+    category: 'content',
+    line: 'New hero line, "I make boring software that works.", in place of the old line about building with AI.',
+    link: pr('vin8003-landing', 44),
+  },
   {
     date: '2026-11-03',
     label: '3 Nov 2026',

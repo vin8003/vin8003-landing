@@ -49,6 +49,77 @@ export const articleOrigin = (a: Article) => a.source ?? { label: 'X', url: a.xU
 
 const entries: Article[] = [
   {
+    slug: 'ordereasy-shop-map',
+    date: '2026-11-16',
+    label: '16 Nov 2026',
+    title: 'The shops around you, on one map: OrderEasy’s new shop picker',
+    dek: 'The OrderEasy customer app now opens on a map of the shops near you. See which are open, how far each one is and what delivery costs, then shop from the one you trust.',
+    source: {
+      label: 'ordereasy.win',
+      url: 'https://ordereasy.win/blog/find-shops-near-you-on-the-map/'
+    },
+    body: [
+      {
+        t: 'p',
+        text: 'The OrderEasy customer app now opens on a full-screen map of the shops near you. See which ones are open, how far each is and what delivery costs, then step into the shop you already trust.',
+        links: [ { text: 'OrderEasy customer app', href: 'https://customer.ordereasy.win' } ]
+      },
+      {
+        t: 'quote',
+        text: 'The short version: open customer.ordereasy.win and the first screen is a map with every shop around you as a pin. Tap a pin to see the shop, swipe to the next one, or pull up the list. Filter by Open now, Delivery, Pickup, Free delivery or Rated 4+.'
+      },
+      { t: 'h', text: 'What changed' },
+      {
+        t: 'p',
+        text: 'Choosing a shop used to start with a list. Now it starts where you are. The map centres on your location and plots each shop that serves it, and a sheet at the bottom holds the same shops as a list, nearest first. Drag the sheet up to read the list, or down to see more of the map.'
+      },
+      {
+        t: 'list',
+        items: [
+          'Shop previews on the map. Tap a pin and a card slides up with the shop’s name, rating, whether it is open, and whether it delivers or offers pickup. Swipe the cards to move between shops.',
+          'Delivery cost up front. Each shop shows its delivery fee for your spot, and the order value above which delivery is free, if the shop sets one.',
+          'Search and filters. Search stores or categories, and narrow the map to shops that are open now, deliver, offer pickup, deliver free or are rated 4 and above.',
+          'Closed shops stay visible. A shop that is closed right now is marked Closed. You can still browse its shelf and plan your next order.'
+        ]
+      },
+      { t: 'h', text: 'Set your spot the way you like' },
+      { t: 'p', text: 'Tap your location at the top of the map to change it. Distances and delivery fees follow whatever spot you choose.' },
+      {
+        t: 'list',
+        items: [
+          'Use my current location, from your phone’s GPS.',
+          'Set location on the map: move the map and drop a pin, handy when GPS is off or you are ordering for home from work.',
+          'Saved addresses: home, work and other saved places. Your default address is used first.',
+          'Browse another city: pick a state and city to see the shops there.'
+        ]
+      },
+      { t: 'h', text: 'Only verified shops' },
+      {
+        t: 'p',
+        text: 'Every shop you see has registered on OrderEasy and been checked by the OrderEasy team before it appears to customers. If something about a product or a shop looks wrong, you can report it from its page. The team reviews every report; nothing is hidden on its own.'
+      },
+      { t: 'h', text: 'When the map cannot load' },
+      {
+        t: 'p',
+        text: 'On a weak connection, or if the map service is unavailable, the screen shows every shop as a list instead, so you can still pick a shop and order. Shops that have not placed their map pin yet are listed in the sheet under their own heading.'
+      },
+      { t: 'h', text: 'Run a shop? Get on the map' },
+      {
+        t: 'p',
+        text: 'Your shop appears on the map once you register and the OrderEasy team verifies it. Add your address and map pin during verification so nearby customers see you in the right place. Registration is at retailer.ordereasy.win/signup, and it is free for a limited period.',
+        links: [ { text: 'retailer.ordereasy.win/signup', href: 'https://retailer.ordereasy.win/signup' } ]
+      },
+      {
+        t: 'p',
+        text: 'Open the shop map at customer.ordereasy.win, or read the full post on ordereasy.win.',
+        links: [
+          { text: 'customer.ordereasy.win', href: 'https://customer.ordereasy.win' },
+          { text: 'the full post on ordereasy.win', href: 'https://ordereasy.win/blog/find-shops-near-you-on-the-map/' }
+        ]
+      }
+    ]
+  },
+  {
     slug: 'ordereasy-video-tutorials',
     date: '2026-10-27',
     label: '27 Oct 2026',

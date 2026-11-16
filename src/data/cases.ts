@@ -58,6 +58,7 @@ export const cases: CaseStudy[] = [
       { line: 'Distance-based delivery fees: flat or tiered by km, shown to customers by their GPS pin, enforced at checkout.', link: pr('RetailerCustomerPlatform', 200) },
       { line: 'Open shop sign-up with a five-step verification and one admin approval before customers can see the shop.', link: pr('retailer_ordereasy_njs', 158) },
       { line: 'Customer reports for products and shops that go to a review queue, never an automatic takedown.', link: pr('customer_ordereasy_njs', 103) },
+      { line: 'A map-first shop picker: nearby shops as pins with open status, distance and delivery fee, filters, and a list fallback when the map cannot load.', link: pr('customer_web_build', 12) },
       { line: 'The customer app wrapped for Android with native Google sign-in and UPI apps opened directly.', link: commit('customer_ordereasy_njs', 'e3d0112') },
     ],
     calls: [
